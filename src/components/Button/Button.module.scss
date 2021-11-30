@@ -1,0 +1,355 @@
+@import "../../styles/mixins.scss";
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: Panton-Bold;
+  font-size: 16px;
+  background-color: $color-blue;
+  color: $color-white;
+  border-radius: 30px;
+
+  &:not(:disabled):hover,
+  &:not(:disabled):active,
+  &:not(:disabled):focus {
+    outline: none;
+  }
+  &:disabled,
+  &.disabled {
+    outline: none;
+    cursor: unset;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    fill: rgba($color-white, 0.99);
+    &_up {
+      width: 21px;
+    }
+  }
+
+  &:not(:disabled):hover .button__icon {
+    background-size: 20px;
+  }
+
+  // ----- sizes -----
+  &_size_xs {
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+
+    & .button__icon {
+      width: 16px;
+      height: 16px;
+    }
+    &:not(:disabled):hover .button__icon {
+      width: 17px;
+      height: 17px;
+    }
+  }
+  &_size_s {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+  &_size_s_m {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 0;
+
+    @include tablets {
+      min-height: 38px;
+      width: unset;
+      padding: 10px 20px;
+      font-size: 16px;
+
+      & .button__icon {
+        left: 25px;
+      }
+    }
+  }
+  &_size_m {
+    min-height: 38px;
+    padding: 10px 20px;
+
+    & .button__icon {
+      left: 25px;
+    }
+  }
+  &_size_l {
+    min-width: 260px;
+    min-height: 38px;
+    padding: 10px 20px;
+    justify-content: center;
+
+    & .button__icon {
+      left: 20px;
+    }
+
+    @include tablets {
+      min-width: 240px;
+    }
+  }
+  &_size_changing {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 0px;
+
+    & .button__icon {
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @include tablets {
+      border-radius: 50%;
+
+      &:not(:disabled):hover,
+      &:not(:disabled):active,
+      &:not(:disabled):focus {
+        font-size: 14px;
+        width: unset;
+        border-radius: 20px;
+        padding-right: 14px;
+
+        & .button__icon {
+          transition: left 0.7s ease;
+          left: 25px;
+        }
+      }
+    }
+  }
+
+  // ----- icon's views -----
+  &_icon {
+    position: relative;
+
+    & .button__text {
+      padding-left: 30px;
+    }
+  }
+  &_icon_space {
+    position: relative;
+
+    & .button__text {
+      padding-left: 45px;
+    }
+    & .button__icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  &_icon_expand {
+    position: relative;
+
+    & .button__text {
+      padding-left: 30px;
+    }
+    & .button__icon {
+      width: 20px;
+      height: 20px;
+    }
+    &:not(:disabled):hover .button__icon,
+    &:not(:disabled):active .button__icon,
+    &:not(:disabled):focus .button__icon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  // ----- themes -----
+  &.button {
+    background-color: $color-blue;
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: rgba($color-blue-hover, 1);
+      color: $color-white;
+    }
+    &:disabled,
+    &.disabled {
+      background-color: rgba($color-text, 0.2);
+      color: $color-text;
+    }
+  }
+
+  &_theme_light.button {
+    background-color: $color-white;
+    color: $color-blue;
+    border: 2px solid $color-blue;
+
+    &.disabled,
+    &:disabled {
+      color: rgba($color-text, 0.3);
+      border: 2px solid rgba($color-text, 0.3);
+    }
+    &:not(:disabled):hover {
+      background-color: $color-blue;
+      color: $color-white;
+    }
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: transparent;
+      color: rgba($color-blue, 0.7);
+      border: 2px solid rgba($color-blue, 0.7);
+    }
+  }
+
+  &_theme_pale.button {
+    background-color: #f6f6f6;
+    color: rgba($color-text, 0.8);
+    border: none;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.22);
+
+    &.disabled,
+    &:disabled {
+      background-color: rgba($color-text, 0.5);
+    }
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      box-shadow: 0 1px 10px 5px rgba(0, 0, 0, 0.22);
+      background-color: $color-white;
+      color: rgba($color-text, 0.6);
+    }
+  }
+
+  &_theme_calm.button {
+    background-color: #f6f6f6;
+    color: rgba($color-text, 0.9);
+    border: none;
+
+    &.disabled,
+    &:disabled {
+      background-color: rgba($color-text, 0.5);
+    }
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: $color-white;
+      color: rgba($color-text, 0.7);
+    }
+  }
+
+  &_theme_color_changing.button {
+    background-color: $color-white;
+    color: $color-white;
+    border: none;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.22);
+
+    &.disabled,
+    &:disabled {
+      background-color: rgba($color-text, 0.5);
+    }
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: $color-blue;
+      box-shadow: unset;
+
+      & .button__icon {
+        fill: rgba($color-white, 0.99);
+      }
+    }
+
+    & .button__icon {
+      /* background-position: 50%;!!!!!!!надо или нет? */
+      fill: rgba($color-text, 0.6);
+    }
+  }
+
+  &_theme_carrot.button {
+    background-color: $color-carrot;
+    color: $color-white;
+
+    &.disabled,
+    &:disabled {
+      background-color: rgba($color-carrot, 0.8);
+      color: rgba($color-white, 0.5);
+      cursor: wait;
+
+      & .button__icon {
+        fill: rgba($color-white, 0.5);
+        height: 20px;
+
+        &_heart {
+          viewbox: "53 56 22 17";
+          height: 18px;
+          fill: rgb(238, 70, 52);
+          stroke-width: 2px;
+          stroke: rgba($color-white, 0.5);
+        }
+      }
+    }
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: rgba($color-carrot, 0.8);
+    }
+    & .button__icon {
+      fill: rgba($color-white, 0.99);
+      height: 20px;
+
+      &_heart {
+        viewbox: "53 56 22 17";
+        height: "18px";
+        fill: rgb(238, 70, 52);
+        stroke-width: 2px;
+        stroke: rgba($color-white, 0.95);
+      }
+    }
+  }
+
+  &_theme_minimalizm.button {
+    // padding: 0;
+    color: $color-blue;
+    font-family: "Proxima Nova Semibold";
+    background-color: transparent;
+
+    &:disabled,
+    &.disabled {
+      background-color: transparent;
+      color: rgba($color-text, 0.9);
+    }
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: transparent;
+      color: rgba($color-blue-hover, 1);
+    }
+  }
+
+  &_theme_controls.button {
+    color: rgba($color-text, 0.2);
+    background-color: transparent;
+
+    &__icon {
+      fill: rgba($color-text, 0.2);
+      height: 20px;
+    }
+
+    &:disabled {
+      background-color: rgba($color-text, 0.3);
+      color: rgba($color-text, 0.8);
+    }
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: transparent;
+      color: rgba($color-text, 0.8);
+
+      & .button__icon {
+        fill: rgba($color-text, 0.8);
+        height: 20px;
+      }
+    }
+  }
+}

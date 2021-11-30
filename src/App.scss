@@ -1,0 +1,64 @@
+@import "./styles/common.scss";
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 320px;
+  overflow: hidden;
+  min-height: 100%;
+  position: relative;
+
+  &_not_found {
+    background-color: #3e3a39;
+    background-image: url("/img/not-found.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    opacity: 0.6;
+    &_black-z {
+      background-color: $color-text;
+      z-index: 12;
+    }
+    &_black {
+      background-color: $color-text;
+    }
+    &_white {
+      background-color: $color-white;
+    }
+  }
+
+  &__preloader {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 15;
+    background-color: rgba($color-white, 0.9);
+  }
+
+  &__dropdownWarning {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: transparent;
+  }
+
+  &__maincontent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
