@@ -1,52 +1,37 @@
 import styles from "./Header.module.scss";
 
-import svgSprite from "../../img/spriteIcons.svg";
 import {Button} from "../Button/Button";
+import {Nav} from "../Nav/Nav";
+
+import {requests as $axios} from "../../helpers/requests.js";
 
 export function Header() {
+  const addPhoto = async (e) => {
+    const loadedCover = e.target.files[0];
+
+    // renderer(loadedCover).then(pic => {
+    //     this.renderedCover = pic;
+    // });
+
+    const formData = new FormData();
+    formData.append("preview", loadedCover);
+    formData.append("title", "defaultdefault");
+    formData.append(
+      "description",
+      "defaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefault"
+    );
+    formData.append("authorId", 32);
+
+    const {data} = await $axios.post("/v1/albums", formData, {
+      headers: {"Content-Type": "multipart/form-data"},
+    });
+
+    console.log("data.album: ", data.album);
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
-        <div className={styles[`header__button-logout`]}>
-          <Button
-            type={"button"}
-            title={"Выйти из своего аккаунта"}
-            text={"Выйти"}
-            classes={{
-              icon: "space",
-              size: "changing",
-              theme: "color_changing",
-            }}
-            icon={"logout"}
-          />
-        </div>
-        <div className={styles[`header__button-edit`]}>
-          <Button
-            type={"button"}
-            title={"Редактировать свой профиль"}
-            text={"Редактировать"}
-            classes={{
-              icon: "space",
-              size: "changing",
-              theme: "color_changing",
-            }}
-            icon={"edit"}
-          />
-        </div>
-        <div className={styles[`header__button-home`]}>
-          <Button
-            type={"button"}
-            title={"Перейти на главную"}
-            text={"На главную"}
-            classes={{
-              size: "changing",
-              icon: "space",
-              theme: "color_changing",
-            }}
-            icon={"home"}
-          />
-        </div>
-
         <div className={styles.header__avatar}>
           <img className={styles[`header__avatar-img`]} alt="avatar" />
         </div>
@@ -54,25 +39,26 @@ export function Header() {
           <h1 className={styles.header__title}>name</h1>
 
           <div className={styles.header__text}>description</div>
+        </div>
 
-          <div className={styles.header__socials}>
-            <div className={[styles.socials, styles.socials_no_edit].join(" ")}>
-              <ul className={styles.socials__list}>
-                <li className={styles.socials__item}>
-                  <a href="change-me" className={styles.socials__link}>
-                    name
-                    <svg className={styles.socials__icon}>
-                      <use xlinkHref={`${svgSprite}#soc_fb`}></use>
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+        <div className={styles[`header__button-logout`]}>
+          <Button
+            type={"button"}
+            title={"Выйти из своего аккаунта"}
+            text={"Выйти"}
+            classes={{
+              icon: "space",
+              size: "changing_withtext",
+              theme: "color_changing",
+            }}
+            icon={"logout"}
+          />
         </div>
       </div>
 
-      <div className={styles[`header__edit-header`]}>
+      <Nav />
+
+      {/* <div className={styles[`header__edit-header`]}>
         <div className={styles[`edit-header`]}>
           <div className={styles[`edit-header__card`]}>
             <div className={styles[`edit-header__form`]}>
@@ -159,51 +145,6 @@ export function Header() {
                     <span>Максимум символов в описании:</span>
                     <span>Обязательно для заполнения</span>
                   </div>
-
-                  <div className={styles[`form-edit-header__socials`]}>
-                    <div className={styles.socials}>
-                      <ul className={styles.socials__list}>
-                        <li className={styles.socials__item}>
-                          <a href="change-me">
-                            name
-                            <svg className={styles.socials__icon}>
-                              <use xlinkHref={`${svgSprite}#soc_fb`}></use>
-                            </svg>
-                          </a>
-                        </li>
-                      </ul>
-
-                      <div className={styles[`soc-edit`]}>
-                        <div className={styles[`soc-edit__card`]}>
-                          {/* <form className="soc-edit__form">
-                              <input type="text" className="soc-edit__input" />
-                              <div className="soc-edit__error soc-edit__error_link">
-                                <span>Минимум символов в адресе ссылки:</span>
-                                <span>Максимум символов в адресе ссылки:</span>
-                                <span>
-                                  Заполните поле, чтобы добавить соц.сеть
-                                </span>
-                              </div>
-
-                              <div className="soc-edit__buttons">
-                                <button
-                                  type="submit"
-                                  className="button button_size_m"
-                                >
-                                  Сохранить
-                                </button>
-                                <button
-                                  type="button"
-                                  className="button button_size_m button_theme_minimalizm"
-                                >
-                                  Отменить
-                                </button>
-                              </div>
-                            </form> */}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
                 <div className={styles[`form-edit-header__load-cover`]}>
@@ -218,6 +159,7 @@ export function Header() {
                       type="file"
                       id="load-bgcover-header"
                       className={styles[`form-edit-header__input-load`]}
+                      onClick={addPhoto}
                     />
                     <div
                       className={styles[`form-edit-header__added-cover`]}
@@ -262,7 +204,7 @@ export function Header() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 }

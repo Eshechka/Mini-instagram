@@ -8,20 +8,28 @@ export function Button({type, title, classes, text, icon}) {
       title={title}
       className={[
         styles.button,
-        classes.icon ? styles[`button_icon_${classes.icon}`] : "",
+        classes.icon
+          ? styles[`button_icon_${classes.icon}`]
+          : classes.icon === ""
+          ? styles[`button_icon`]
+          : "",
         classes.size ? styles[`button_size_${classes.size}`] : "",
         classes.theme ? styles[`button_theme_${classes.theme}`] : "",
+        classes.other && classes.other.length
+          ? styles[classes.other.join(" ")]
+          : "",
       ].join(" ")}
     >
-      <span className={styles.button__text}>{text}</span>
-      <svg
-        className={[
-          styles.button__icon,
-          icon ? styles[`button__icon_${icon}`] : "",
-        ].join(" ")}
-      >
-        <use xlinkHref={`${svgSprite}#${icon}`}></use>
-      </svg>
+      {text ? <span className={styles.button__text}>{text}</span> : null}
+      {icon ? (
+        <svg
+          className={[styles.button__icon, styles[`button__icon_${icon}`]].join(
+            " "
+          )}
+        >
+          <use xlinkHref={`${svgSprite}#${icon}`}></use>
+        </svg>
+      ) : null}
     </button>
   );
 }

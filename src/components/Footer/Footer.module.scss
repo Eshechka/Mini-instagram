@@ -23,10 +23,8 @@
   &__container {
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    width: 90%;
     position: relative;
-    @include max-with-container;
+    @include container;
 
     @include tablets {
       flex-direction: row;

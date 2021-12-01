@@ -10,6 +10,7 @@
   background-color: $color-blue;
   color: $color-white;
   border-radius: 30px;
+  position: relative;
 
   &:not(:disabled):hover,
   &:not(:disabled):active,
@@ -36,7 +37,8 @@
   }
 
   &:not(:disabled):hover .button__icon {
-    background-size: 20px;
+    width: 20px;
+    height: 20px;
   }
 
   // ----- sizes -----
@@ -49,7 +51,9 @@
       width: 16px;
       height: 16px;
     }
-    &:not(:disabled):hover .button__icon {
+    &:not(:disabled):hover .button__icon,
+    &:not(:disabled):focus .button__icon,
+    &:not(:disabled):active .button__icon {
       width: 17px;
       height: 17px;
     }
@@ -77,6 +81,21 @@
     }
   }
   &_size_m {
+    height: 60px;
+    width: 60px;
+    padding: 10px;
+    & .button__icon {
+      height: 30px;
+      width: 30px;
+    }
+    &:not(:disabled):hover .button__icon,
+    &:not(:disabled):focus .button__icon,
+    &:not(:disabled):active .button__icon {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  &_size_m_withtext {
     min-height: 38px;
     padding: 10px 20px;
 
@@ -84,7 +103,7 @@
       left: 25px;
     }
   }
-  &_size_l {
+  &_size_l_withtext {
     min-width: 260px;
     min-height: 38px;
     padding: 10px 20px;
@@ -98,7 +117,7 @@
       min-width: 240px;
     }
   }
-  &_size_changing {
+  &_size_changing_withtext {
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -201,6 +220,10 @@
       color: rgba($color-blue, 0.7);
       border: 2px solid rgba($color-blue, 0.7);
     }
+
+    & .button__icon {
+      fill: rgba($color-blue, 1);
+    }
   }
 
   &_theme_pale.button {
@@ -220,6 +243,10 @@
       background-color: $color-white;
       color: rgba($color-text, 0.6);
     }
+
+    & .button__icon {
+      fill: rgba($color-text, 0.8);
+    }
   }
 
   &_theme_calm.button {
@@ -236,6 +263,10 @@
     &:not(:disabled):focus {
       background-color: $color-white;
       color: rgba($color-text, 0.7);
+    }
+
+    & .button__icon {
+      fill: rgba($color-text, 0.9);
     }
   }
 
@@ -281,7 +312,7 @@
         height: 20px;
 
         &_heart {
-          viewbox: "53 56 22 17";
+          // viewbox: "53 56 22 17";
           height: 18px;
           fill: rgb(238, 70, 52);
           stroke-width: 2px;
@@ -294,12 +325,13 @@
     &:not(:disabled):focus {
       background-color: rgba($color-carrot, 0.8);
     }
+
     & .button__icon {
       fill: rgba($color-white, 0.99);
       height: 20px;
 
       &_heart {
-        viewbox: "53 56 22 17";
+        // viewbox: "53 56 22 17";
         height: "18px";
         fill: rgb(238, 70, 52);
         stroke-width: 2px;
@@ -324,6 +356,32 @@
     &:not(:disabled):focus {
       background-color: transparent;
       color: rgba($color-blue-hover, 1);
+    }
+
+    & .button__icon {
+      fill: rgba($color-blue, 1);
+    }
+  }
+
+  &_theme_transparent.button {
+    color: $color-white;
+    font-family: "Proxima Nova Semibold";
+    background-color: $color-text;
+
+    &:disabled,
+    &.disabled {
+      background-color: rgba($color-text, 0.2);
+      color: rgba($color-white, 0.5);
+    }
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: rgba($color-text, 0.9);
+      color: rgba($color-white, 0.8);
+    }
+
+    & .button__icon {
+      fill: rgba($color-white, 1);
     }
   }
 

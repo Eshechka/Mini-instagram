@@ -1,0 +1,46 @@
+@import "../../styles/mixins.scss";
+
+.cardlist {
+  @include tablets {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    margin-bottom: 10px;
+
+    @include tablets {
+      margin-bottom: 20px;
+      width: 48%;
+      margin-right: 4%;
+
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+    @include desktop {
+      width: 32%;
+      margin-right: 2%;
+
+      &:nth-child(2n) {
+        margin-right: 2%;
+      }
+
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+    @include desktopHd {
+      width: 23%;
+      margin-right: 2%;
+
+      &:nth-child(3n) {
+        margin-right: 2%;
+      }
+
+      &:nth-child(4n) {
+        margin-right: 0;
+      }
+    }
+  }
+}

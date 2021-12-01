@@ -1,51 +1,259 @@
+import {Button} from "../../components/Button/Button";
 import styles from "./UserPage.module.scss";
 
 export function UserPage() {
   return (
     <>
-      <div className="my-search">
-        <div className="my-search__container">
-          <form className="form-search">
-            <input type="search" className="form-search__input" />
-            <button
-              title="Нажмите для поиска"
-              type="submit"
-              className="form-search__submit"
-            >
-              <svg className="form-search__icon">
-                <use xlinkHref="../img/spriteIcons.svg#search"></use>
-              </svg>
-            </button>
-          </form>
-        </div>
-      </div>
+      <section className={styles[`my-photos`]}>
+        <div className={styles[`my-photos__container`]}>
+          <div className={styles[`my-photos__topgroup`]}>
+            <div className={styles[`my-photos__button-plus`]}>
+              <Button
+                type={"button"}
+                title={"Добавить фотографию"}
+                classes={{
+                  icon: "icon_expand",
+                  size: "s",
+                  theme: "pale",
+                }}
+                icon={"plus"}
+              />
+            </div>
+          </div>
 
-      <section className="new">
-        <div className="new__container">
-          <h2 className="new__title">Новое в мире</h2>
-
-          <p className="new__empty-text">
-            Увы, пока ничего не загружено. Загрузите что-нибудь и станьте
-            первым.
-          </p>
-
-          <ul className="new__card-list">
-            <li className="new__card-item"></li>
+          <ul className={styles[`my-photos__photos-list`]}>
+            <li className={styles[`my-photos__photos-item`]}></li>
           </ul>
+        </div>
+        {/* <div className={styles[`my-photos__edit-pho`]}o">
+          <div className={styles[`edit-photo`]}>
+            <div className={styles[`edit-photo__card`]}>
+              <div className={styles[`edit-photo__topgroup`]}>
+                <h2 className={styles[`edit-photo__title`]}>Редактировать фотографию</h2>
 
-          <div className="new__button-show-more">
-            <button
-              type="button"
-              className="button button_size_m button_theme_light"
-            >
-              Показать ещё
-            </button>
+                <Button
+                  type={"button"}
+                  title={"Редактировать фотографию"}
+                  classes={{
+                    size: "s",
+                    theme: "minimalizm",
+                  }}
+                  icon={"close"}
+                />
+              </div>
+
+              <div className="edit-photo__form">
+                <form className="form-editPhoto">
+                  <div className="form-editPhoto__confirmDeletePhoto"></div>
+
+                  <label className="form-editPhoto__label">
+                    Название
+                    <input
+                      className="form-editPhoto__input"
+                      type="text"
+                      placeholder="Название фотографии"
+                    />
+                  </label>
+                  <div className="form-editPhoto__error form-editPhoto__error_title">
+                    <span>Обязательно для заполнения</span>
+                  </div>
+
+                  <label className="form-editPhoto__label">
+                    Описание
+                    <textarea
+                      className="form-editPhoto__input form-editPhoto__input_textarea"
+                      cols="10"
+                      rows="2"
+                      placeholder="Описание фотографии"
+                    ></textarea>
+                  </label>
+                  <div className="form-editPhoto__error form-editPhoto__error_description">
+                    <span>Минимум символов в описании:</span>
+                    <span>Максимум символов в описании:</span>
+                    <span>Обязательно для заполнения</span>
+                  </div>
+
+                  <div className="form-editPhoto__buttons">
+                    <Button
+                      type={"submit"}
+                      title={"Редактировать фотографию"}
+                      text={"Сохранить"}
+                      classes={{
+                        size: "m_withtext",
+                        other: ["form-editPhoto__buttonspace"],
+                      }}
+                    />
+
+                    <Button
+                      type={"button"}
+                      title={
+                        "Закрыть форму добавления фотографий без сохранения"
+                      }
+                      text={"Отменить"}
+                      classes={{
+                        size: "m_withtext",
+                        theme: ["minimalizm"],
+                      }}
+                    />
+
+                    <Button
+                      type={"button"}
+                      title={"Удалить фотографию"}
+                      text={"Удалить"}
+                      classes={{
+                        icon: "",
+                        size: "s_m",
+                        theme: "carrot",
+                        other: ["form-editPhoto__in"],
+                      }}
+                      icon={"delete"}
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> */}
+
+        <div className={styles[`my-photos__add-photo`]}>
+          <div className={styles[`add-photo`]}>
+            <div className={styles[`add-photo__card`]}>
+              <div className={styles[`add-photo__topgroup`]}>
+                <h2
+                  className={styles[`add-photo__title">Добавить фотографии`]}
+                ></h2>
+                <Button
+                  type={"button"}
+                  title={"Закрыть форму добавления фотографий без сохранения"}
+                  classes={{
+                    icon: "",
+                    size: "s",
+                    theme: "minimalizm",
+                  }}
+                  icon={"close"}
+                />
+              </div>
+
+              <div className={styles[`add-photo__form`]}>
+                <form className={styles[`form-addPhoto`]}>
+                  <div className={styles[`form-addPhoto__album-name-label`]}>
+                    Название
+                    <span
+                      className={styles[`form-addPhoto__album-name`]}
+                      type="text"
+                    ></span>
+                  </div>
+
+                  <div className={styles[`form-addPhoto__load-cover"`]}>
+                    <div className={styles[`form-addPhoto__added-photos`]}>
+                      <ul className={styles[`added-photos"`]}>
+                        <li className={styles[`added-photos__item"`]}>
+                          <Button
+                            type={"button"}
+                            title={"Удалить фото из списка загрузки"}
+                            classes={{
+                              icon: "",
+                              size: "s",
+                              theme: "carrot",
+                              other: ["added-photos__close-button"],
+                            }}
+                            icon={"close"}
+                          />
+                          <Button
+                            type={"button"}
+                            title={
+                              "Редактировать название и описание фотографии"
+                            }
+                            classes={{
+                              icon: "",
+                              size: "xs",
+                              theme: "calm",
+                              other: ["added-photos__edit-button"],
+                            }}
+                            icon={"edit"}
+                          />
+                          <span
+                            title="Описание фото успешно сохранено"
+                            className={styles[`added-photos__valid-sign`]}
+                          ></span>
+                          <span
+                            title="Необходимо добавить название и описание фото"
+                            className={styles[`added-photos__invalid-sign`]}
+                          ></span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <label
+                      htmlFor="load-photo"
+                      className={[
+                        styles[`form-addPhoto__label`],
+                        styles[`form-addPhoto__label_file-load`],
+                      ].join(" ")}
+                    >
+                      <input
+                        type="file"
+                        id="load-photo"
+                        multiple="multiple"
+                        className={styles[`form-addPhoto__input-load`]}
+                      />
+                      <div
+                        className={styles[`form-addPhoto__load-photo-img`]}
+                      ></div>
+
+                      <div
+                        className={
+                          styles[`form-addPhoto__load-photo-text-button`]
+                        }
+                      >
+                        Выберите файл
+                      </div>
+                      <div className={styles[`form-addPhoto__load-photo-text`]}>
+                        <span
+                          className={
+                            styles[`form-addPhoto__load-photo-drag-text`]
+                          }
+                        >
+                          Перетащите фото сюда или{" "}
+                        </span>
+                        выберите файл
+                      </div>
+                    </label>
+                  </div>
+
+                  <div className={styles[`form-addPhoto__buttons`]}>
+                    <Button
+                      type={"submit"}
+                      title={"Сохранить фотографию"}
+                      text={"Сохранить"}
+                      classes={{
+                        size: "m_withtext",
+                        theme: "calm",
+                        other: ["added-photos__edit-button"],
+                      }}
+                    />
+                    <Button
+                      type={"button"}
+                      title={
+                        "Закрыть форму добавления фотографий без сохранения"
+                      }
+                      text={"Отменить"}
+                      classes={{
+                        size: "m_withtext",
+                        theme: "minimalizm",
+                      }}
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="new__big-card-slider">
-          <div className="big-card-slider">
+        {/* 
+        <div className={styles[`my-photos__big-card-slider`]}>
+          <div className={styles[`big-card-slider`]}>
             <button
+              title="Закрыть слайдер"
               className="big-card-slider__control big-card-slider__control_close"
               type="button"
             ></button>
@@ -59,34 +267,7 @@ export function UserPage() {
               className="big-card-slider__control big-card-slider__control_next"
             ></button>
           </div>
-        </div>
-      </section>
-
-      <section className="my-albums">
-        <div className="my-albums__container">
-          <div className="my-albums__topgroup">
-            <h2 className="my-albums__title">Мои альбомы</h2>
-            <h2 className="my-albums__title">Альбомы</h2>
-            <div className="my-albums__button-plus">
-              <button
-                title="Добавить новый альбом"
-                className="button button_icon_expand button_size_s button_theme_pale"
-              >
-                <span className="button__icon button__icon_plus"></span>
-              </button>
-            </div>
-          </div>
-
-          <p className="my-albums__empty-text">
-            Альбомы еще не созданы. Создайте альбом с помощью кнопки "Добавить".
-          </p>
-
-          <ul className="my-albums__albums-list">
-            <li className="my-albums__albums-item"></li>
-          </ul>
-        </div>
-
-        <div className="my-albums__change-album"></div>
+        </div> */}
       </section>
     </>
   );

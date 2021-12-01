@@ -1,0 +1,787 @@
+@import "../../styles/mixins.scss";
+
+.edit-header {
+  width: 100%;
+  min-width: 320px;
+  overflow: hidden;
+
+  &__card {
+    min-width: 288px;
+    display: flex;
+    flex-direction: column;
+    color: $color-text;
+  }
+}
+
+.form-edit-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+
+  @include tablets {
+    flex-direction: row;
+  }
+
+  &__other-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    @include tablets {
+      width: 60%;
+      max-width: 1200px;
+      padding: 30px 10px 10px 30px;
+    }
+  }
+
+  &__added-cover,
+  &__now-cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    border-radius: 15px;
+  }
+
+  &__added-photo {
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    height: 50px;
+    width: 50px;
+    margin: auto;
+    cursor: pointer;
+
+    @include tablets {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+    }
+  }
+
+  &__load-avatar {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 50px;
+    width: 50px;
+
+    @include tablets {
+      margin-left: 5%;
+      height: 70px;
+      width: 70px;
+      align-self: flex-start;
+      margin-top: 40px;
+    }
+    @include desktopHd {
+      margin-left: Max(calc((100% - 1480px) / 2), 10%);
+    }
+  }
+
+  &__img-wrapper {
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+
+    @include tablets {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  &__img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    opacity: 0.5;
+    background-color: $color-text;
+    width: 100%;
+    height: 100%;
+    border: 3px solid $color-white;
+    border-radius: 50%;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: svg-load("cam.svg", fill=rgba($color-white, 0.99));
+      background-repeat: no-repeat;
+      background-size: 18px;
+      background-position: center 25%;
+    }
+  }
+
+  &__load-cover {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+
+    @include tablets {
+      margin-right: 5%;
+      margin-left: auto;
+    }
+    @include desktopHd {
+      margin-right: Max(calc((100% - 1480px) / 2), 10%);
+    }
+  }
+
+  &__cover-img {
+    height: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px;
+    background-position: top center;
+    background-image: svg-load("cam.svg", fill=rgba($color-white, 0.8));
+    width: 32px;
+  }
+
+  &__avatar-img-text {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    font-family: "Proxima Nova Semibold";
+    font-size: 8px;
+    color: rgba($color-white, 0.99);
+    text-align: center;
+
+    @include tablets {
+      font-size: 10px;
+    }
+  }
+
+  &__cover-img-text {
+    font-family: "Proxima Nova Semibold";
+    font-size: 12px;
+    color: rgba($color-white, 0.8);
+    text-align: center;
+  }
+
+  &__img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__label {
+    font-family: "Proxima Nova Semibold";
+    font-size: 14px;
+    display: block;
+    width: 90%;
+
+    &_view_scroll {
+      position: relative;
+      z-index: 14;
+
+      &:active,
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &_file-load {
+      width: 100%;
+      position: relative;
+      height: 100%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    @include tablets {
+      width: 100%;
+    }
+  }
+
+  &__error {
+    @include error;
+    min-height: 24px;
+
+    @include tablets {
+      align-self: flex-start;
+      margin-left: 18px;
+    }
+  }
+
+  &__input-load {
+    cursor: pointer;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0;
+
+    &:disabled {
+      cursor: wait;
+    }
+  }
+
+  &__decorelem {
+    display: block;
+    position: absolute;
+    right: 1px;
+    top: 0;
+    box-sizing: border-box;
+    width: 21px;
+    height: 100%;
+    border-radius: 0 20px 20px 0;
+    background-color: $color-white;
+  }
+
+  &__input {
+    @include popup-input;
+
+    &_textarea {
+      resize: none;
+      height: 84px;
+
+      border-radius: 20px 0 0 20px;
+      padding-right: 20px;
+      width: calc(100% - 20px);
+
+      &:active ~ .form-edit-header__decorelem,
+      &:focus ~ .form-edit-header__decorelem {
+        border: 1px solid $color-blue;
+        border-left: none;
+      }
+      @include tablets {
+        height: unset;
+      }
+    }
+  }
+
+  &__socials {
+    margin-top: 5px;
+    margin-bottom: 50px;
+    width: 88%;
+  }
+
+  &__buttons {
+    padding: 10px;
+    height: 60px;
+    background: $color-white;
+    width: 100%;
+    text-align: right;
+    width: 100%;
+    padding-right: 5%;
+
+    @include desktopHd {
+      padding-right: Max(calc((100% - 1480px) / 2), 10%);
+    }
+  }
+
+  &__buttonspace {
+    margin-right: 10px;
+  }
+}
+
+.edit-profile {
+  @include popup;
+
+  &__card {
+    min-width: 288px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f2f2;
+    color: $color-text;
+  }
+
+  &__topgroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+  }
+
+  &__title {
+    font-family: "Panton-Bold";
+    font-size: 21px;
+    line-height: 21px;
+  }
+
+  &__button {
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 50%;
+
+    &_close {
+      background-image: svg-load("close.svg", fill=rgba($color-text, 0.4));
+
+      &:hover {
+        background-image: svg-load("close.svg", fill=rgba($color-text, 0.8));
+      }
+    }
+  }
+}
+
+.form-edit-profile {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-white;
+
+  &__label {
+    font-family: "Proxima Nova Semibold";
+    font-size: 14px;
+    display: block;
+    padding: 15px 10px 10px;
+
+    &_no_top_padding {
+      padding-top: 0;
+    }
+  }
+
+  &__input {
+    @include popup-input;
+
+    margin-top: 5px;
+
+    &_textarea {
+      resize: none;
+    }
+  }
+
+  &__load-image {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  &__img-wrapper {
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  &__img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__button {
+    margin-left: 18px;
+  }
+
+  &__notice-size {
+    width: 70%;
+    font-family: "ProximaNova-LightIt";
+    font-size: 14px;
+    line-height: 14px;
+    padding: 10px 0;
+  }
+
+  &__socials {
+    border-top: 1px solid #f2f2f2;
+    padding-bottom: 20px;
+  }
+
+  &__buttons {
+    background-color: #f2f2f2;
+    padding: 10px;
+  }
+}
+
+.socials {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 10px;
+
+  &_no_edit {
+    padding-bottom: 0;
+    border-radius: 5px;
+    background-color: rgba($color-text, 0.2);
+  }
+
+  &__list {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__item {
+    margin-right: 8px;
+    margin-left: 8px;
+
+    @include tablets {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+  }
+
+  &__link {
+    display: block;
+    font-size: 0px;
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+    &_active {
+      position: relative;
+      box-sizing: content-box;
+      border-bottom: 10px solid transparent;
+      margin-bottom: 0px;
+
+      &::after {
+        content: "";
+        /* z-index: 2; */
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 8px solid $color-white;
+      }
+
+      &__icon {
+        width: 22px;
+        height: 22px;
+        margin-left: -1px;
+        margin-top: -1px;
+        fill: rgba($color-white, 0.95);
+      }
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      box-sizing: content-box;
+      border-bottom: 10px solid transparent;
+      margin-bottom: 0px;
+      /* z-index: 20; */
+      outline: none;
+
+      .socials__icon {
+        width: 22px;
+        height: 22px;
+        margin-left: -1px;
+        margin-top: -1px;
+        fill: rgba($color-white, 0.95);
+      }
+    }
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    fill: rgba($color-white, 0.8);
+  }
+}
+
+.new {
+  min-width: 320px;
+  padding: 30px 0;
+  /* position: relative; */
+
+  @include tablets {
+    min-height: $min-height-section-for-slider;
+  }
+
+  &__container {
+    @include container;
+  }
+
+  &__title {
+    font-family: "Panton-Bold";
+    font-size: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+
+    @include tablets {
+      text-align: left;
+    }
+  }
+
+  &__button-show-more {
+    text-align: center;
+    padding: 10px;
+  }
+
+  &__big-card-slider {
+    @include popup-container;
+    top: 0;
+    width: 100%;
+    margin: 0;
+  }
+}
+
+.big-card-slider {
+  @include popup;
+  overflow: unset;
+  background-color: transparent;
+  position: relative;
+
+  &__control {
+    position: absolute;
+    display: none;
+    z-index: 15;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 15px;
+    height: 30px;
+    width: 20px;
+    &:hover,
+    &:active,
+    &:focus {
+      outline: none;
+    }
+
+    &_close {
+      display: block;
+      width: 40px;
+      height: 40px;
+      background-image: svg-load("close.svg", fill=rgba(#f0f0ec, 0.99));
+      background-size: 30px;
+      top: 0px;
+      right: 0;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-size: 34px;
+      }
+    }
+
+    @include tablets {
+      display: block;
+      &:hover,
+      &:active,
+      &:focus {
+        background-size: 16px;
+      }
+
+      &_prev {
+        height: 480px;
+        top: calc((520px - 480px) / 2);
+        /* top: calc(520px / 2); */
+
+        left: -25px;
+        background-image: svg-load("arrow_left.svg", fill=rgba(#a0a09f, 0.99));
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-image: svg-load(
+            "arrow_left.svg",
+            fill=rgba($color-white, 0.9)
+          );
+        }
+      }
+      &_next {
+        height: 480px;
+        top: calc((520px - 480px) / 2);
+        /* top: calc(520px / 2); */
+
+        right: -25px;
+        background-image: svg-load("arrow_left.svg", fill=rgba(#a0a09f, 0.99));
+        transform: rotate(180deg);
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-image: svg-load(
+            "arrow_left.svg",
+            fill=rgba($color-white, 0.9)
+          );
+        }
+      }
+      &_close {
+        width: 40px;
+        height: 40px;
+        background-size: 20px;
+        background-image: svg-load("close.svg", fill=rgba(#a0a09f, 0.99));
+        right: -36px;
+        top: -36px;
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-size: 24px;
+          background-image: svg-load("close.svg", fill=rgba($color-white, 0.9));
+        }
+      }
+    }
+  }
+}
+
+.soc-edit {
+  @include popup();
+
+  display: none;
+  min-width: calc(320px * 0.88);
+  background-color: rgba($color-white, 0.7);
+  position: absolute;
+  top: calc(100% - 12px);
+
+  @include tablets {
+    min-width: unset;
+    width: 280px;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    width: 100%;
+    height: 10px;
+    background-color: red;
+  }
+
+  &_showed {
+    display: block;
+  }
+
+  &__card {
+    background-color: rgba($color-white, 0.5);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  &__input {
+    @include popup-input();
+    min-width: unset;
+  }
+
+  &__error {
+    @include error;
+    min-height: 20px;
+
+    @include tablets {
+      align-self: flex-start;
+      margin-left: 10px;
+      margin-right: 10px;
+      & span {
+        line-height: 12px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  &__buttons {
+    padding-top: 10px;
+  }
+}
+
+// .my-albums {
+//   min-width: 320px;
+//   padding: 30px 0;
+//   background: rgb(246, 246, 246);
+//   background: linear-gradient(
+//     0deg,
+//     rgba(246, 246, 246, 1) 0%,
+//     $color-white 100%
+//   );
+//   position: relative;
+
+//   &__container {
+//     margin: 0 auto;
+//     width: 90%;
+//     min-width: 288px;
+//     @include max-with-container;
+//   }
+
+//   &__topgroup {
+//     position: relative;
+//   }
+
+//   &__title {
+//     font-family: "Panton-Bold";
+//     font-size: 30px;
+//     margin-bottom: 20px;
+//     width: 100%;
+//     text-align: center;
+
+//     @include tablets {
+//       text-align: left;
+//     }
+//   }
+
+//   &__button-plus {
+//     position: absolute;
+//     right: 0;
+//     top: 50%;
+//     z-index: 9;
+//     transform: translateY(-50%);
+//   }
+
+//   &__albums-list {
+//     @include tablets {
+//       display: flex;
+//       flex-wrap: wrap;
+//     }
+//   }
+
+//   &__albums-item {
+//     margin-bottom: 10px;
+
+//     @include tablets {
+//       width: 31%;
+//       margin-bottom: 20px;
+//       margin-right: 3.5%;
+
+//       &:nth-child(3n) {
+//         margin-right: 0;
+//       }
+//     }
+//     @include desktop {
+//       width: 23.8%;
+//       margin-bottom: 20px;
+//       margin-right: 1.6%;
+
+//       &:nth-child(3n) {
+//         margin-right: 1.6%;
+//       }
+//       &:nth-child(4n) {
+//         margin-right: 0;
+//       }
+//     }
+//     @include desktopHd {
+//       width: 18.4%;
+//       margin-right: 2%;
+
+//       &:nth-child(3n) {
+//         margin-right: 2%;
+//       }
+//       &:nth-child(4n) {
+//         margin-right: 2%;
+//       }
+//       &:nth-child(5n) {
+//         margin-right: 0;
+//       }
+//     }
+//   }
+
+//   &__change-album {
+//     @include fixed-popup-container;
+//   }
+// }

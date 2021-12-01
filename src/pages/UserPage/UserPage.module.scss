@@ -1,1 +1,102 @@
 @import "../../styles/mixins.scss";
+
+.my-photos {
+  min-width: 320px;
+  padding: 30px 0;
+  background: $color-white;
+  /* position: relative; */
+
+  @include tablets {
+    min-height: $min-height-section-for-slider;
+  }
+
+  &__container {
+    @include container;
+  }
+
+  &__topgroup {
+    position: relative;
+  }
+
+  &__button-plus {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 9;
+  }
+
+  &__photos-list {
+    position: relative;
+
+    @include tablets {
+      display: flex;
+      flex-wrap: wrap;
+      /* justify-content: space-between; */
+    }
+  }
+
+  &__photos-item {
+    margin-bottom: 10px;
+
+    @include tablets {
+      width: 48%;
+      margin-bottom: 20px;
+      margin-right: 4%;
+
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+    @include desktop {
+      width: 32%;
+      margin-right: 2%;
+
+      &:nth-child(2n) {
+        margin-right: 2%;
+      }
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+    @include desktopHd {
+      width: 22%;
+      margin-right: 4%;
+
+      &:nth-child(2n) {
+        margin-right: 4%;
+      }
+      &:nth-child(3n) {
+        margin-right: 4%;
+      }
+      &:nth-child(4n) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__add-photo {
+    @include fixed-popup-container;
+  }
+
+  &__edit-photo {
+    @include fixed-popup-container;
+    z-index: 12;
+    overflow: hidden;
+    @include tablets {
+      width: 70%;
+      margin: 0 Max(15%, calc((100% - 1480px) / 2));
+    }
+  }
+
+  &__big-card-slider {
+    @include popup-container;
+    top: 0;
+    width: 100%;
+    margin: 0;
+
+    @include tablets {
+      top: 100px;
+    }
+  }
+}

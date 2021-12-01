@@ -1,27 +1,21 @@
+import {Button} from "../Button/Button";
 import styles from "./Footer.module.scss";
-
-// import svgSprite from "../../img/spriteIcons.svg";
 
 export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footer__container}>
         <div className={styles[`footer__button-up`]}>
-          <button
-            title="Вернуться в начало страницы"
-            className={[
-              styles.button,
-              styles.button_size_s,
-              styles.button_icon_expand,
-              styles.button_theme_pale,
-            ].join(" ")}
-          >
-            <span
-              className={[styles.button__icon, styles.button__icon_up].join(
-                " "
-              )}
-            ></span>
-          </button>
+          <Button
+            type={"button"}
+            title={"Вернуться в начало страницы"}
+            classes={{
+              icon: "expand",
+              size: "s",
+              theme: "pale",
+            }}
+            icon={"top"}
+          />
         </div>
         <div className={styles.footer__desc}>Mini-instagram</div>
         <div className={styles.footer__copyright}>

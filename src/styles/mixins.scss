@@ -1,5 +1,6 @@
 $minWidth: 320px;
 $maxWidth: 1470px;
+$min-height-section-for-slider: 920px;
 $color-text: #323232;
 $color-white: #fff;
 $color-blue: #28bbf0;
@@ -30,8 +31,17 @@ $color-carrot: #ee4634;
   }
 }
 
-@mixin max-with-container {
+@mixin container {
+  margin: 0 auto;
+  width: 90%;
   max-width: 1480px;
+
+  @include tablets {
+    max-width: 750px;
+  }
+  @include desktop() {
+    max-width: 970px;
+  }
 }
 
 @mixin popup() {

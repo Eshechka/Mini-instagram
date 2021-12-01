@@ -2,6 +2,7 @@
 import {Header} from "./components/Header/Header";
 import {Footer} from "./components/Footer/Footer";
 import "./App.scss";
+import {HomePage} from "./pages/HomePage/HomePage";
 import {UserPage} from "./pages/UserPage/UserPage";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 
       <main className="app__maincontent maincontent">
         <UserPage />
+        {/* <HomePage /> */}
       </main>
 
       <Footer />
