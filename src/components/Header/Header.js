@@ -6,7 +6,7 @@ import {Nav} from "../Nav/Nav";
 import {requests as $axios} from "../../helpers/requests.js";
 
 export function Header() {
-  const addPhoto = async (e) => {
+  const addAlbum = async (e) => {
     const loadedCover = e.target.files[0];
 
     // renderer(loadedCover).then(pic => {
@@ -159,7 +159,7 @@ export function Header() {
                       type="file"
                       id="load-bgcover-header"
                       className={styles[`form-edit-header__input-load`]}
-                      onClick={addPhoto}
+                      onClick={addAlbum}
                     />
                     <div
                       className={styles[`form-edit-header__added-cover`]}

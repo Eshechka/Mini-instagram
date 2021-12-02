@@ -1,9 +1,14 @@
 // import logo from "./logo.svg";
-import {Header} from "./components/Header/Header";
-import {Footer} from "./components/Footer/Footer";
-import "./App.scss";
+import {Navigate, Route, Routes} from "react-router-dom";
+
 import {HomePage} from "./pages/HomePage/HomePage";
 import {UserPage} from "./pages/UserPage/UserPage";
+import {SearchPage} from "./pages/SearchPage/SearchPage";
+
+import {Header} from "./components/Header/Header";
+import {Footer} from "./components/Footer/Footer";
+
+import "./App.scss";
 
 function App() {
   return (
@@ -21,8 +26,12 @@ function App() {
       <Header />
 
       <main className="app__maincontent maincontent">
-        <UserPage />
-        {/* <HomePage /> */}
+        <Routes>
+          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/search" element={<SearchPage />} />
+          <Route exact path="/:id" element={<UserPage />} />
+          {/* <Route path="*" element={<NotFoundPage />} /> */}
+        </Routes>
       </main>
 
       <Footer />

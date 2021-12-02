@@ -9,10 +9,7 @@
   }
 
   &__container {
-    margin: 0 auto;
-    width: 90%;
-    min-width: 288px;
-    @include max-with-container;
+    @include container;
   }
 
   &__title {

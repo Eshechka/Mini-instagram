@@ -1,51 +1,54 @@
 import styles from "./SearchPage.module.scss";
-spriteIcons;
+import svgSprite from "../../img/spriteIcons.svg";
+import {Button} from "../../components/Button/Button";
+
 export function SearchPage() {
   return (
-    <>
-      <section class="searched">
-        <div class="searched__container">
-          <p class="searched__text">Новое в мире</p>
-          <p class="searched__text">
-            Количество найденных результатов по запросу '':{" "}
-            <span class="searched__amount"></span>
-          </p>
-          <p class="searched__text">
-            Увы, ничего не нашлось ничего по запросу ''
-          </p>
+    <section className={styles.searched}>
+      <div className={styles.searched__container}>
+        <p className={styles.searched__text}>Новое в мире</p>
+        <p className={styles.searched__text}>
+          Количество найденных результатов по запросу '':{" "}
+          <span className={styles.searched__amount}></span>
+        </p>
+        <p className={styles.searched__text}>
+          Увы, ничего не нашлось ничего по запросу ''
+        </p>
 
-          <ul class="searched__card-list">
-            <li class="searched__card-item"></li>
-          </ul>
+        <ul className={styles[`searched__card-list`]}>
+          <li className={styles[`searched__card-item`]}></li>
+        </ul>
 
-          <div class="searched__button-show-more">
-            <button
-              type="button"
-              class="button button_size_m button_theme_light"
-            >
-              Показать ещё
-            </button>
-          </div>
+        <div className={styles[`searched__button-show-more`]}>
+          <Button
+            type={"button"}
+            title={"Показать больше результатов поиска"}
+            text={"Показать ещё"}
+            classes={{
+              size: "m_withtext",
+              theme: "light",
+            }}
+          />
         </div>
+      </div>
 
-        <div class="searched__big-card-slider">
-          <div class="big-card-slider">
-            <button
-              class="big-card-slider__control big-card-slider__control_close"
-              type="button"
-            ></button>
+      {/* <div className={styles[`searched__big-card-slider`]}>
+        <div className={styles[`big-card-slider`]}>
+          <button
+            class="big-card-slider__control big-card-slider__control_close"
+            type="button"
+          ></button>
 
-            <button
-              type="button"
-              class="big-card-slider__control big-card-slider__control_prev"
-            ></button>
-            <button
-              type="button"
-              class="big-card-slider__control big-card-slider__control_next"
-            ></button>
-          </div>
+          <button
+            type="button"
+            class="big-card-slider__control big-card-slider__control_prev"
+          ></button>
+          <button
+            type="button"
+            class="big-card-slider__control big-card-slider__control_next"
+          ></button>
         </div>
-      </section>
-    </>
+      </div> */}
+    </section>
   );
 }

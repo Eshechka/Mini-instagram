@@ -1,7 +1,14 @@
 import styles from "./Button.module.scss";
 import svgSprite from "../../img/spriteIcons.svg";
 
-export function Button({type, title, classes, text, icon}) {
+export function Button({
+  type = "button",
+  title = "",
+  classes = [],
+  text = "",
+  icon = "",
+  click = null,
+}) {
   return (
     <button
       type={type}
@@ -19,6 +26,7 @@ export function Button({type, title, classes, text, icon}) {
           ? styles[classes.other.join(" ")]
           : "",
       ].join(" ")}
+      onClick={click ? click : null}
     >
       {text ? <span className={styles.button__text}>{text}</span> : null}
       {icon ? (
