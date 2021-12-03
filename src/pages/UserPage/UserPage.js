@@ -34,7 +34,7 @@ export function UserPage() {
           {params: {include: "author,comments,likes"}},
           {"Content-Type": "application/json"}
         );
-        console.log("!!!response!!! ", response);
+        console.log("!!!response!!! ", response); //!!!!
       } else {
         console.log("file's not valide"); //!!!!!!! validation
       }

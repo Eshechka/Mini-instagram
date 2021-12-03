@@ -1,5 +1,5 @@
 import styles from "./SearchPage.module.scss";
-import svgSprite from "../../img/spriteIcons.svg";
+// import svgSprite from "../../img/spriteIcons.svg";
 import {Button} from "../../components/Button/Button";
 
 export function SearchPage() {

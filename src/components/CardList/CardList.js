@@ -1,9 +1,16 @@
+import {Card} from "../Card/Card";
 import styles from "./CardList.module.scss";
 
-export function CardList() {
+export function CardList({cards}) {
   return (
-    <ul className="cardlist">
-      <li className="cardlist__item"></li>
+    <ul className={styles.cardlist}>
+      {cards.map((card) => {
+        return (
+          <li className={styles.cardlist__item}>
+            <Card key={card.id} card={card} />
+          </li>
+        );
+      })}
     </ul>
   );
 }

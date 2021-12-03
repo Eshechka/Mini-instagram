@@ -3,8 +3,8 @@ $maxWidth: 1470px;
 $min-height-section-for-slider: 920px;
 $color-text: #323232;
 $color-white: #fff;
-$color-blue: #28bbf0;
-$color-blue-hover: #24b0e3;
+$color-main-bg: #dc306f;
+$color-main-bg-hover: #b63a67;
 $color-carrot: #ee4634;
 
 @mixin desktopHd() {
@@ -97,6 +97,6 @@ $color-carrot: #ee4634;
 
   &:active,
   &:focus {
-    border: 1px solid $color-blue;
+    border: 1px solid $color-main-bg;
   }
 }

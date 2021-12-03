@@ -1,19 +1,30 @@
 import {CardList} from "../../components/CardList/CardList";
 import styles from "./HomePage.module.scss";
+import React, {useEffect, useState} from "react";
+import store from "../../store/store";
 
-export function HomePage() {
+export function HomePage({setAllCards}) {
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    console.log(store.getState().cards);
+    setCards(store.getState().cards.allCards);
+  }, []);
+
   return (
     <>
-      <section className="new">
-        <div className="new__container">
-          <h2 className="new__title">Новое в мире</h2>
+      <section className={styles.new}>
+        <div className={styles.new__container}>
+          <h2 className={styles.new__title}>Новое в Instagram</h2>
 
-          <p className="new__empty-text">
-            Увы, пока ничего не загружено. Загрузите что-нибудь и станьте
-            первым.
-          </p>
+          {!cards && (
+            <p className="new__empty-text">
+              Увы, пока ничего не загружено. Загрузите что-нибудь и станьте
+              первым.
+            </p>
+          )}
 
-          <CardList />
+          {cards && <CardList cards={cards} />}
 
           {/* <div className="new__button-show-more">
             <button

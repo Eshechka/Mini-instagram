@@ -262,7 +262,7 @@
 
       &:active ~ .form-edit-header__decorelem,
       &:focus ~ .form-edit-header__decorelem {
-        border: 1px solid $color-blue;
+        border: 1px solid $color-main-bg;
         border-left: none;
       }
       @include tablets {
@@ -402,97 +402,6 @@
   &__buttons {
     background-color: #f2f2f2;
     padding: 10px;
-  }
-}
-
-.socials {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  padding: 10px;
-
-  &_no_edit {
-    padding-bottom: 0;
-    border-radius: 5px;
-    background-color: rgba($color-text, 0.2);
-  }
-
-  &__list {
-    display: flex;
-    justify-content: center;
-  }
-
-  &__item {
-    margin-right: 8px;
-    margin-left: 8px;
-
-    @include tablets {
-      margin-right: 5px;
-      margin-left: 5px;
-    }
-  }
-
-  &__link {
-    display: block;
-    font-size: 0px;
-    width: 22px;
-    height: 22px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-
-    &_active {
-      position: relative;
-      box-sizing: content-box;
-      border-bottom: 10px solid transparent;
-      margin-bottom: 0px;
-
-      &::after {
-        content: "";
-        /* z-index: 2; */
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-        border-bottom: 8px solid $color-white;
-      }
-
-      &__icon {
-        width: 22px;
-        height: 22px;
-        margin-left: -1px;
-        margin-top: -1px;
-        fill: rgba($color-white, 0.95);
-      }
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-      box-sizing: content-box;
-      border-bottom: 10px solid transparent;
-      margin-bottom: 0px;
-      /* z-index: 20; */
-      outline: none;
-
-      .socials__icon {
-        width: 22px;
-        height: 22px;
-        margin-left: -1px;
-        margin-top: -1px;
-        fill: rgba($color-white, 0.95);
-      }
-    }
-  }
-
-  &__icon {
-    width: 20px;
-    height: 20px;
-    fill: rgba($color-white, 0.8);
   }
 }
 
