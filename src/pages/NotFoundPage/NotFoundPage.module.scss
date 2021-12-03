@@ -1,0 +1,18 @@
+@import "../../styles/common.scss";
+
+.not-found {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3e3a39;
+  background-image: url("../../img/not-found.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  &__link {
+    text-decoration: none;
+    margin-top: 20%;
+  }
+}

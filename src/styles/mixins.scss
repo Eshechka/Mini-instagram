@@ -5,7 +5,7 @@ $color-text: #323232;
 $color-white: #fff;
 $color-main-bg: #dc306f;
 $color-main-bg-hover: #b63a67;
-$color-carrot: #ee4634;
+$color-second-main-bg: #f99a4a;
 
 @mixin desktopHd() {
   @media screen and (min-width: 1599.98px) {
@@ -57,7 +57,7 @@ $color-carrot: #ee4634;
   position: relative;
 
   & span {
-    color: $color-carrot;
+    color: $color-second-main-bg;
     font-size: 14px;
   }
 }

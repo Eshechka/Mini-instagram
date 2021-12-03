@@ -1,4 +1,4 @@
-@import "../../styles/mixins.scss";
+@import "../../styles/common.scss";
 
 .button {
   display: inline-flex;
@@ -297,13 +297,13 @@
     }
   }
 
-  &_theme_carrot.button {
-    background-color: $color-carrot;
+  &_theme_second_main_bg.button {
     color: $color-white;
+    background-color: $color-second-main-bg;
 
     &.disabled,
     &:disabled {
-      background-color: rgba($color-carrot, 0.8);
+      background-color: rgba($color-second-main-bg, 0.8);
       color: rgba($color-white, 0.5);
       cursor: wait;
 
@@ -323,7 +323,7 @@
     &:not(:disabled):hover,
     &:not(:disabled):active,
     &:not(:disabled):focus {
-      background-color: rgba($color-carrot, 0.8);
+      background-color: rgba($color-second-main-bg, 0.8);
     }
 
     & .button__icon {

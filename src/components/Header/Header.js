@@ -1,5 +1,7 @@
 import styles from "./Header.module.scss";
 
+import no_avatar from "../../img/no_avatar.png";
+
 import {Button} from "../Button/Button";
 import {Nav} from "../Nav/Nav";
 
@@ -33,7 +35,11 @@ export function Header() {
     <header className={styles.header}>
       <div className={styles.header__container}>
         <div className={styles.header__avatar}>
-          <img className={styles[`header__avatar-img`]} alt="avatar" />
+          <img
+            src={no_avatar}
+            className={styles[`header__avatar-img`]}
+            alt="avatar"
+          />
         </div>
         <div className={styles.header__info}>
           <h1 className={styles.header__title}>name</h1>

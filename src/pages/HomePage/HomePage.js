@@ -1,5 +1,9 @@
-import {CardList} from "../../components/CardList/CardList";
 import styles from "./HomePage.module.scss";
+
+import {Header} from "../../components/Header/Header";
+import {Footer} from "../../components/Footer/Footer";
+import {CardList} from "../../components/CardList/CardList";
+
 import React, {useEffect, useState} from "react";
 import store from "../../store/store";
 
@@ -13,20 +17,23 @@ export function HomePage({setAllCards}) {
 
   return (
     <>
-      <section className={styles.new}>
-        <div className={styles.new__container}>
-          <h2 className={styles.new__title}>Новое в Instagram</h2>
+      <Header />
 
-          {!cards && (
-            <p className="new__empty-text">
-              Увы, пока ничего не загружено. Загрузите что-нибудь и станьте
-              первым.
-            </p>
-          )}
+      <main className="maincontent">
+        <section className={styles.new}>
+          <div className={styles.new__container}>
+            <h2 className={styles.new__title}>Новое в Instagram</h2>
 
-          {cards && <CardList cards={cards} />}
+            {!cards && (
+              <p className="new__empty-text">
+                Увы, пока ничего не загружено. Загрузите что-нибудь и станьте
+                первым.
+              </p>
+            )}
 
-          {/* <div className="new__button-show-more">
+            {cards && <CardList cards={cards} />}
+
+            {/* <div className="new__button-show-more">
             <button
               type="button"
               className="button button_size_m button_theme_light"
@@ -34,9 +41,9 @@ export function HomePage({setAllCards}) {
               Показать ещё
             </button>
           </div> */}
-        </div>
+          </div>
 
-        {/* <div className="new__big-card-slider">
+          {/* <div className="new__big-card-slider">
           <div className="big-card-slider">
             <button
               className="big-card-slider__control big-card-slider__control_close"
@@ -53,7 +60,10 @@ export function HomePage({setAllCards}) {
             ></button>
           </div>
         </div> */}
-      </section>
+        </section>
+      </main>
+
+      <Footer />
     </>
   );
 }
