@@ -22,9 +22,7 @@ export function Button({
           : "",
         classes.size ? styles[`button_size_${classes.size}`] : "",
         classes.theme ? styles[`button_theme_${classes.theme}`] : "",
-        classes.other && classes.other.length
-          ? styles[classes.other.join(" ")]
-          : "",
+        classes.other && classes.other.length ? classes.other.join(" ") : "",
       ].join(" ")}
       onClick={click ? click : null}
     >

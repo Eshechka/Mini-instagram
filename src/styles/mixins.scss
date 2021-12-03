@@ -72,23 +72,29 @@ $color-carrot: #ee4634;
   @include tablets {
     width: 80%;
     max-width: 1480px;
-    // margin: 0 max(10%, (calc((100% - 1480px) / 2)));!!!!!
+    margin: 0 Max(10%, (calc((100% - 1480px) / 2)));
   }
 }
 
 @mixin fixed-popup-container() {
-  @include popup-container;
   position: fixed;
   top: 50%;
-  left: 0;
-  transform: translateY(-50%);
+  left: 50%;
+  width: 90%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+
+  @include tablets {
+    width: 80%;
+    max-width: 750px;
+  }
 }
 
 @mixin popup-input() {
   display: block;
   border: 1px solid rgb(216, 214, 214);
   background-color: $color-white;
-  min-width: 280px;
+  min-width: 240px;
   min-height: 38px;
   border-radius: 20px;
   padding: 10px 15px;
@@ -98,5 +104,9 @@ $color-carrot: #ee4634;
   &:active,
   &:focus {
     border: 1px solid $color-main-bg;
+  }
+
+  @include desktop {
+    min-width: 280px;
   }
 }

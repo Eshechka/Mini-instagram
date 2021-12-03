@@ -3,31 +3,31 @@ import styles from "./Header.module.scss";
 import {Button} from "../Button/Button";
 import {Nav} from "../Nav/Nav";
 
-import {requests as $axios} from "../../helpers/requests.js";
+// import {requests as $axios} from "../../helpers/requests.js";
 
 export function Header() {
-  const addAlbum = async (e) => {
-    const loadedCover = e.target.files[0];
+  // const addAlbum = async (e) => {
+  //   const loadedCover = e.target.files[0];
 
-    // renderer(loadedCover).then(pic => {
-    //     this.renderedCover = pic;
-    // });
+  //   // renderer(loadedCover).then(pic => {
+  //   //     this.renderedCover = pic;
+  //   // });
 
-    const formData = new FormData();
-    formData.append("preview", loadedCover);
-    formData.append("title", "defaultdefault");
-    formData.append(
-      "description",
-      "defaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefault"
-    );
-    formData.append("authorId", 32);
+  //   const formData = new FormData();
+  //   formData.append("preview", loadedCover);
+  //   formData.append("title", "defaultdefault");
+  //   formData.append(
+  //     "description",
+  //     "defaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefault"
+  //   );
+  //   formData.append("authorId", 32);
 
-    const {data} = await $axios.post("/v1/albums", formData, {
-      headers: {"Content-Type": "multipart/form-data"},
-    });
+  //   const {data} = await $axios.post("/v1/albums", formData, {
+  //     headers: {"Content-Type": "multipart/form-data"},
+  //   });
 
-    console.log("data.album: ", data.album);
-  };
+  //   console.log("data.album: ", data.album);
+  // };
 
   return (
     <header className={styles.header}>

@@ -1,5 +1,5 @@
 // import logo from "./logo.svg";
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 
 import {UserPage} from "./pages/UserPage/UserPage";
 import {SearchPage} from "./pages/SearchPage/SearchPage";
