@@ -164,7 +164,7 @@ export function UserPage() {
                                   classes={{
                                     icon: "",
                                     size: "s",
-                                    theme: "carrot",
+                                    theme: "second_main_bg",
                                   }}
                                   icon={"close"}
                                 />

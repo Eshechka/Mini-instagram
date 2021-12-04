@@ -11,6 +11,7 @@
   color: $color-white;
   border-radius: 30px;
   position: relative;
+  transition: transform 80ms ease-in;
 
   &:not(:disabled):hover,
   &:not(:disabled):active,

@@ -45,18 +45,18 @@
     z-index: 9;
   }
 
-  // &__button-home {
-  //   position: absolute;
-  //   top: 20px;
-  //   left: 0;
-  //   z-index: 9;
+  &__button-auth {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    z-index: 9;
 
-  //   @include tablets {
-  //     top: 70px;
-  //     right: 0;
-  //     left: unset;
-  //   }
-  // }
+    @include tablets {
+      top: 20px;
+      right: 0;
+      left: unset;
+    }
+  }
 
   &__avatar {
     width: 50px;

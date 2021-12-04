@@ -4,6 +4,7 @@ import no_avatar from "../../img/no_avatar.png";
 
 import {Button} from "../Button/Button";
 import {Nav} from "../Nav/Nav";
+import {Link} from "react-router-dom";
 
 // import {requests as $axios} from "../../helpers/requests.js";
 
@@ -46,7 +47,21 @@ export function Header() {
 
           <div className={styles.header__text}>description</div>
         </div>
-
+        <Link to={`/auth`}>
+          <div className={styles[`header__button-auth`]}>
+            <Button
+              type={"button"}
+              title={"На страницу логин / регистрация"}
+              text={"Логин и регистрация"}
+              classes={{
+                icon: "space",
+                size: "changing_withtext",
+                theme: "color_changing",
+              }}
+              icon={"user"}
+            />
+          </div>
+        </Link>
         <div className={styles[`header__button-logout`]}>
           <Button
             type={"button"}
