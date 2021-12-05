@@ -1,80 +1,101 @@
-import styles from "./Header.module.scss";
+import {connect} from "react-redux";
+import * as actionsUsers from "../../store/users.actions.js";
+// import * as actionsCards from "../../store/cards.actions.js";
+
+import {Link} from "react-router-dom";
+import {Button} from "../Button/Button";
+import {Nav} from "../Nav/Nav";
+
+import {
+  // requests as $axios,
+  urlPhotos,
+  urlAvatars,
+  // tokenForAllPhotos,
+} from "../../helpers/requests.js";
 
 import no_avatar from "../../img/no_avatar.png";
 
-import {Button} from "../Button/Button";
-import {Nav} from "../Nav/Nav";
-import {Link} from "react-router-dom";
+import styles from "./Header.module.scss";
 
-// import {requests as $axios} from "../../helpers/requests.js";
-
-export function Header() {
-  // const addAlbum = async (e) => {
-  //   const loadedCover = e.target.files[0];
-
-  //   // renderer(loadedCover).then(pic => {
-  //   //     this.renderedCover = pic;
-  //   // });
-
-  //   const formData = new FormData();
-  //   formData.append("preview", loadedCover);
-  //   formData.append("title", "defaultdefault");
-  //   formData.append(
-  //     "description",
-  //     "defaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefault"
-  //   );
-  //   formData.append("authorId", 32);
-
-  //   const {data} = await $axios.post("/v1/albums", formData, {
-  //     headers: {"Content-Type": "multipart/form-data"},
-  //   });
-
-  //   console.log("data.album: ", data.album);
+export function Header({currentUser, removeCurrentUser}) {
+  // const handleLogout = () => {
+  //   localStorage.removeItem("mini-inst-user");
+  //   removeCurrentUser();
+  //   $axios.defaults.headers["Authorization"] = tokenForAllPhotos;
   // };
+  //какой из этих вариантов делать??????????
+  const handleLogout = () => {
+    removeCurrentUser();
+  };
 
   return (
-    <header className={styles.header}>
+    <header
+      className={[
+        styles.header,
+        styles[`${!currentUser?.id ? "header_view_logout" : ""}`],
+      ].join(" ")}
+      style={
+        currentUser?.cover
+          ? {
+              backgroundImage: `url(${urlPhotos}/${currentUser?.cover})`,
+            }
+          : null
+      }
+    >
       <div className={styles.header__container}>
-        <div className={styles.header__avatar}>
-          <img
-            src={no_avatar}
-            className={styles[`header__avatar-img`]}
-            alt="avatar"
-          />
-        </div>
-        <div className={styles.header__info}>
-          <h1 className={styles.header__title}>name</h1>
+        {currentUser?.id && (
+          <div className={styles.header__avatar}>
+            <img
+              src={
+                currentUser?.avatar
+                  ? `${urlAvatars}/${currentUser.avatar}`
+                  : no_avatar
+              }
+              className={styles[`header__avatar-img`]}
+              alt="avatar"
+            />
+          </div>
+        )}
+        {currentUser?.id && (
+          <div className={styles.header__info}>
+            <div className={styles.header__title}>{currentUser.name}</div>
 
-          <div className={styles.header__text}>description</div>
-        </div>
-        <Link to={`/auth`}>
-          <div className={styles[`header__button-auth`]}>
+            <div className={styles.header__text}>{currentUser.description}</div>
+          </div>
+        )}
+        {(!currentUser || !currentUser.id) && (
+          <Link to={`/auth`}>
+            <div className={styles[`header__button-auth`]}>
+              <Button
+                type={"button"}
+                title={"На страницу логин / регистрация"}
+                text={"Логин и регистрация"}
+                classes={{
+                  icon: "space",
+                  size: "changing_withtext",
+                  theme: "color_changing",
+                }}
+                icon={"user"}
+              />
+            </div>
+          </Link>
+        )}
+        {currentUser?.id && (
+          <div className={styles[`header__button-logout`]}>
             <Button
               type={"button"}
-              title={"На страницу логин / регистрация"}
-              text={"Логин и регистрация"}
+              title={"Выйти из своего аккаунта"}
+              text={"Выйти"}
               classes={{
                 icon: "space",
                 size: "changing_withtext",
                 theme: "color_changing",
               }}
-              icon={"user"}
+              icon={"logout"}
+              click={handleLogout}
             />
           </div>
-        </Link>
-        <div className={styles[`header__button-logout`]}>
-          <Button
-            type={"button"}
-            title={"Выйти из своего аккаунта"}
-            text={"Выйти"}
-            classes={{
-              icon: "space",
-              size: "changing_withtext",
-              theme: "color_changing",
-            }}
-            icon={"logout"}
-          />
-        </div>
+        )}
       </div>
 
       <Nav />
@@ -229,3 +250,16 @@ export function Header() {
     </header>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.users.currentUser,
+  };
+};
+
+const mapDispatchToProps = {
+  removeCurrentUser: (userId) => actionsUsers.removeCurrentUser(userId),
+  // removeAllCards: () => actionsCards.removeAllCards(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

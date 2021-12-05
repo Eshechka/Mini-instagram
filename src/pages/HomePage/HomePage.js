@@ -1,18 +1,43 @@
-import styles from "./HomePage.module.scss";
+import {connect} from "react-redux";
+import * as cardsActions from "../../store/cards.actions.js";
 
-import {Header} from "../../components/Header/Header";
-import {Footer} from "../../components/Footer/Footer";
+import React, {useEffect} from "react";
+import {requests as $axios, tokenForAllPhotos} from "../../helpers/requests";
+
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import {CardList} from "../../components/CardList/CardList";
 
-import React, {useEffect, useState} from "react";
-import store from "../../store/store";
+import styles from "./HomePage.module.scss";
 
-export function HomePage({setAllCards}) {
-  const [cards, setCards] = useState([]);
-
+function HomePage({setAllCards, allCards}) {
   useEffect(() => {
-    console.log(store.getState().cards);
-    setCards(store.getState().cards.allCards);
+    async function getAllCards() {
+      let token = tokenForAllPhotos;
+      const miniInstUser = JSON.parse(localStorage.getItem("mini-inst-user"));
+
+      if (miniInstUser && miniInstUser.token) {
+        token = miniInstUser.token;
+      }
+
+      $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+
+      const {data} = await $axios.get(
+        `/v1/photos`,
+        {
+          params: {
+            sort: "createdAt:desc",
+            limit: 20,
+          },
+        },
+        {"Content-Type": "application/json"}
+      );
+
+      if (data.cards) {
+        setAllCards(data.cards);
+      }
+    }
+    getAllCards();
   }, []);
 
   return (
@@ -24,14 +49,15 @@ export function HomePage({setAllCards}) {
           <div className={styles.new__container}>
             <h2 className={styles.new__title}>Новое в Instagram</h2>
 
-            {!cards && (
-              <p className="new__empty-text">
-                Увы, пока ничего не загружено. Загрузите что-нибудь и станьте
-                первым.
-              </p>
-            )}
+            {!allCards ||
+              (!allCards.length && (
+                <p className="new__empty-text">
+                  Увы, пока ничего не загружено. Загрузите что-нибудь и станьте
+                  первым.
+                </p>
+              ))}
 
-            {cards && <CardList cards={cards} />}
+            {allCards && <CardList cards={allCards} />}
 
             {/* <div className="new__button-show-more">
             <button
@@ -67,3 +93,14 @@ export function HomePage({setAllCards}) {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    allCards: state.cards.allCards,
+  };
+};
+const mapDispatchToProps = {
+  setAllCards: cardsActions.setAllCards,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

@@ -2,8 +2,8 @@ import styles from "./UserPage.module.scss";
 
 import {Button} from "../../components/Button/Button";
 import {CardList} from "../../components/CardList/CardList";
-import {Header} from "../../components/Header/Header";
-import {Footer} from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import {Overlay} from "../../components/Overlay/Overlay";
 
 import {useState, useEffect} from "react";
@@ -19,7 +19,7 @@ export function UserPage() {
   const [renderedPhoto, setRenderedPhoto] = useState({pic: ""});
   const [loadedPhoto, setLoadedPhoto] = useState({});
   const [titleBtnAddPhoto, setTitleBtnAddPhoto] = useState(
-    "Добавьте фотграфию размером не более 2Мб"
+    "Добавьте фотографию размером не более 2Мб"
   );
 
   const [cards, setCards] = useState([]);

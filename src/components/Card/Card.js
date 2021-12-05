@@ -1,9 +1,8 @@
-import {baseStorageUrl} from "../../helpers/requests";
 import svgSprite from "../../img/spriteIcons.svg";
 
 import styles from "./Card.module.scss";
 
-const urlPhotos = baseStorageUrl + "/photos";
+import {urlPhotos} from "../../helpers/requests";
 
 export function Card({card}) {
   return (

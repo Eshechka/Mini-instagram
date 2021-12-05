@@ -1,7 +1,7 @@
 import styles from "./SearchPage.module.scss";
 
-import {Header} from "../../components/Header/Header";
-import {Footer} from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import {Button} from "../../components/Button/Button";
 
 export function SearchPage() {

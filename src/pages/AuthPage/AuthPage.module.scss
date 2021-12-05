@@ -71,10 +71,6 @@
     width: 50%;
     z-index: 100;
   }
-
-  &__btn {
-    margin-top: 20px;
-  }
 }
 
 .container--signin {
@@ -134,23 +130,26 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 3rem;
+  padding: 20px;
   height: 100%;
   text-align: center;
 
   &__title {
-    font-weight: 300;
+    font-family: "Panton-Bold";
+    font-size: 21px;
+    line-height: 21px;
     margin: 0;
-    margin-bottom: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  &__btn {
+    margin-top: 20px;
   }
 }
 
 .input {
-  background-color: #fff;
-  border: none;
-  padding: 0.9rem 0.9rem;
-  margin: 0.5rem 0;
-  width: 100%;
+  @include popup-input;
+  margin: 10px 0;
 }
 
 @keyframes show {

@@ -39,7 +39,7 @@ export function Nav() {
             {/* //!!!!!!!хардкод */}
             <Button
               type={"button"}
-              title={"Перейти на главную"}
+              title={"Перейти на свою страницу"}
               classes={{
                 size: "m",
                 theme: "transparent",

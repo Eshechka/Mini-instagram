@@ -1,14 +1,73 @@
 import styles from "./AuthPage.module.scss";
 
-import {Footer} from "../../components/Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import {Button} from "../../components/Button/Button";
 
 import {useRef} from "react";
 
-import store from "../../store/store";
+import {requests as $axios} from "../../helpers/requests";
 
-export function AuthPage() {
+export function AuthPage({currentUser, setCurrentUser}) {
   const container = useRef(null);
+
+  const handleSignIn = async () => {
+    const user = {
+      //хардкод!!!!!!!
+      email: "some@some.ru",
+      password: "gfhjkm",
+    };
+    const {data} = await $axios.post("/login", user);
+    const dataUser = data;
+
+    if (dataUser.access_token && dataUser.user) {
+      setCurrentUser(dataUser.user);
+
+      $axios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${dataUser.access_token}`;
+
+      const {data} = await $axios.get(
+        `/v1/albums?where=author.id:eq:${dataUser.user.id}`
+      );
+      console.log("dataDefaultAlbum", data);
+      if (
+        //как написать это нормально??????????
+        data &&
+        data.albums &&
+        data.albums[0] &&
+        data.albums[0].id
+      ) {
+        localStorage.setItem(
+          "mini-inst-user",
+          JSON.stringify({
+            id: dataUser.user.id,
+            token: dataUser.access_token,
+            idDefaultAlbum: data.albums[0].id,
+          })
+        );
+      } else {
+        console.warn(`У юзера id=${data.user.id} нет дефолтного альбома`);
+      }
+    }
+  };
+
+  //при регистрации надо будет добавить новый дефолтный альбом
+  // const addAlbum = async (e) => {
+  //   const loadedCover = e.target.files[0];
+
+  //   const formData = new FormData();
+  //   formData.append("preview", loadedCover);
+  //   formData.append("title", "defaultdefault");
+  //   formData.append(
+  //     "description",
+  //     "defaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefault"
+  //   );
+  //   formData.append("authorId", 32);
+
+  // const {data} = await $axios.post("/v1/albums", formData, {
+  //   headers: {"Content-Type": "multipart/form-data"},
+  // });
+  // };
 
   return (
     <>
@@ -21,7 +80,6 @@ export function AuthPage() {
               styles[`right-panel-active`],
             ].join(" ")}
           >
-            {/* <!-- Sign Up --> */}
             <div
               className={[styles.auth__form, styles[`container--signup`]].join(
                 " "
@@ -44,19 +102,25 @@ export function AuthPage() {
                   placeholder="Password"
                   className={styles.input}
                 />
-                <Button
-                  type={"button"}
-                  title={"Sign Up"}
-                  text={"Sign Up"}
-                  classes={{
-                    size: "m_withtext",
-                    theme: "base",
-                  }}
-                />
+                <div
+                  className={[
+                    styles[`auth-form__btn`],
+                    styles[`auth-form__btn_signin`],
+                  ].join(" ")}
+                >
+                  <Button
+                    type={"button"}
+                    title={"Sign Up"}
+                    text={"Sign Up"}
+                    classes={{
+                      size: "m_withtext",
+                      theme: "base",
+                    }}
+                  />
+                </div>
               </form>
             </div>
 
-            {/* <!-- Sign In --> */}
             <div
               className={[styles.auth__form, styles[`container--signin`]].join(
                 " "
@@ -74,19 +138,26 @@ export function AuthPage() {
                   placeholder="Password"
                   className={styles.input}
                 />
-                <Button
-                  type={"button"}
-                  title={"Sign In"}
-                  text={"Sign In"}
-                  classes={{
-                    size: "m_withtext",
-                    theme: "base",
-                  }}
-                />
+                <div
+                  className={[
+                    styles[`auth-form__btn`],
+                    styles[`auth-form__btn_signin`],
+                  ].join(" ")}
+                >
+                  <Button
+                    type={"button"}
+                    title={"Sign In"}
+                    text={"Sign In"}
+                    classes={{
+                      size: "m_withtext",
+                      theme: "base",
+                    }}
+                    click={handleSignIn}
+                  />
+                </div>
               </form>
             </div>
 
-            {/* <!-- Overlay --> */}
             <div className={styles.auth__overlay}>
               <div className={styles.overlay}>
                 <div
@@ -95,27 +166,20 @@ export function AuthPage() {
                     styles[`overlay--left`],
                   ].join(" ")}
                 >
-                  <div
-                    className={[
-                      styles[`auth__btn`],
-                      styles[`auth__btn_signin`],
-                    ].join(" ")}
-                  >
-                    <Button
-                      type={"button"}
-                      title={"TO Sign In"}
-                      text={"Sign In"}
-                      classes={{
-                        size: "m_withtext",
-                        theme: "base",
-                      }}
-                      click={() => {
-                        container.current.classList.remove(
-                          styles[`right-panel-active`]
-                        );
-                      }}
-                    />
-                  </div>
+                  <Button
+                    type={"button"}
+                    title={"TO Sign In"}
+                    text={"Sign In"}
+                    classes={{
+                      size: "m_withtext",
+                      theme: "base",
+                    }}
+                    click={() => {
+                      container.current.classList.remove(
+                        styles[`right-panel-active`]
+                      );
+                    }}
+                  />
                 </div>
                 <div
                   className={[
@@ -123,27 +187,20 @@ export function AuthPage() {
                     styles[`overlay--right`],
                   ].join(" ")}
                 >
-                  <div
-                    className={[
-                      styles[`auth__btn`],
-                      styles[`auth__btn_signup`],
-                    ].join(" ")}
-                  >
-                    <Button
-                      type={"button"}
-                      title={"TO Sign Up"}
-                      text={"Sign Up"}
-                      classes={{
-                        size: "m_withtext",
-                        theme: "base",
-                      }}
-                      click={() => {
-                        container.current.classList.add(
-                          styles[`right-panel-active`]
-                        );
-                      }}
-                    />
-                  </div>
+                  <Button
+                    type={"button"}
+                    title={"TO Sign Up"}
+                    text={"Sign Up"}
+                    classes={{
+                      size: "m_withtext",
+                      theme: "base",
+                    }}
+                    click={() => {
+                      container.current.classList.add(
+                        styles[`right-panel-active`]
+                      );
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -151,7 +208,7 @@ export function AuthPage() {
         </div>
       </main>
 
-      <Footer />
+      <Footer view={"view_logout"} />
     </>
   );
 }
