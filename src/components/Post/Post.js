@@ -4,9 +4,9 @@ import styles from "./Post.module.scss";
 
 import {urlPhotos} from "../../helpers/requests";
 
-export function Post({post}) {
+export function Post({post, ndx, click = Function.prototype}) {
   return (
-    <div className={styles.post}>
+    <div className={styles.post} onClick={() => click(ndx)}>
       <div className={styles[`post__img-post`]}>
         <img
           className={styles.post__img}

@@ -156,6 +156,20 @@
       padding-left: 30px;
     }
   }
+  &_icon_sign {
+    & .button__icon {
+      height: 20px;
+      width: 20px;
+    }
+    &.active .button__icon {
+      height: 22px;
+      height: 22px;
+    }
+    &:active,
+    &:focus {
+      outline: none;
+    }
+  }
   &_icon_space {
     position: relative;
 
@@ -390,9 +404,10 @@
     color: rgba($color-text, 0.2);
     background-color: transparent;
 
-    &__icon {
-      fill: rgba($color-text, 0.2);
-      height: 20px;
+    & .button__icon {
+      fill: rgba($color-second-main-bg, 0.9);
+      height: 22px;
+      width: 22px;
     }
 
     &:disabled {
@@ -403,12 +418,47 @@
     &:not(:disabled):active,
     &:not(:disabled):focus {
       background-color: transparent;
-      color: rgba($color-text, 0.8);
+      color: rgba($color-second-main-bg, 0.8);
+
+      & .button__icon {
+        fill: rgba($color-second-main-bg, 0.99);
+        height: 24px;
+        width: 24px;
+      }
+    }
+  }
+
+  &_theme_signs.button {
+    background-color: transparent;
+
+    &:disabled,
+    &.disabled {
+      background-color: transparent;
 
       & .button__icon {
         fill: rgba($color-text, 0.8);
-        height: 20px;
+        stroke: rgba($color-text, 0.99);
       }
+    }
+    &:not(:disabled):hover,
+    &:not(:disabled):active,
+    &:not(:disabled):focus {
+      background-color: transparent;
+
+      & .button__icon {
+        stroke-width: 3px;
+      }
+    }
+
+    & .button__icon {
+      fill: rgba($color-white, 0.8);
+      stroke-width: 2px;
+      stroke: rgba($color-main-bg, 0.99);
+    }
+    &.active .button__icon {
+      fill: rgba($color-main-bg, 0.99);
+      stroke-width: 2px;
+      stroke: rgba($color-main-bg, 0.9);
     }
   }
 }

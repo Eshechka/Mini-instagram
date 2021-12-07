@@ -42,8 +42,9 @@
     @include fixed-popup-container;
   }
 
-  &__big-card-slider {
+  &__big-post-slider {
     @include popup-container;
+    position: fixed;
     top: 0;
     width: 100%;
     margin: 0;

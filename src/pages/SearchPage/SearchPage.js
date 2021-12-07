@@ -21,8 +21,8 @@ export function SearchPage() {
               Увы, ничего не нашлось ничего по запросу ''
             </p>
 
-            <ul className={styles[`searched__post-list`]}>
-              <li className={styles[`searched__post-item`]}></li>
+            <ul className={styles[`searched__posts-list`]}>
+              <li className={styles[`searched__posts-item`]}></li>
             </ul>
 
             <div className={styles[`searched__button-show-more`]}>
@@ -38,20 +38,20 @@ export function SearchPage() {
             </div>
           </div>
 
-          {/* <div className={styles[`searched__big-card-slider`]}>
-        <div className={styles[`big-card-slider`]}>
+          {/* <div className={styles[`searched__big-post-slider`]}>
+        <div className={styles[`big-post-slider`]}>
           <button
-            class="big-card-slider__control big-card-slider__control_close"
+            class="big-post-slider__control big-post-slider__control_close"
             type="button"
           ></button>
 
           <button
             type="button"
-            class="big-card-slider__control big-card-slider__control_prev"
+            class="big-post-slider__control big-post-slider__control_prev"
           ></button>
           <button
             type="button"
-            class="big-card-slider__control big-card-slider__control_next"
+            class="big-post-slider__control big-post-slider__control_next"
           ></button>
         </div>
       </div> */}

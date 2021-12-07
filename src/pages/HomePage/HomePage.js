@@ -1,16 +1,22 @@
 import {connect} from "react-redux";
 import * as postsActions from "../../store/posts.actions.js";
 
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {requests as $axios, tokenForAllPosts} from "../../helpers/requests";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import {PostsList} from "../../components/PostsList/PostsList";
+import {Overlay} from "../../components/Overlay/Overlay.js";
+import BigPostSlider from "../../components/BigPostSlider/BigPostSlider.js";
 
 import styles from "./HomePage.module.scss";
 
 function HomePage({setAllPosts, allPosts, currentUser}) {
+  const [initialSlide, setInitialSlide] = useState(0);
+
+  const [openBigPost, setOpenBigPost] = useState(false);
+
   useEffect(() => {
     async function getAllPosts() {
       let token =
@@ -28,6 +34,7 @@ function HomePage({setAllPosts, allPosts, currentUser}) {
         `/v1/photos`,
         {
           params: {
+            include: "author,comments,likes",
             sort: "createdAt:desc",
             limit: 20,
           },
@@ -41,6 +48,11 @@ function HomePage({setAllPosts, allPosts, currentUser}) {
     }
     getAllPosts();
   }, []);
+
+  function openBigPostSlider(slideNum) {
+    setInitialSlide(slideNum);
+    setOpenBigPost(true);
+  }
 
   return (
     <>
@@ -59,35 +71,25 @@ function HomePage({setAllPosts, allPosts, currentUser}) {
                 </p>
               ))}
 
-            {allPosts && <PostsList posts={allPosts} />}
-
-            {/* <div className="new__button-show-more">
-            <button
-              type="button"
-              className="button button_size_m button_theme_light"
-            >
-              Показать ещё
-            </button>
-          </div> */}
+            {allPosts && (
+              <PostsList click={openBigPostSlider} posts={allPosts} />
+            )}
           </div>
 
-          {/* <div className="new__big-card-slider">
-          <div className="big-card-slider">
-            <button
-              className="big-card-slider__control big-card-slider__control_close"
-              type="button"
-            ></button>
-
-            <button
-              type="button"
-              className="big-card-slider__control big-card-slider__control_prev"
-            ></button>
-            <button
-              type="button"
-              className="big-card-slider__control big-card-slider__control_next"
-            ></button>
-          </div>
-        </div> */}
+          {openBigPost ? <Overlay click={() => setOpenBigPost(false)} /> : null}
+          {openBigPost ? (
+            <div className={styles[`new__big-post-slider`]}>
+              <BigPostSlider
+                posts={allPosts}
+                clickClose={() => {
+                  setOpenBigPost(false);
+                }}
+                effectSlides="flip"
+                initialSlide={initialSlide}
+                idSlider={"allPostsSwiper"}
+              />
+            </div>
+          ) : null}
         </section>
       </main>
 

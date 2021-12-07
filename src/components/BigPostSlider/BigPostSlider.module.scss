@@ -1,0 +1,100 @@
+@import "../../styles/common.scss";
+
+.big-post-slider {
+  @include popup;
+  overflow: unset;
+  background-color: transparent;
+  position: relative;
+
+  &__control {
+    position: absolute;
+    display: none;
+    z-index: 15;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 15px;
+    height: 30px;
+    width: 20px;
+    &:hover,
+    &:active,
+    &:focus {
+      outline: none;
+    }
+
+    &_close {
+      display: block;
+      width: 40px;
+      height: 40px;
+      background-image: svg-load("close.svg", fill=rgba(#f0f0ec, 0.99));
+      background-size: 30px;
+      top: 0px;
+      right: 0;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-size: 34px;
+      }
+    }
+
+    @include tablets {
+      display: block;
+      &:hover,
+      &:active,
+      &:focus {
+        background-size: 16px;
+      }
+
+      &_prev {
+        height: 480px;
+        top: calc((520px - 480px) / 2);
+        /* top: calc(520px / 2); */
+
+        left: -25px;
+        background-image: svg-load("arrow_left.svg", fill=rgba(#a0a09f, 0.99));
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-image: svg-load(
+            "arrow_left.svg",
+            fill=rgba($color-white, 0.9)
+          );
+        }
+      }
+      &_next {
+        height: 480px;
+        top: calc((520px - 480px) / 2);
+        /* top: calc(520px / 2); */
+
+        right: -25px;
+        background-image: svg-load("arrow_left.svg", fill=rgba(#a0a09f, 0.99));
+        transform: rotate(180deg);
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-image: svg-load(
+            "arrow_left.svg",
+            fill=rgba($color-white, 0.9)
+          );
+        }
+      }
+      &_close {
+        width: 40px;
+        height: 40px;
+        background-size: 20px;
+        background-image: svg-load("close.svg", fill=rgba(#a0a09f, 0.99));
+        right: -36px;
+        top: -36px;
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-size: 24px;
+          background-image: svg-load("close.svg", fill=rgba($color-white, 0.9));
+        }
+      }
+    }
+  }
+}

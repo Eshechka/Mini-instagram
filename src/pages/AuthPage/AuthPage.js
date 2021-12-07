@@ -99,13 +99,7 @@ function AuthPage({currentUser, setCurrentUser}) {
       const {data} = await $axios.get(
         `/v1/albums?where=author.id:eq:${dataUser.user.id}`
       );
-      if (
-        //как написать это нормально??????????
-        data &&
-        data.albums &&
-        data.albums[0] &&
-        data.albums[0].id
-      ) {
+      if (data && data.albums.length) {
         localStorage.setItem(
           "mini-inst-user",
           JSON.stringify({
@@ -117,7 +111,9 @@ function AuthPage({currentUser, setCurrentUser}) {
 
         navigate("/");
       } else {
-        console.warn(`У юзера id=${data.user.id} нет дефолтного альбома`);
+        console.warn(
+          `Нет данных о юзере или у юзера id=${data.user.id} нет дефолтного альбома`
+        );
       }
     } else {
       console.warn(`Ошибка при логине юзера: нет токена и/или юзера в ответе`);

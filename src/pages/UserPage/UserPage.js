@@ -1,4 +1,5 @@
 import {connect} from "react-redux";
+
 import * as postsActions from "../../store/posts.actions.js";
 
 import {requests as $axios} from "../../helpers/requests";
@@ -8,6 +9,7 @@ import {PostsList} from "../../components/PostsList/PostsList";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import {Overlay} from "../../components/Overlay/Overlay";
+import BigPostSlider from "../../components/BigPostSlider/BigPostSlider.js";
 
 import {useState, useEffect} from "react";
 
@@ -20,8 +22,11 @@ import styles from "./UserPage.module.scss";
 export function UserPage({setUserPosts, userPosts, currentUser}) {
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");
+  const [initialSlide, setInitialSlide] = useState(0);
 
   const [openAddPost, setOpenAddPost] = useState(false);
+  const [openBigPost, setOpenBigPost] = useState(false);
+
   const [isPhotoValid, setIsPhotoValid] = useState(false);
   const [renderedPhoto, setRenderedPhoto] = useState({pic: ""});
   const [loadedPhoto, setLoadedPhoto] = useState({});
@@ -57,6 +62,7 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
           `/v1/photos`,
           {
             params: {
+              include: "author,comments,likes",
               where: `albumId:eq:${idDefaultAlbumUser}`,
               sort: "createdAt:desc",
             },
@@ -73,6 +79,11 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
     }
     getUserPosts();
   }, []);
+
+  function openBigPostSlider(slideNum) {
+    setInitialSlide(slideNum);
+    setOpenBigPost(true);
+  }
 
   function clearAddPostForm() {
     setOpenAddPost(false);
@@ -168,14 +179,20 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
                 />
               </div>
             </div>
-
-            {userPosts && <PostsList posts={userPosts} view={"alternative"} />}
+            {userPosts && (
+              <PostsList
+                posts={userPosts}
+                click={openBigPostSlider}
+                view={"alternative"}
+              />
+            )}
           </div>
 
-          {openAddPost ? <Overlay /> : null}
+          {openAddPost ? <Overlay click={() => setOpenAddPost(false)} /> : null}
           {openAddPost ? (
             <div className={styles[`my-posts__add-post`]}>
               <div className={styles[`add-post`]}>
+                {/*//?????????? Надо ли это выделять в компонент */}
                 <div className={styles[`add-post__card`]}>
                   <div className={styles[`add-post__topgroup`]}>
                     <h2 className={styles[`add-post__title">`]}>
@@ -334,25 +351,21 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
               </div>
             </div>
           ) : null}
-          {/* 
-        <div className={styles[`my-posts__big-card-slider`]}>
-          <div className={styles[`big-card-slider`]}>
-            <button
-              title="Закрыть слайдер"
-              className="big-card-slider__control big-card-slider__control_close"
-              type="button"
-            ></button>
 
-            <button
-              type="button"
-              className="big-card-slider__control big-card-slider__control_prev"
-            ></button>
-            <button
-              type="button"
-              className="big-card-slider__control big-card-slider__control_next"
-            ></button>
-          </div>
-        </div> */}
+          {openBigPost ? <Overlay click={() => setOpenBigPost(false)} /> : null}
+          {openBigPost ? (
+            <div className={styles[`my-posts__big-post-slider`]}>
+              <BigPostSlider
+                posts={userPosts}
+                clickClose={() => {
+                  setOpenBigPost(false);
+                }}
+                initialSlide={initialSlide}
+                effectSlides="cube"
+                idSlider={"usersPostsSwiper"}
+              />
+            </div>
+          ) : null}
         </section>
       </main>
 

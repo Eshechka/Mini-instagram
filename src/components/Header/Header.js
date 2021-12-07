@@ -7,8 +7,8 @@ import {Button} from "../Button/Button";
 import Nav from "../Nav/Nav";
 
 import {
-  // requests as $axios,
-  // tokenForAllPosts,
+  requests as $axios,
+  tokenForAllPosts,
   urlPhotos,
   urlAvatars,
 } from "../../helpers/requests.js";
@@ -18,15 +18,11 @@ import no_avatar from "../../img/no_avatar.png";
 import styles from "./Header.module.scss";
 
 function Header({currentUser, removeCurrentUser, removeUserPosts}) {
-  // const handleLogout = () => {
-  //   localStorage.removeItem("mini-inst-user");
-  //   removeCurrentUser();
-  //   $axios.defaults.headers["Authorization"] = tokenForAllPosts;
-  // };
-  //какой из этих вариантов делать??????????
   const handleLogout = () => {
+    localStorage.removeItem("mini-inst-user");
     removeCurrentUser();
     removeUserPosts();
+    $axios.defaults.headers["Authorization"] = tokenForAllPosts;
   };
 
   return (
