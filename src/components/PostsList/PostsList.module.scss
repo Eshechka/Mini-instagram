@@ -1,6 +1,6 @@
 @import "../../styles/mixins.scss";
 
-.cardlist {
+.postslist {
   @include tablets {
     display: flex;
     flex-wrap: wrap;

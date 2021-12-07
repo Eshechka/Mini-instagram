@@ -1,6 +1,6 @@
 @import "../../styles/common.scss";
 
-.my-photos {
+.my-posts {
   min-width: 320px;
   padding: 30px 0;
   background: $color-white;
@@ -38,18 +38,8 @@
     z-index: 9;
   }
 
-  &__add-photo {
+  &__add-post {
     @include fixed-popup-container;
-  }
-
-  &__edit-photo {
-    @include fixed-popup-container;
-    z-index: 12;
-    overflow: hidden;
-    @include tablets {
-      width: 70%;
-      margin: 0 Max(15%, calc((100% - 1480px) / 2));
-    }
   }
 
   &__big-card-slider {
@@ -64,7 +54,7 @@
   }
 }
 
-.add-photo {
+.add-post {
   @include popup;
 
   &__card {
@@ -88,7 +78,7 @@
   }
 }
 
-.form-addPhoto {
+.form-addPost {
   display: flex;
   flex-direction: column;
   background-color: $color-white;
@@ -109,11 +99,11 @@
       min-height: 300px;
     }
 
-    &:hover .form-addPhoto__load-photo-text-button {
+    &:hover .form-addPost__load-photo-text-button {
       background-color: $color-main-bg;
       color: $color-white;
     }
-    &:hover .form-addPhoto__load-photo-text {
+    &:hover .form-addPost__load-photo-text {
       @include tablets {
         color: $color-main-bg-hover;
       }
@@ -186,7 +176,7 @@
     }
   }
 
-  &__edit-photo-fields {
+  &__edit-post-fields {
   }
 
   &__load-photo-img {

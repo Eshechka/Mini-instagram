@@ -21,8 +21,8 @@ export function SearchPage() {
               Увы, ничего не нашлось ничего по запросу ''
             </p>
 
-            <ul className={styles[`searched__card-list`]}>
-              <li className={styles[`searched__card-item`]}></li>
+            <ul className={styles[`searched__post-list`]}>
+              <li className={styles[`searched__post-item`]}></li>
             </ul>
 
             <div className={styles[`searched__button-show-more`]}>

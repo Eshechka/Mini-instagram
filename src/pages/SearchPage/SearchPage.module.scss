@@ -53,14 +53,14 @@
     padding: 10px;
   }
 
-  &__card-list {
+  &__posts-list {
     @include tablets {
       display: flex;
       flex-wrap: wrap;
     }
   }
 
-  &__card-item {
+  &__posts-item {
     margin-bottom: 10px;
 
     @include tablets {

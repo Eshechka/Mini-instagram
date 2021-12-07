@@ -1,9 +1,9 @@
 import {combineReducers, createStore} from "redux";
-import cardsReducer from "./reducers/cardsReducer";
+import postsReducer from "./reducers/postsReducer";
 import usersReducer from "./reducers/usersReducer";
 
 let appReducer = combineReducers({
-  cards: cardsReducer,
+  posts: postsReducer,
   users: usersReducer,
 });
 let store = createStore(

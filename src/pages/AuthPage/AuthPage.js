@@ -83,9 +83,8 @@ function AuthPage({currentUser, setCurrentUser}) {
   };
   const handleSignIn = async () => {
     const user = {
-      //хардкод!!!!!!!
-      email: "some@some.ru",
-      password: "gfhjkm",
+      email: loginEmail,
+      password: loginPassword,
     };
     const {data} = await $axios.post("/login", user);
     const dataUser = data;

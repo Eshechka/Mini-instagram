@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import * as actionsUsers from "../../store/users.actions.js";
-import * as actionsCards from "../../store/cards.actions.js";
+import * as actionsPosts from "../../store/posts.actions.js";
 
 import {Link} from "react-router-dom";
 import {Button} from "../Button/Button";
@@ -8,7 +8,7 @@ import Nav from "../Nav/Nav";
 
 import {
   // requests as $axios,
-  // tokenForAllPhotos,
+  // tokenForAllPosts,
   urlPhotos,
   urlAvatars,
 } from "../../helpers/requests.js";
@@ -17,16 +17,16 @@ import no_avatar from "../../img/no_avatar.png";
 
 import styles from "./Header.module.scss";
 
-function Header({currentUser, removeCurrentUser, removeUserCards}) {
+function Header({currentUser, removeCurrentUser, removeUserPosts}) {
   // const handleLogout = () => {
   //   localStorage.removeItem("mini-inst-user");
   //   removeCurrentUser();
-  //   $axios.defaults.headers["Authorization"] = tokenForAllPhotos;
+  //   $axios.defaults.headers["Authorization"] = tokenForAllPosts;
   // };
   //какой из этих вариантов делать??????????
   const handleLogout = () => {
     removeCurrentUser();
-    removeUserCards();
+    removeUserPosts();
   };
 
   return (
@@ -103,7 +103,7 @@ function Header({currentUser, removeCurrentUser, removeUserCards}) {
 
       {/* <div className={styles[`header__edit-header`]}>
         <div className={styles[`edit-header`]}>
-          <div className={styles[`edit-header__card`]}>
+          <div className={styles[`edit-header__post`]}>
             <div className={styles[`edit-header__form`]}>
               <form className={styles[`form-edit-header`]}>
                 <div className={styles[`form-edit-header__load-avatar`]}>
@@ -260,7 +260,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   removeCurrentUser: (userId) => actionsUsers.removeCurrentUser(userId),
-  removeUserCards: actionsCards.removeUserCards,
+  removeUserPosts: actionsPosts.removeUserPosts,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,10 +1,10 @@
 import {connect} from "react-redux";
-import * as cardsActions from "../../store/cards.actions.js";
+import * as postsActions from "../../store/posts.actions.js";
 
 import {requests as $axios} from "../../helpers/requests";
 
 import {Button} from "../../components/Button/Button";
-import {CardList} from "../../components/CardList/CardList";
+import {PostsList} from "../../components/PostsList/PostsList";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import {Overlay} from "../../components/Overlay/Overlay";
@@ -12,25 +12,25 @@ import {Overlay} from "../../components/Overlay/Overlay";
 import {useState, useEffect} from "react";
 
 import renderer from "../../helpers/renderer";
-// import store from "../../store/store";
 
 import svgSprite from "../../img/spriteIcons.svg";
 
 import styles from "./UserPage.module.scss";
 
-export function UserPage({setUserCards, userCards, currentUser}) {
-  const [openAddPhoto, setOpenAddPhoto] = useState(false);
+export function UserPage({setUserPosts, userPosts, currentUser}) {
+  const [postTitle, setPostTitle] = useState("");
+  const [postDescription, setPostDescription] = useState("");
+
+  const [openAddPost, setOpenAddPost] = useState(false);
   const [isPhotoValid, setIsPhotoValid] = useState(false);
   const [renderedPhoto, setRenderedPhoto] = useState({pic: ""});
   const [loadedPhoto, setLoadedPhoto] = useState({});
-  const [titleBtnAddPhoto, setTitleBtnAddPhoto] = useState(
-    "Добавьте фотографию размером не более 2Мб"
+  const [titleBtnAddPost, setTitleBtnAddPost] = useState(
+    "Добавьте фото размером не более 2Мб"
   );
 
-  // const [cards, setCards] = useState([]);
-
   useEffect(() => {
-    async function getUserCards() {
+    async function getUserPosts() {
       let tokenUser = "";
       let idDefaultAlbumUser = "";
 
@@ -56,48 +56,73 @@ export function UserPage({setUserCards, userCards, currentUser}) {
         const {data} = await $axios.get(
           `/v1/photos`,
           {
-            params: {where: `albumId:eq:${idDefaultAlbumUser}`},
+            params: {
+              where: `albumId:eq:${idDefaultAlbumUser}`,
+              sort: "createdAt:desc",
+            },
           },
           {"Content-Type": "application/json"}
         );
 
         if (data.cards) {
-          setUserCards(data.cards);
+          setUserPosts(data.cards);
         }
       } else {
         console.warn("Token or userId or idDefaultAlbum are not provided!");
       }
     }
-    getUserCards();
+    getUserPosts();
   }, []);
 
-  const addPhoto = (e) => {
-    //async
+  function clearAddPostForm() {
+    setOpenAddPost(false);
+    setIsPhotoValid(false);
+    setRenderedPhoto({pic: ""});
+    setLoadedPhoto({});
+    setTitleBtnAddPost("Добавьте фото размером не более 2Мб");
+    setPostTitle("");
+    setPostDescription("");
+  }
+
+  const addPost = async (e) => {
     e.preventDefault();
 
-    if (renderedPhoto.length) {
+    if (renderedPhoto.pic) {
       if (isPhotoValid) {
         const formData = new FormData();
 
-        formData.append("photo", loadedPhoto);
-        formData.append("title", loadedPhoto.title);
-        formData.append("description", loadedPhoto.description);
-        formData.append("authorId", 32); //!!!!!!!хардкод
-        formData.append("albumId", 82); //!!!!!!!хардкод
+        console.log("loadedPhoto", loadedPhoto);
 
-        // await this.addCard(formData);//добавление фотки
-        // const {data} = await $axios.post("/v1/photos", formData, {
-        //   headers: {"Content-Type": "multipart/form-data"},
-        // });
-        // const response = await $axios.get(
-        //   `/v1/photos/${data.card.id}`,
-        //   {params: {include: "author,comments,likes"}},
-        //   {"Content-Type": "application/json"}
-        // );
+        formData.append("photo", loadedPhoto);
+        formData.append("title", postTitle);
+        formData.append("description", postDescription);
+        formData.append("authorId", currentUser.id);
+        formData.append("albumId", currentUser.idDefaultAlbum);
+
+        const {data} = await $axios.post("/v1/photos", formData, {
+          headers: {"Content-Type": "multipart/form-data"},
+        });
+        if (data.card) {
+          const response = await $axios.get(
+            `/v1/photos/${data.card.id}`,
+            {params: {include: "author,comments,likes"}},
+            {"Content-Type": "application/json"}
+          );
+
+          if (response.data.card) {
+            setUserPosts([response.data.card, ...userPosts]);
+            setOpenAddPost(false);
+            clearAddPostForm();
+          } else {
+            console.warn("Не удалось считать добавленный пост"); //!!!!!!!
+          }
+        } else {
+          console.warn("Не удалось добавить пост"); //!!!!!!!
+        }
       } else {
-        console.log("file's not valide"); //!!!!!!! validation
+        console.log("file's not valide"); //!!!!!!!
       }
-    } else console.log("no file"); //!!!!!!! validation
+    } else console.log("no file"); //!!!!!!!
   };
 
   const loadPhotoFile = (e) => {
@@ -105,21 +130,15 @@ export function UserPage({setUserCards, userCards, currentUser}) {
     if (loadingPhoto.size / 1024 < 2048) {
       renderer(loadingPhoto).then((pic) => {
         setRenderedPhoto({pic: pic});
+        setLoadedPhoto(loadingPhoto);
 
-        const newLoadedPhotoData = {
-          title: "Тут потом будет название фото",
-          description:
-            "Тут потом будет какое-то описание фотки, ну да, конечно, не менее 60 символов",
-        };
-        setLoadedPhoto({...loadingPhoto, ...newLoadedPhotoData});
-
-        setTitleBtnAddPhoto(
-          "Для отправки необходимо добавить название и описание фотографии"
+        setTitleBtnAddPost(
+          "Для отправки необходимо добавить название и описание поста"
         );
         setIsPhotoValid(true);
       });
     } else {
-      setTitleBtnAddPhoto(
+      setTitleBtnAddPost(
         "Не удалось загрузить файл. Максимальный размер загружаемого файла 2Mб"
       );
       setIsPhotoValid(false);
@@ -131,63 +150,55 @@ export function UserPage({setUserCards, userCards, currentUser}) {
       <Header />
 
       <main className="maincontent">
-        <section className={styles[`my-photos`]}>
-          <div className={styles[`my-photos__container`]}>
-            <div className={styles[`my-photos__topgroup`]}>
-              <div className={styles[`my-photos__title`]}>Мои фотографии</div>
-              <div className={styles[`my-photos__button-plus`]}>
+        <section className={styles[`my-posts`]}>
+          <div className={styles[`my-posts__container`]}>
+            <div className={styles[`my-posts__topgroup`]}>
+              <div className={styles[`my-posts__title`]}>Мои посты</div>
+              <div className={styles[`my-posts__button-plus`]}>
                 <Button
                   type={"button"}
-                  title={"Добавить фотографию"}
+                  title={"Добавить пост"}
                   classes={{
                     icon: "icon_expand",
                     size: "s",
                     theme: "pale",
                   }}
                   icon={"plus"}
-                  click={() => setOpenAddPhoto(true)}
+                  click={() => setOpenAddPost(true)}
                 />
               </div>
             </div>
 
-            {userCards && <CardList cards={userCards} view={"alternative"} />}
-            <ul className={styles[`my-photos__photos-list`]}>
-              <li className={styles[`my-photos__photos-item`]}></li>
-            </ul>
+            {userPosts && <PostsList posts={userPosts} view={"alternative"} />}
           </div>
 
-          {openAddPhoto ? <Overlay /> : null}
-          {openAddPhoto ? (
-            <div className={styles[`my-photos__add-photo`]}>
-              <div className={styles[`add-photo`]}>
-                <div className={styles[`add-photo__card`]}>
-                  <div className={styles[`add-photo__topgroup`]}>
-                    <h2 className={styles[`add-photo__title">`]}>
-                      Добавить фотографию
+          {openAddPost ? <Overlay /> : null}
+          {openAddPost ? (
+            <div className={styles[`my-posts__add-post`]}>
+              <div className={styles[`add-post`]}>
+                <div className={styles[`add-post__card`]}>
+                  <div className={styles[`add-post__topgroup`]}>
+                    <h2 className={styles[`add-post__title">`]}>
+                      Добавить пост
                     </h2>
                     <Button
                       type={"button"}
-                      title={
-                        "Закрыть форму добавления фотографий без сохранения"
-                      }
+                      title={"Закрыть форму добавления поста"}
                       classes={{
                         icon: "",
                         size: "s",
                         theme: "minimalizm",
                       }}
                       icon={"close"}
-                      click={() => setOpenAddPhoto(false)}
+                      click={() => setOpenAddPost(false)}
                     />
                   </div>
 
-                  <div className={styles[`add-photo__form`]}>
-                    <form
-                      className={styles[`form-addPhoto`]}
-                      onSubmit={(e) => addPhoto(e)}
-                    >
-                      <div className={styles[`form-addPhoto__load-cover`]}>
+                  <div className={styles[`add-post__form`]}>
+                    <form className={styles[`form-addPost`]} onSubmit={addPost}>
+                      <div className={styles[`form-addPost__load-cover`]}>
                         {isPhotoValid && (
-                          <div className={styles[`form-addPhoto__added-photo`]}>
+                          <div className={styles[`form-addPost__added-photo`]}>
                             <div className={styles[`added-photo`]}>
                               {renderedPhoto && (
                                 <div
@@ -215,27 +226,33 @@ export function UserPage({setUserCards, userCards, currentUser}) {
                             </div>
                             <div
                               className={
-                                styles[`form-addPhoto__edit-photo-fields`]
+                                styles[`form-addPost__edit-post-fields`]
                               }
                             >
-                              <label className={styles[`form-addPhoto__label`]}>
+                              <label className={styles[`form-addPost__label`]}>
                                 Название
                                 <input
-                                  className={styles[`form-addPhoto__input`]}
+                                  className={styles[`form-addPost__input`]}
                                   type="text"
-                                  placeholder="Название фотографии"
+                                  placeholder="Название поста"
+                                  value={postTitle}
+                                  onChange={(e) => setPostTitle(e.target.value)}
                                 />
                               </label>
-                              <label className={styles[`form-addPhoto__label`]}>
+                              <label className={styles[`form-addPost__label`]}>
                                 Описание
                                 <textarea
                                   className={[
-                                    styles[`form-addPhoto__input`],
-                                    styles[`form-addPhoto__input_textarea`],
+                                    styles[`form-addPost__input`],
+                                    styles[`form-addPost__input_textarea`],
                                   ].join(" ")}
                                   cols="10"
                                   rows="2"
-                                  placeholder="Описание фотографии"
+                                  placeholder="Текст поста"
+                                  value={postDescription}
+                                  onChange={(e) =>
+                                    setPostDescription(e.target.value)
+                                  }
                                 ></textarea>
                               </label>
                             </div>
@@ -246,40 +263,38 @@ export function UserPage({setUserCards, userCards, currentUser}) {
                           <label
                             htmlFor="load-photo"
                             className={[
-                              styles[`form-addPhoto__label`],
-                              styles[`form-addPhoto__label_file-load`],
+                              styles[`form-addPost__label`],
+                              styles[`form-addPost__label_file-load`],
                             ].join(" ")}
                           >
                             <input
                               type="file"
                               id="load-photo"
-                              className={styles[`form-addPhoto__input-load`]}
+                              className={styles[`form-addPost__input-load`]}
                               onChange={loadPhotoFile}
                             />
 
                             <svg
-                              className={
-                                styles[`form-addPhoto__load-photo-img`]
-                              }
+                              className={styles[`form-addPost__load-photo-img`]}
                             >
                               <use xlinkHref={`${svgSprite}#cam`}></use>
                             </svg>
 
                             <div
                               className={
-                                styles[`form-addPhoto__load-photo-text-button`]
+                                styles[`form-addPost__load-photo-text-button`]
                               }
                             >
                               Выберите файл
                             </div>
                             <div
                               className={
-                                styles[`form-addPhoto__load-photo-text`]
+                                styles[`form-addPost__load-photo-text`]
                               }
                             >
                               <span
                                 className={
-                                  styles[`form-addPhoto__load-photo-drag-text`]
+                                  styles[`form-addPost__load-photo-drag-text`]
                                 }
                               >
                                 Перетащите фото сюда или{" "}
@@ -290,10 +305,10 @@ export function UserPage({setUserCards, userCards, currentUser}) {
                         )}
                       </div>
 
-                      <div className={styles[`form-addPhoto__buttons`]}>
+                      <div className={styles[`form-addPost__buttons`]}>
                         <Button
                           type={"submit"}
-                          title={titleBtnAddPhoto}
+                          title={titleBtnAddPost}
                           text={"Сохранить"}
                           classes={{
                             size: "m_withtext",
@@ -303,13 +318,14 @@ export function UserPage({setUserCards, userCards, currentUser}) {
                         <Button
                           type={"button"}
                           title={
-                            "Закрыть форму добавления фотографии без сохранения"
+                            "Закрыть форму добавления поста без сохранения"
                           }
                           text={"Отменить"}
                           classes={{
                             size: "m_withtext",
                             theme: "minimalizm",
                           }}
+                          click={clearAddPostForm}
                         />
                       </div>
                     </form>
@@ -319,7 +335,7 @@ export function UserPage({setUserCards, userCards, currentUser}) {
             </div>
           ) : null}
           {/* 
-        <div className={styles[`my-photos__big-card-slider`]}>
+        <div className={styles[`my-posts__big-card-slider`]}>
           <div className={styles[`big-card-slider`]}>
             <button
               title="Закрыть слайдер"
@@ -347,12 +363,12 @@ export function UserPage({setUserCards, userCards, currentUser}) {
 
 const mapStateToProps = (state) => {
   return {
-    userCards: state.cards.userCards,
+    userPosts: state.posts.userPosts,
     currentUser: state.users.currentUser,
   };
 };
 const mapDispatchToProps = {
-  setUserCards: cardsActions.setUserCards,
+  setUserPosts: postsActions.setUserPosts,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
