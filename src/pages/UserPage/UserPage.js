@@ -1,4 +1,7 @@
-import styles from "./UserPage.module.scss";
+import {connect} from "react-redux";
+import * as cardsActions from "../../store/cards.actions.js";
+
+import {requests as $axios} from "../../helpers/requests";
 
 import {Button} from "../../components/Button/Button";
 import {CardList} from "../../components/CardList/CardList";
@@ -9,11 +12,13 @@ import {Overlay} from "../../components/Overlay/Overlay";
 import {useState, useEffect} from "react";
 
 import renderer from "../../helpers/renderer";
-import store from "../../store/store";
+// import store from "../../store/store";
 
 import svgSprite from "../../img/spriteIcons.svg";
 
-export function UserPage() {
+import styles from "./UserPage.module.scss";
+
+export function UserPage({setUserCards, userCards, currentUser}) {
   const [openAddPhoto, setOpenAddPhoto] = useState(false);
   const [isPhotoValid, setIsPhotoValid] = useState(false);
   const [renderedPhoto, setRenderedPhoto] = useState({pic: ""});
@@ -22,12 +27,48 @@ export function UserPage() {
     "Добавьте фотографию размером не более 2Мб"
   );
 
-  const [cards, setCards] = useState([]);
+  // const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    setCards(
-      store.getState().cards.allCards.filter((card) => card.author.id === 32)
-    );
+    async function getUserCards() {
+      let tokenUser = "";
+      let idDefaultAlbumUser = "";
+
+      if (currentUser) {
+        tokenUser = currentUser.token ? currentUser.token : "";
+        idDefaultAlbumUser = currentUser.idDefaultAlbumUser
+          ? currentUser.idDefaultAlbumUser
+          : "";
+      }
+
+      if (!tokenUser || !idDefaultAlbumUser) {
+        const miniInstUser = JSON.parse(localStorage.getItem("mini-inst-user"));
+        if (miniInstUser) {
+          const {token, idDefaultAlbum} = miniInstUser;
+          tokenUser = token ? token : "";
+          idDefaultAlbumUser = idDefaultAlbum ? idDefaultAlbum : "";
+        }
+      }
+
+      if ((tokenUser, idDefaultAlbumUser)) {
+        $axios.defaults.headers["Authorization"] = `Bearer ${tokenUser}`;
+
+        const {data} = await $axios.get(
+          `/v1/photos`,
+          {
+            params: {where: `albumId:eq:${idDefaultAlbumUser}`},
+          },
+          {"Content-Type": "application/json"}
+        );
+
+        if (data.cards) {
+          setUserCards(data.cards);
+        }
+      } else {
+        console.warn("Token or userId or idDefaultAlbum are not provided!");
+      }
+    }
+    getUserCards();
   }, []);
 
   const addPhoto = (e) => {
@@ -44,7 +85,7 @@ export function UserPage() {
         formData.append("authorId", 32); //!!!!!!!хардкод
         formData.append("albumId", 82); //!!!!!!!хардкод
 
-        // await this.addCard(formData);//потом тут будет action//!!!!!
+        // await this.addCard(formData);//добавление фотки
         // const {data} = await $axios.post("/v1/photos", formData, {
         //   headers: {"Content-Type": "multipart/form-data"},
         // });
@@ -109,7 +150,7 @@ export function UserPage() {
               </div>
             </div>
 
-            {cards && <CardList cards={cards} view={"alternative"} />}
+            {userCards && <CardList cards={userCards} view={"alternative"} />}
             <ul className={styles[`my-photos__photos-list`]}>
               <li className={styles[`my-photos__photos-item`]}></li>
             </ul>
@@ -303,3 +344,15 @@ export function UserPage() {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userCards: state.cards.userCards,
+    currentUser: state.users.currentUser,
+  };
+};
+const mapDispatchToProps = {
+  setUserCards: cardsActions.setUserCards,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

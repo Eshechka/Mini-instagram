@@ -3,12 +3,12 @@ import {connect} from "react-redux";
 import * as actionsUser from "./store/users.actions.js";
 import React, {useEffect} from "react";
 
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 
-import {UserPage} from "./pages/UserPage/UserPage";
+import UserPage from "./pages/UserPage/UserPage";
 import {SearchPage} from "./pages/SearchPage/SearchPage";
 import {NotFoundPage} from "./pages/NotFoundPage/NotFoundPage";
-import {AuthPageContainer} from "./pages/AuthPage/AuthPageContainer";
+import AuthPage from "./pages/AuthPage/AuthPage";
 
 import HomePage from "./pages/HomePage/HomePage";
 
@@ -16,18 +16,22 @@ import {requests as $axios} from "./helpers/requests.js";
 
 import "./App.scss";
 
-function App({setCurrentUser}) {
+function App({setCurrentUser, currentUser}) {
   useEffect(() => {
     async function getUserData() {
       const miniInstUser = JSON.parse(localStorage.getItem("mini-inst-user"));
       if (miniInstUser) {
-        const {id, token} = miniInstUser;
+        const {id, token, idDefaultAlbum} = miniInstUser;
         if (id && token) {
           $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
           const {data} = await $axios.post(`/v1/authors/${id}`);
 
           if (data.author) {
-            setCurrentUser(data.author);
+            setCurrentUser({
+              ...data.author,
+              token: token,
+              idDefaultAlbum: idDefaultAlbum,
+            });
           }
         }
       }
@@ -49,7 +53,13 @@ function App({setCurrentUser}) {
 
       <Routes>
         <Route exact path="/" element={<HomePage />} />
-        <Route exact path="/auth" element={<AuthPageContainer />} />
+        <Route
+          exact
+          path="/auth"
+          element={
+            currentUser && currentUser.id ? <Navigate to="/" /> : <AuthPage />
+          }
+        />
         <Route exact path="/search" element={<SearchPage />} />
         <Route exact path="/:id" element={<UserPage />} />
         <Route path="*" element={<NotFoundPage />} />

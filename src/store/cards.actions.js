@@ -5,9 +5,16 @@ export const setAllCards = (cards) => {
   };
 };
 
-export const removeAllCards = () => {
+export const setUserCards = (cards) => {
   return {
-    type: "REMOVE_ALLCARDS",
+    type: "SET_USERCARDS",
+    payload: {cards: cards},
+  };
+};
+
+export const removeUserCards = () => {
+  return {
+    type: "REMOVE_USERCARDS",
     payload: {},
   };
 };

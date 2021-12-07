@@ -1,23 +1,23 @@
 import {connect} from "react-redux";
 import * as actionsUsers from "../../store/users.actions.js";
-// import * as actionsCards from "../../store/cards.actions.js";
+import * as actionsCards from "../../store/cards.actions.js";
 
 import {Link} from "react-router-dom";
 import {Button} from "../Button/Button";
-import {Nav} from "../Nav/Nav";
+import Nav from "../Nav/Nav";
 
 import {
   // requests as $axios,
+  // tokenForAllPhotos,
   urlPhotos,
   urlAvatars,
-  // tokenForAllPhotos,
 } from "../../helpers/requests.js";
 
 import no_avatar from "../../img/no_avatar.png";
 
 import styles from "./Header.module.scss";
 
-export function Header({currentUser, removeCurrentUser}) {
+function Header({currentUser, removeCurrentUser, removeUserCards}) {
   // const handleLogout = () => {
   //   localStorage.removeItem("mini-inst-user");
   //   removeCurrentUser();
@@ -26,6 +26,7 @@ export function Header({currentUser, removeCurrentUser}) {
   //какой из этих вариантов делать??????????
   const handleLogout = () => {
     removeCurrentUser();
+    removeUserCards();
   };
 
   return (
@@ -259,7 +260,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   removeCurrentUser: (userId) => actionsUsers.removeCurrentUser(userId),
-  // removeAllCards: () => actionsCards.removeAllCards(),
+  removeUserCards: actionsCards.removeUserCards,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

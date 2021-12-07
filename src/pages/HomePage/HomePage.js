@@ -10,10 +10,14 @@ import {CardList} from "../../components/CardList/CardList";
 
 import styles from "./HomePage.module.scss";
 
-function HomePage({setAllCards, allCards}) {
+function HomePage({setAllCards, allCards, currentUser}) {
   useEffect(() => {
     async function getAllCards() {
-      let token = tokenForAllPhotos;
+      let token =
+        currentUser && currentUser.token
+          ? currentUser.token
+          : tokenForAllPhotos;
+
       const miniInstUser = JSON.parse(localStorage.getItem("mini-inst-user"));
 
       if (miniInstUser && miniInstUser.token) {
@@ -97,6 +101,7 @@ function HomePage({setAllCards, allCards}) {
 const mapStateToProps = (state) => {
   return {
     allCards: state.cards.allCards,
+    currentUser: state.users.currentUser,
   };
 };
 const mapDispatchToProps = {
