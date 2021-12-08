@@ -10,6 +10,17 @@ let postsReducer = (state = initialState, action) => {
       return {...state, userPosts: action.payload.posts};
     case "REMOVE_USERPOSTS":
       return {...state, userPosts: []};
+    case "REMOVE_POST":
+      return {
+        ...state,
+        userPosts: state.userPosts.filter(
+          (post) => post.id !== action.payload.id
+        ),
+        allPosts: state.allPosts.filter(
+          (post) => post.id !== action.payload.id
+        ),
+      };
+
     default:
       return state;
   }

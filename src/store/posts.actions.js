@@ -18,3 +18,10 @@ export const removeUserPosts = () => {
     payload: {},
   };
 };
+
+export const removePost = (postId) => {
+  return {
+    type: "REMOVE_POST",
+    payload: {id: postId},
+  };
+};

@@ -183,6 +183,7 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
               <PostsList
                 posts={userPosts}
                 click={openBigPostSlider}
+                hasDeleteFunctional={true}
                 view={"alternative"}
               />
             )}

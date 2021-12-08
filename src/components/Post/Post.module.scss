@@ -116,6 +116,9 @@
     flex-direction: column;
     justify-content: space-between;
     margin-left: 10px;
+    position: relative;
+    width: 100%;
+    padding-right: 38px;
   }
   &__desc-title {
     font-family: "ProximaNova-Light";
@@ -125,6 +128,12 @@
   &__signs-wrapper {
     padding-top: 10px;
     padding-bottom: 5px;
+  }
+
+  &__button-delete {
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 
   &__sign {

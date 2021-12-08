@@ -27,7 +27,8 @@ export function Footer({currentUser, view = ""}) {
       <div className={styles.footer__container}>
         {view !== "view_logout" ? (
           <div className={styles[`footer__button-up`]}>
-            <Button
+            {/* Потом добавить функционал!!!!!!!! */}
+            {/* <Button/
               type={"button"}
               title={"Вернуться в начало страницы"}
               classes={{
@@ -36,7 +37,7 @@ export function Footer({currentUser, view = ""}) {
                 theme: "pale",
               }}
               icon={"top"}
-            />
+            /> */}
           </div>
         ) : null}
         <div className={styles.footer__desc}>

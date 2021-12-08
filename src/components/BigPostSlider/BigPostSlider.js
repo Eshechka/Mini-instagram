@@ -22,35 +22,36 @@ function BigPostSlider({
 }) {
   return (
     <div className={styles[`big-post-slider`]}>
-      <span className=""></span>
-      <Button
-        type={"button"}
-        title={"Закрыть слайдер"}
-        classes={{
-          icon: "",
-          size: "s",
-          theme: "controls",
-        }}
-        icon={"close"}
-        click={clickClose}
-      />
+      <div className={styles[`big-card-slider__container`]}>
+        <Button
+          type={"button"}
+          title={"Закрыть слайдер"}
+          classes={{
+            icon: "",
+            size: "s",
+            theme: "controls",
+          }}
+          icon={"close"}
+          click={clickClose}
+        />
 
-      <Swiper
-        modules={[EffectFlip, EffectCube, Navigation, Pagination]}
-        effect={effectSlides}
-        navigation
-        pagination={{clickable: true}}
-        id={idSlider}
-        spaceBetween={100}
-        slidesPerView={1}
-        initialSlide={initialSlide}
-      >
-        {posts.map((post) => (
-          <SwiperSlide key={post.id}>
-            <PostSlide postdata={post} currentUser={currentUser} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        <Swiper
+          modules={[EffectFlip, EffectCube, Navigation, Pagination]}
+          effect={effectSlides}
+          navigation
+          pagination={{clickable: true}}
+          id={idSlider}
+          spaceBetween={100}
+          slidesPerView={1}
+          initialSlide={initialSlide}
+        >
+          {posts.map((post) => (
+            <SwiperSlide key={post.id}>
+              <PostSlide postdata={post} currentUser={currentUser} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 }

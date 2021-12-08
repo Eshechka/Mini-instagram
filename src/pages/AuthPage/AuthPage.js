@@ -154,7 +154,12 @@ function AuthPage({currentUser, setCurrentUser}) {
                 " "
               )}
             >
-              <form action="#" className={styles[`auth-form`]} id="form1">
+              <form
+                action="#"
+                className={styles[`auth-form`]}
+                id="form1"
+                onSubmit={handleSignUp}
+              >
                 <h2 className={styles[`auth-form__title`]}>Sign Up</h2>
                 <input
                   type="text"
@@ -191,7 +196,7 @@ function AuthPage({currentUser, setCurrentUser}) {
                   ].join(" ")}
                 >
                   <Button
-                    type={"button"}
+                    type={"submit"}
                     title={"Sign Up"}
                     text={"Sign Up"}
                     classes={{
@@ -209,7 +214,12 @@ function AuthPage({currentUser, setCurrentUser}) {
                 " "
               )}
             >
-              <form action="#" className={styles[`auth-form`]} id="form2">
+              <form
+                action="#"
+                className={styles[`auth-form`]}
+                id="form2"
+                onSubmit={handleSignIn}
+              >
                 <h2 className={styles[`auth-form__title`]}>Sign In</h2>
                 <input
                   type="email"
@@ -232,7 +242,7 @@ function AuthPage({currentUser, setCurrentUser}) {
                   ].join(" ")}
                 >
                   <Button
-                    type={"button"}
+                    type={"submit"}
                     title={"Sign In"}
                     text={"Sign In"}
                     classes={{

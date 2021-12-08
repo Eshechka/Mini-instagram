@@ -1,13 +1,18 @@
-import {Post} from "../Post/Post";
+import Post from "../Post/Post";
 import styles from "./PostsList.module.scss";
 
-export function PostsList({posts, view, click}) {
+export function PostsList({posts, view, click, hasDeleteFunctional}) {
   return (
     <ul className={[styles.postslist, styles[`postslist_${view}`]].join(" ")}>
       {posts.map((post, ndx) => {
         return (
           <li key={post.id} className={styles.postslist__item}>
-            <Post post={post} ndx={ndx} click={click} />
+            <Post
+              post={post}
+              ndx={ndx}
+              click={click}
+              hasDeleteFunctional={hasDeleteFunctional}
+            />
           </li>
         );
       })}
