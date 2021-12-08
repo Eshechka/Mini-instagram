@@ -26,7 +26,8 @@ function AuthPage({currentUser, setCurrentUser}) {
 
   const container = useRef(null);
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
     const {data} = await $axios.post("/register", {
       email: registerEmail,
       name: registerName,
@@ -81,7 +82,9 @@ function AuthPage({currentUser, setCurrentUser}) {
       );
     }
   };
-  const handleSignIn = async () => {
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
     const user = {
       email: loginEmail,
       password: loginPassword,
@@ -203,7 +206,7 @@ function AuthPage({currentUser, setCurrentUser}) {
                       size: "m_withtext",
                       theme: "base",
                     }}
-                    click={handleSignUp}
+                    // click={handleSignUp}
                   />
                 </div>
               </form>
@@ -249,7 +252,7 @@ function AuthPage({currentUser, setCurrentUser}) {
                       size: "m_withtext",
                       theme: "base",
                     }}
-                    click={handleSignIn}
+                    // click={handleSignIn}
                   />
                 </div>
               </form>

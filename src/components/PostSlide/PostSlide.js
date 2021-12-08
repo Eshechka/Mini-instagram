@@ -1,15 +1,48 @@
-import {useRef, useState} from "react";
+import {useRef, useState, useEffect} from "react";
+
+import {requests as $axios} from "../../helpers/requests.js";
 
 import {Button} from "../Button/Button";
 
 import {urlPhotos, urlAvatars} from "../../helpers/requests";
+import no_avatar from "../../img/no_avatar.png";
 
 import styles from "./PostSlide.module.scss";
 
-export default function PostSlide({postdata, currentUser}) {
-  const likesCounter = useRef(null);
+export default function PostSlide({
+  postdata,
+  currentUser,
+  updateLikes = Function.prototype,
+}) {
+  useEffect(() => {
+    if (postdata && postdata.likes.length) {
+      const isLikeByCurrentUser = postdata.likes.findIndex(
+        (like) => like === currentUser.id
+      );
+      setIsLike(isLikeByCurrentUser !== -1);
+    }
+  }, []);
 
+  const likesCounter = useRef(null);
   const [isLike, setIsLike] = useState(false);
+
+  const toggleLike = async () => {
+    const {data} = await $axios.post(
+      `/v1/photos/${postdata.id}/likes`,
+      currentUser.id
+    );
+    if (data.message === "Like обновлен!") {
+      updateLikes(
+        postdata.id,
+        currentUser.id,
+        isLike ? "removeLike" : "addLike"
+      );
+      setIsLike(!isLike);
+    } else {
+      console.warn("Не удалось обновить лайки поста");
+    }
+  };
+
   return (
     <div className={styles[`big-post`]}>
       <div className={styles[`big-post__post`]}>
@@ -26,7 +59,11 @@ export default function PostSlide({postdata, currentUser}) {
             <img
               className={styles[`big-post__avatar-img`]}
               alt="avatar"
-              src={`${urlAvatars}/${postdata.author.avatar}`}
+              src={
+                postdata.author.avatar
+                  ? `${urlAvatars}/${postdata.author.avatar}`
+                  : no_avatar
+              }
             />
           </div>
 
@@ -35,7 +72,7 @@ export default function PostSlide({postdata, currentUser}) {
           <div className={styles[`big-post__likes`]}>
             <Button
               ref={likesCounter}
-              type={"button"}
+              type={"submit"}
               title={"Число лайков"}
               classes={{
                 icon: "sign",
@@ -44,7 +81,7 @@ export default function PostSlide({postdata, currentUser}) {
               }}
               icon={"heart"}
               isActiveClass={isLike}
-              click={() => setIsLike(!isLike)}
+              click={toggleLike}
             />
             <span className={styles[`big-post__button-likes`]}>
               {postdata.likesCount || postdata.likes.length}

@@ -362,7 +362,7 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
                   setOpenBigPost(false);
                 }}
                 initialSlide={initialSlide}
-                effectSlides="cube"
+                effectSlides="fade"
                 idSlider={"usersPostsSwiper"}
               />
             </div>

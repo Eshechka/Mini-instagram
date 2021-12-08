@@ -1,7 +1,15 @@
 import {connect} from "react-redux";
+import * as actionsPosts from "../../store/posts.actions";
 
 import {Swiper, SwiperSlide} from "swiper/react/swiper-react";
-import {EffectFlip, Navigation, Pagination, EffectCube} from "swiper";
+import {
+  EffectFlip,
+  Navigation,
+  Pagination,
+  EffectCube,
+  EffectCards,
+  EffectFade,
+} from "swiper";
 
 import "swiper/swiper-bundle.css";
 import "swiper/modules/navigation/navigation.scss";
@@ -14,15 +22,20 @@ import styles from "./BigPostSlider.module.scss";
 
 function BigPostSlider({
   currentUser,
+  updatePostsLikes,
   posts = [],
   clickClose = Function.prototype,
   initialSlide,
   effectSlides = "flip",
   idSlider,
 }) {
+  const updateLikes = (postId, userId, typeUpdating) => {
+    updatePostsLikes(postId, userId, typeUpdating);
+  };
+
   return (
     <div className={styles[`big-post-slider`]}>
-      <div className={styles[`big-card-slider__container`]}>
+      <div className={styles[`big-post-slider__container`]}>
         <Button
           type={"button"}
           title={"Закрыть слайдер"}
@@ -36,7 +49,14 @@ function BigPostSlider({
         />
 
         <Swiper
-          modules={[EffectFlip, EffectCube, Navigation, Pagination]}
+          modules={[
+            EffectFlip,
+            EffectCube,
+            EffectCards,
+            EffectFade,
+            Navigation,
+            Pagination,
+          ]}
           effect={effectSlides}
           navigation
           pagination={{clickable: true}}
@@ -47,7 +67,11 @@ function BigPostSlider({
         >
           {posts.map((post) => (
             <SwiperSlide key={post.id}>
-              <PostSlide postdata={post} currentUser={currentUser} />
+              <PostSlide
+                postdata={post}
+                currentUser={currentUser}
+                updateLikes={updateLikes}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -61,5 +85,8 @@ const mapStateToProps = (state) => {
     currentUser: state.users.currentUser,
   };
 };
+const mapDispatchToProps = {
+  updatePostsLikes: actionsPosts.updatePostsLikes,
+};
 
-export default connect(mapStateToProps, null)(BigPostSlider);
+export default connect(mapStateToProps, mapDispatchToProps)(BigPostSlider);

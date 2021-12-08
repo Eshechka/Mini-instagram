@@ -12,6 +12,17 @@ export const setUserPosts = (posts) => {
   };
 };
 
+export const updatePostsLikes = (postId, userId, typeUpdating) => {
+  return {
+    type: "UPDATE_POSTLIKES",
+    payload: {
+      id: postId,
+      userId: userId,
+      type: typeUpdating,
+    },
+  };
+};
+
 export const removeUserPosts = () => {
   return {
     type: "REMOVE_USERPOSTS",
