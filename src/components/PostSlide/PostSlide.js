@@ -13,6 +13,7 @@ export default function PostSlide({
   postdata,
   currentUser,
   updateLikes = Function.prototype,
+  hiddenLikes = false,
 }) {
   useEffect(() => {
     if (postdata && postdata.likes.length) {
@@ -69,39 +70,33 @@ export default function PostSlide({
 
           <div className={styles[`big-post__name`]}>{postdata.author.name}</div>
 
-          <div className={styles[`big-post__likes`]}>
-            <Button
-              ref={likesCounter}
-              type={"submit"}
-              title={"Число лайков"}
-              classes={{
-                icon: "sign",
-                size: "s",
-                theme: "signs",
-              }}
-              icon={"heart"}
-              isActiveClass={isLike}
-              click={toggleLike}
-            />
-            <span className={styles[`big-post__button-likes`]}>
-              {postdata.likesCount || postdata.likes.length}
-            </span>
-          </div>
+          {!hiddenLikes ? (
+            <div className={styles[`big-post__likes`]}>
+              <Button
+                ref={likesCounter}
+                type={"button"}
+                title={"Число лайков"}
+                classes={{
+                  icon: "sign",
+                  size: "s",
+                  theme: "signs",
+                }}
+                icon={"heart"}
+                isActiveClass={isLike}
+                click={toggleLike}
+              />
+              <span className={styles[`big-post__button-likes`]}>
+                {postdata.likesCount || postdata.likes.length}
+              </span>
+            </div>
+          ) : null}
         </div>
 
         <div className={styles[`big-post__desc`]}>
           <div className={styles[`big-post__title`]}>{postdata.title}</div>
 
           <div className={styles[`big-post__desc-text`]}>
-            <div className={styles[`big-post__text-before-hashtag`]}>
-              {/* {part.text} */}
-              <span className={styles[`big-post__hashtag`]}>
-                {/* {part.hash} */}
-              </span>
-            </div>
-            <div className={styles[`big-post__text-no-hashtags`]}>
-              {postdata.description}
-            </div>
+            {postdata.description}
           </div>
         </div>
 

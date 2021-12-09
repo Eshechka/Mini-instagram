@@ -307,7 +307,6 @@
     }
 
     & .button__icon {
-      /* background-position: 50%;!!!!!!!надо или нет? */
       fill: rgba($color-text, 0.6);
     }
   }
@@ -327,7 +326,6 @@
         height: 20px;
 
         &_heart {
-          // viewbox: "53 56 22 17";
           height: 18px;
           fill: rgb(238, 70, 52);
           stroke-width: 2px;
@@ -346,7 +344,6 @@
       height: 20px;
 
       &_heart {
-        // viewbox: "53 56 22 17";
         height: "18px";
         fill: rgb(238, 70, 52);
         stroke-width: 2px;
@@ -356,7 +353,6 @@
   }
 
   &_theme_minimalizm.button {
-    // padding: 0;
     color: $color-main-bg;
     font-family: "Proxima Nova Semibold";
     background-color: transparent;

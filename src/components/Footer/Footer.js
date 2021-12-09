@@ -6,7 +6,14 @@ import {urlPhotos} from "../../helpers/requests.js";
 
 import styles from "./Footer.module.scss";
 
-export function Footer({currentUser, view = ""}) {
+function Footer({currentUser, view = ""}) {
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <footer
       className={[
@@ -27,17 +34,17 @@ export function Footer({currentUser, view = ""}) {
       <div className={styles.footer__container}>
         {view !== "view_logout" ? (
           <div className={styles[`footer__button-up`]}>
-            {/* Потом добавить функционал!!!!!!!! */}
-            {/* <Button/
+            <Button
               type={"button"}
               title={"Вернуться в начало страницы"}
               classes={{
                 icon: "expand",
                 size: "s",
-                theme: "pale",
+                theme: "calm",
               }}
               icon={"top"}
-            /> */}
+              click={scrollToTop}
+            />
           </div>
         ) : null}
         <div className={styles.footer__desc}>

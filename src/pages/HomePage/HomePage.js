@@ -1,8 +1,6 @@
 import {connect} from "react-redux";
-import * as postsActions from "../../store/posts.actions.js";
 
-import React, {useEffect, useState} from "react";
-import {requests as $axios, tokenForAllPosts} from "../../helpers/requests";
+import React, {useState} from "react";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -12,42 +10,10 @@ import BigPostSlider from "../../components/BigPostSlider/BigPostSlider.js";
 
 import styles from "./HomePage.module.scss";
 
-function HomePage({setAllPosts, allPosts, currentUser}) {
+function HomePage({allPosts, currentUser}) {
   const [initialSlide, setInitialSlide] = useState(0);
 
   const [openBigPost, setOpenBigPost] = useState(false);
-
-  useEffect(() => {
-    async function getAllPosts() {
-      let token =
-        currentUser && currentUser.token ? currentUser.token : tokenForAllPosts;
-
-      const miniInstUser = JSON.parse(localStorage.getItem("mini-inst-user"));
-
-      if (miniInstUser && miniInstUser.token) {
-        token = miniInstUser.token;
-      }
-
-      $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-
-      const {data} = await $axios.get(
-        `/v1/photos`,
-        {
-          params: {
-            include: "author,comments,likes",
-            sort: "createdAt:desc",
-            limit: 20,
-          },
-        },
-        {"Content-Type": "application/json"}
-      );
-
-      if (data.cards) {
-        setAllPosts(data.cards);
-      }
-    }
-    getAllPosts();
-  }, []);
 
   function openBigPostSlider(slideNum) {
     setInitialSlide(slideNum);
@@ -61,7 +27,7 @@ function HomePage({setAllPosts, allPosts, currentUser}) {
       <main className="maincontent">
         <section className={styles.new}>
           <div className={styles.new__container}>
-            <h2 className={styles.new__title}>Новое в Instagram</h2>
+            <h2 className={styles.new__title}>Новые посты в Instagram</h2>
 
             {!allPosts ||
               (!allPosts.length && (
@@ -104,8 +70,5 @@ const mapStateToProps = (state) => {
     currentUser: state.users.currentUser,
   };
 };
-const mapDispatchToProps = {
-  setAllPosts: postsActions.setAllPosts,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, null)(HomePage);

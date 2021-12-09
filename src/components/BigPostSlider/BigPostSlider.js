@@ -28,6 +28,7 @@ function BigPostSlider({
   initialSlide,
   effectSlides = "flip",
   idSlider,
+  extraParams = {},
 }) {
   const updateLikes = (postId, userId, typeUpdating) => {
     updatePostsLikes(postId, userId, typeUpdating);
@@ -70,7 +71,12 @@ function BigPostSlider({
               <PostSlide
                 postdata={post}
                 currentUser={currentUser}
-                updateLikes={updateLikes}
+                updateLikes={
+                  extraParams[`hidden`] !== "likes"
+                    ? updateLikes
+                    : Function.prototype
+                }
+                hiddenLikes={extraParams[`hidden`] === "likes" ? true : false}
               />
             </SwiperSlide>
           ))}

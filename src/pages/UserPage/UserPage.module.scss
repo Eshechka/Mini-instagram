@@ -39,11 +39,11 @@
   }
 
   &__add-post {
-    @include fixed-popup-container;
+    @include fixed-container;
   }
 
   &__big-post-slider {
-    @include popup-container;
+    @include popup-fixed-container;
     position: fixed;
     top: 0;
     width: 100%;

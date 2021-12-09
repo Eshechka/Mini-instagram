@@ -19,7 +19,7 @@ import svgSprite from "../../img/spriteIcons.svg";
 
 import styles from "./UserPage.module.scss";
 
-export function UserPage({setUserPosts, userPosts, currentUser}) {
+export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");
   const [initialSlide, setInitialSlide] = useState(0);
@@ -35,50 +35,21 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
   );
 
   useEffect(() => {
-    async function getUserPosts() {
-      let tokenUser = "";
-      let idDefaultAlbumUser = "";
-
-      if (currentUser) {
-        tokenUser = currentUser.token ? currentUser.token : "";
-        idDefaultAlbumUser = currentUser.idDefaultAlbumUser
-          ? currentUser.idDefaultAlbumUser
-          : "";
-      }
-
-      if (!tokenUser || !idDefaultAlbumUser) {
-        const miniInstUser = JSON.parse(localStorage.getItem("mini-inst-user"));
-        if (miniInstUser) {
-          const {token, idDefaultAlbum} = miniInstUser;
-          tokenUser = token ? token : "";
-          idDefaultAlbumUser = idDefaultAlbum ? idDefaultAlbum : "";
-        }
-      }
-
-      if ((tokenUser, idDefaultAlbumUser)) {
-        $axios.defaults.headers["Authorization"] = `Bearer ${tokenUser}`;
-
-        const {data} = await $axios.get(
-          `/v1/photos`,
-          {
-            params: {
-              include: "author,comments,likes",
-              where: `albumId:eq:${idDefaultAlbumUser}`,
-              sort: "createdAt:desc",
-            },
-          },
-          {"Content-Type": "application/json"}
-        );
-
-        if (data.cards) {
-          setUserPosts(data.cards);
-        }
-      } else {
-        console.warn("Token or userId or idDefaultAlbum are not provided!");
-      }
-    }
     getUserPosts();
-  }, []);
+  }, [currentUser]);
+
+  function getUserPosts() {
+    if (currentUser.id && currentUser.idDefaultAlbum) {
+      const userPosts = allPosts.filter(
+        (post) =>
+          post.author.id === currentUser.id &&
+          post.album.id === currentUser.idDefaultAlbum
+      );
+      setUserPosts(userPosts);
+    } else {
+      console.warn("UserId or idDefaultAlbum are not provided!");
+    }
+  }
 
   function openBigPostSlider(slideNum) {
     setInitialSlide(slideNum);
@@ -125,15 +96,15 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
             setOpenAddPost(false);
             clearAddPostForm();
           } else {
-            console.warn("Не удалось считать добавленный пост"); //!!!!!!!
+            console.warn("Не удалось считать добавленный пост");
           }
         } else {
-          console.warn("Не удалось добавить пост"); //!!!!!!!
+          console.warn("Не удалось добавить пост");
         }
       } else {
-        console.log("file's not valide"); //!!!!!!!
+        console.log("file's not valide");
       }
-    } else console.log("no file"); //!!!!!!!
+    } else console.warn("no file");
   };
 
   const loadPhotoFile = (e) => {
@@ -224,22 +195,7 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
                                     backgroundImage: `url(${renderedPhoto.pic})`,
                                   }}
                                   className={styles[`added-photo__item`]}
-                                >
-                                  {/* <div
-                                className={styles[`added-photo__close-button`]}
-                              >//!!!!!!!!! добавить функционал, если будет время
-                                <Button
-                                  type={"button"}
-                                  title={"Удалить фото"}
-                                  classes={{
-                                    icon: "",
-                                    size: "s",
-                                    theme: "second_main_bg",
-                                  }}
-                                  icon={"close"}
-                                />
-                              </div> */}
-                                </div>
+                                ></div>
                               )}
                             </div>
                             <div
@@ -377,6 +333,7 @@ export function UserPage({setUserPosts, userPosts, currentUser}) {
 
 const mapStateToProps = (state) => {
   return {
+    allPosts: state.posts.allPosts,
     userPosts: state.posts.userPosts,
     currentUser: state.users.currentUser,
   };

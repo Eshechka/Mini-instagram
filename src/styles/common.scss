@@ -61,12 +61,15 @@ img {
 
 #usersPostsSwiper .swiper-button-next,
 #usersPostsSwiper .swiper-button-prev,
+#searchedPostsSwiper .swiper-button-next,
+#searchedPostsSwiper .swiper-button-prev,
 #allPostsSwiper .swiper-button-next,
 #allPostsSwiper .swiper-button-prev {
   color: $color-second-main-bg;
 }
 
 #usersPostsSwiper .swiper-pagination-bullet-active,
+#searchedPostsSwiper .swiper-pagination-bullet-active,
 #allPostsSwiper .swiper-pagination-bullet-active {
   background-color: $color-second-main-bg;
 }
