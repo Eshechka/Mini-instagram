@@ -10,6 +10,7 @@ export const Button = React.forwardRef(
       classes = [],
       text = "",
       icon = "",
+      disabled = false,
       click = null,
       isActiveClass = false,
     },
@@ -20,6 +21,7 @@ export const Button = React.forwardRef(
         ref={ref}
         type={type}
         title={title}
+        disabled={disabled}
         className={[
           styles.button,
           classes.icon

@@ -434,6 +434,11 @@
       & .button__icon {
         fill: rgba($color-text, 0.8);
         stroke: rgba($color-text, 0.99);
+
+        &_heart {
+          fill: rgba($color-white, 0.7);
+          stroke: rgba($color-main-bg, 0.9);
+        }
       }
     }
     &:not(:disabled):hover,
