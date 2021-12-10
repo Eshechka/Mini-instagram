@@ -5,6 +5,7 @@ import {Button} from "../Button/Button";
 import {urlPhotos} from "../../helpers/requests.js";
 
 import styles from "./Footer.module.scss";
+import logo from "../../logo.svg";
 
 function Footer({currentUser, view = ""}) {
   function scrollToTop() {
@@ -47,6 +48,9 @@ function Footer({currentUser, view = ""}) {
             />
           </div>
         ) : null}
+        <div className={styles.footer__logo}>
+          <img src={logo} />
+        </div>
         <div className={styles.footer__desc}>
           Mini-instagram | &copy; {new Date().getFullYear()}
         </div>

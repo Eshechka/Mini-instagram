@@ -1,4 +1,3 @@
-// import logo from "./logo.svg";
 import {connect} from "react-redux";
 import * as actionsUser from "./store/users.actions.js";
 import * as actionsPosts from "./store/posts.actions.js";

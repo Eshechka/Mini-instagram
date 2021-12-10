@@ -46,7 +46,17 @@
       left: 50%;
     }
   }
+  &__logo {
+    width: 50px;
+    align-self: center;
+    margin-bottom: 10px;
 
+    @include tablets {
+      width: 60px;
+      margin-bottom: 0;
+      align-self: unset;
+    }
+  }
   &__desc {
     margin-bottom: 20px;
     mix-blend-mode: color-dodge;
@@ -55,6 +65,7 @@
     @include tablets {
       flex-basis: 40%;
       text-align: left;
+      padding-right: 50px;
     }
   }
   &__copyright {
