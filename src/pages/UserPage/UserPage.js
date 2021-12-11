@@ -1,8 +1,11 @@
 import {connect} from "react-redux";
+import {useState, useEffect} from "react";
+import {useParams} from "react-router-dom";
 
 import * as postsActions from "../../store/posts.actions.js";
 
 import {requests as $axios} from "../../helpers/requests";
+import {getUserData, getUserPosts} from "../../helpers/api";
 
 import {Button} from "../../components/Button/Button";
 import {PostsList} from "../../components/PostsList/PostsList";
@@ -11,15 +14,23 @@ import Footer from "../../components/Footer/Footer";
 import {Overlay} from "../../components/Overlay/Overlay";
 import BigPostSlider from "../../components/BigPostSlider/BigPostSlider.js";
 
-import {useState, useEffect} from "react";
-
 import renderer from "../../helpers/renderer";
 
 import svgSprite from "../../img/spriteIcons.svg";
 
 import styles from "./UserPage.module.scss";
 
-export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
+export function UserPage({
+  setCurrentUserPosts,
+  allPosts,
+  currentUserPosts,
+  currentUser,
+  setUserPosts,
+}) {
+  const {id} = useParams();
+
+  const [user, setUser] = useState({});
+
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");
   const [initialSlide, setInitialSlide] = useState(0);
@@ -35,21 +46,30 @@ export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
   );
 
   useEffect(() => {
-    getUserPosts();
-  }, [currentUser]);
+    getUserWithPosts(id);
+  }, [id, allPosts]);
 
-  function getUserPosts() {
-    if (currentUser.id && currentUser.idDefaultAlbum) {
-      const userPosts = allPosts.filter(
-        (post) =>
-          post.author.id === currentUser.id &&
-          post.album.id === currentUser.idDefaultAlbum
-      );
-      setUserPosts(userPosts);
+  const getUserWithPosts = async (id) => {
+    if (currentUser.id === id) {
+      if (currentUser.idDefaultAlbum) {
+        const currentUserPosts = allPosts.filter(
+          (post) =>
+            post.author.id === currentUser.id &&
+            post.album.id === currentUser.idDefaultAlbum
+        );
+        setCurrentUserPosts(currentUserPosts);
+        setUser({currentUser, posts: currentUserPosts});
+      } else {
+        console.warn("idDefaultAlbum is not provided");
+      }
     } else {
-      console.warn("UserId or idDefaultAlbum are not provided!");
+      const userPosts = allPosts.filter((post) => post.author.id === +id);
+      const userData = await getUserData(id);
+
+      setUserPosts(userPosts);
+      setUser({...userData, posts: userPosts});
     }
-  }
+  };
 
   function openBigPostSlider(slideNum) {
     setInitialSlide(slideNum);
@@ -73,8 +93,6 @@ export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
       if (isPhotoValid) {
         const formData = new FormData();
 
-        console.log("loadedPhoto", loadedPhoto);
-
         formData.append("photo", loadedPhoto);
         formData.append("title", postTitle);
         formData.append("description", postDescription);
@@ -92,7 +110,7 @@ export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
           );
 
           if (response.data.card) {
-            setUserPosts([response.data.card, ...userPosts]);
+            setCurrentUserPosts([response.data.card, ...currentUserPosts]);
             setOpenAddPost(false);
             clearAddPostForm();
           } else {
@@ -102,7 +120,7 @@ export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
           console.warn("Не удалось добавить пост");
         }
       } else {
-        console.log("file's not valide");
+        console.warn("file's not valide");
       }
     } else console.warn("no file");
   };
@@ -135,24 +153,30 @@ export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
         <section className={styles[`my-posts`]}>
           <div className={styles[`my-posts__container`]}>
             <div className={styles[`my-posts__topgroup`]}>
-              <div className={styles[`my-posts__title`]}>Мои посты</div>
-              <div className={styles[`my-posts__button-plus`]}>
-                <Button
-                  type={"button"}
-                  title={"Добавить пост"}
-                  classes={{
-                    icon: "icon_expand",
-                    size: "s",
-                    theme: "pale",
-                  }}
-                  icon={"plus"}
-                  click={() => setOpenAddPost(true)}
-                />
+              <div className={styles[`my-posts__title`]}>
+                {user.id === currentUser.id
+                  ? "Мои посты"
+                  : `Посты юзера ${user.name}`}
               </div>
+              {currentUser.id && (
+                <div className={styles[`my-posts__button-plus`]}>
+                  <Button
+                    type={"button"}
+                    title={"Добавить пост"}
+                    classes={{
+                      icon: "icon_expand",
+                      size: "s",
+                      theme: "pale",
+                    }}
+                    icon={"plus"}
+                    click={() => setOpenAddPost(true)}
+                  />
+                </div>
+              )}
             </div>
-            {userPosts && (
+            {user.posts && (
               <PostsList
-                posts={userPosts}
+                posts={user.posts}
                 click={openBigPostSlider}
                 hasDeleteFunctional={true}
                 view={"alternative"}
@@ -164,7 +188,6 @@ export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
           {openAddPost ? (
             <div className={styles[`my-posts__add-post`]}>
               <div className={styles[`add-post`]}>
-                {/*//?????????? Надо ли это выделять в компонент */}
                 <div className={styles[`add-post__card`]}>
                   <div className={styles[`add-post__topgroup`]}>
                     <h2 className={styles[`add-post__title">`]}>
@@ -313,7 +336,7 @@ export function UserPage({setUserPosts, allPosts, userPosts, currentUser}) {
           {openBigPost ? (
             <div className={styles[`my-posts__big-post-slider`]}>
               <BigPostSlider
-                posts={userPosts}
+                posts={user.posts}
                 clickClose={() => {
                   setOpenBigPost(false);
                 }}
@@ -335,11 +358,13 @@ const mapStateToProps = (state) => {
   return {
     allPosts: state.posts.allPosts,
     userPosts: state.posts.userPosts,
+    currentUserPosts: state.posts.currentUserPosts,
     currentUser: state.users.currentUser,
   };
 };
 const mapDispatchToProps = {
   setUserPosts: postsActions.setUserPosts,
+  setCurrentUserPosts: postsActions.setCurrentUserPosts,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

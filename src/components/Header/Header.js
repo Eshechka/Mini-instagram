@@ -17,11 +17,11 @@ import no_avatar from "../../img/no_avatar.png";
 
 import styles from "./Header.module.scss";
 
-function Header({currentUser, removeCurrentUser, removeUserPosts}) {
+function Header({currentUser, removeCurrentUser, removeCurrentUserPosts}) {
   const handleLogout = () => {
     localStorage.removeItem("mini-inst-user");
     removeCurrentUser();
-    removeUserPosts();
+    removeCurrentUserPosts();
     $axios.defaults.headers["Authorization"] = tokenForAllPosts;
   };
 
@@ -256,7 +256,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   removeCurrentUser: (userId) => actionsUsers.removeCurrentUser(userId),
-  removeUserPosts: actionsPosts.removeUserPosts,
+  removeCurrentUserPosts: actionsPosts.removeCurrentUserPosts,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -17,8 +17,8 @@ import "./App.scss";
 
 function App({setCurrentUser, currentUser, setAllPosts}) {
   useEffect(() => {
-    getUserData();
     getAllPosts();
+    getUserData();
   }, []);
 
   async function getUserData() {
@@ -91,17 +91,7 @@ function App({setCurrentUser, currentUser, setAllPosts}) {
           }
         />
         <Route exact path="/search" element={<SearchPage />} />
-        <Route
-          exact
-          path="/:id"
-          element={
-            !(currentUser && currentUser.id) ? (
-              <Navigate to="/" />
-            ) : (
-              <UserPage />
-            )
-          }
-        />
+        <Route exact path="/:id" element={<UserPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

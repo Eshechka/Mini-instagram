@@ -8,6 +8,7 @@ import {urlPhotos, urlAvatars} from "../../helpers/requests";
 import no_avatar from "../../img/no_avatar.png";
 
 import styles from "./PostSlide.module.scss";
+import {Link} from "react-router-dom";
 
 export default function PostSlide({
   postdata,
@@ -58,19 +59,25 @@ export default function PostSlide({
         </div>
 
         <div className={styles[`big-post__author-info`]}>
-          <div className={styles[`big-post__avatar`]}>
-            <img
-              className={styles[`big-post__avatar-img`]}
-              alt="avatar"
-              src={
-                postdata.author.avatar
-                  ? `${urlAvatars}/${postdata.author.avatar}`
-                  : no_avatar
-              }
-            />
-          </div>
-
-          <div className={styles[`big-post__name`]}>{postdata.author.name}</div>
+          <Link
+            className={styles[`big-post__link`]}
+            to={`/${postdata.author.id}`}
+          >
+            <div className={styles[`big-post__avatar`]}>
+              <img
+                className={styles[`big-post__avatar-img`]}
+                alt="avatar"
+                src={
+                  postdata.author.avatar
+                    ? `${urlAvatars}/${postdata.author.avatar}`
+                    : no_avatar
+                }
+              />
+            </div>
+            <div className={styles[`big-post__name`]}>
+              {postdata.author.name}
+            </div>
+          </Link>
 
           {!hiddenLikes ? (
             <div className={styles[`big-post__likes`]}>

@@ -7,7 +7,14 @@ export const setAllPosts = (posts) => {
 
 export const setUserPosts = (posts) => {
   return {
-    type: "SET_USERPOSTS",
+    type: "SET_USER_POSTS",
+    payload: {posts: posts},
+  };
+};
+
+export const setCurrentUserPosts = (posts) => {
+  return {
+    type: "SET_CURRENTUSER_POSTS",
     payload: {posts: posts},
   };
 };
@@ -23,9 +30,9 @@ export const updatePostsLikes = (postId, userId, typeUpdating) => {
   };
 };
 
-export const removeUserPosts = () => {
+export const removeCurrentUserPosts = () => {
   return {
-    type: "REMOVE_USERPOSTS",
+    type: "REMOVE_CURRENTUSER_POSTS",
     payload: {},
   };
 };

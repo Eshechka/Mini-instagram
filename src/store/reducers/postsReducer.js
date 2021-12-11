@@ -1,19 +1,22 @@
 const initialState = {
   allPosts: [],
+  currentUserPosts: [],
   userPosts: [],
 };
 let postsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_ALLPOSTS":
       return {...state, allPosts: action.payload.posts};
-    case "SET_USERPOSTS":
+    case "SET_USER_POSTS":
       return {...state, userPosts: action.payload.posts};
-    case "REMOVE_USERPOSTS":
-      return {...state, userPosts: []};
+    case "SET_CURRENTUSER_POSTS":
+      return {...state, currentUserPosts: action.payload.posts};
+    case "REMOVE_CURRENTUSER_POSTS":
+      return {...state, currentUserPosts: []};
     case "REMOVE_POST":
       return {
         ...state,
-        userPosts: state.userPosts.filter(
+        currentUserPosts: state.currentUserPosts.filter(
           (post) => post.id !== action.payload.id
         ),
         allPosts: state.allPosts.filter(
@@ -37,7 +40,7 @@ let postsReducer = (state = initialState, action) => {
           return post;
         }),
 
-        userPosts: state.userPosts.map((post) => {
+        currentUserPosts: state.currentUserPosts.map((post) => {
           if (post.id === action.payload.id) {
             if (action.payload.type === "addLike") {
               post.likes = post.likes.concat(action.payload.userId);

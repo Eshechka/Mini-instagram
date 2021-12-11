@@ -123,24 +123,6 @@ function AuthPage({currentUser, setCurrentUser}) {
     }
   };
 
-  //при регистрации надо будет добавить новый дефолтный альбом
-  // const addAlbum = async (e) => {
-  //   const loadedCover = e.target.files[0];
-
-  //   const formData = new FormData();
-  //   formData.append("preview", loadedCover);
-  //   formData.append("title", "defaultdefault");
-  //   formData.append(
-  //     "description",
-  //     "defaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefaultdefault"
-  //   );
-  //   formData.append("authorId", 32);
-
-  // const {data} = await $axios.post("/v1/albums", formData, {
-  //   headers: {"Content-Type": "multipart/form-data"},
-  // });
-  // };
-
   return (
     <>
       <main className={styles.maincontent}>
