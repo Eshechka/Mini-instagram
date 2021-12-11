@@ -24,7 +24,7 @@ function Post({
       if (isDelete) {
         removePost(postId);
       } else {
-        console.warn(`Ошибка пр  удалении поста id = ${postId}`);
+        console.warn(`Ошибка при удалении поста id = ${postId}`);
       }
     }
   };

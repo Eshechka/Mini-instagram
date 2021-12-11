@@ -19,6 +19,8 @@ function AuthPage({currentUser, setCurrentUser}) {
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerPasswordConfirm, setRegisterPasswordConfirm] = useState("");
 
+  const [isModeSignUp, setIsModeSignUp] = useState(false);
+
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
@@ -124,6 +126,8 @@ function AuthPage({currentUser, setCurrentUser}) {
     }
   };
 
+  function toggleMode() {}
+
   return (
     <>
       <main className={styles.maincontent}>
@@ -133,8 +137,21 @@ function AuthPage({currentUser, setCurrentUser}) {
             className={[
               styles.auth__container,
               styles[`right-panel-active`],
+              isModeSignUp ? styles.auth__container_is_signup : "",
             ].join(" ")}
           >
+            <div className={styles.auth__toggler}>
+              <Button
+                type={"button"}
+                title={isModeSignUp ? "To Sign In" : "To Sign Up"}
+                text={isModeSignUp ? "To Sign In" : "To Sign Up"}
+                classes={{
+                  size: "m_withtext",
+                  theme: "base",
+                }}
+                click={() => setIsModeSignUp(!isModeSignUp)}
+              />
+            </div>
             <div
               className={[styles.auth__form, styles[`container--signup`]].join(
                 " "
@@ -189,7 +206,6 @@ function AuthPage({currentUser, setCurrentUser}) {
                       size: "m_withtext",
                       theme: "base",
                     }}
-                    // click={handleSignUp}
                   />
                 </div>
               </form>

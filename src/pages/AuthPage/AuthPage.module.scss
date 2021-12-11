@@ -11,7 +11,24 @@
   background-attachment: fixed;
   background-position: center;
 
+  &__toggler {
+    display: inline-flex;
+    width: 100%;
+    background: $color-white;
+    padding: 10px;
+    justify-content: flex-end;
+
+    @include tablets {
+      display: none;
+    }
+  }
+
   &__container {
+    display: flex;
+    width: 96%;
+    flex-direction: column;
+    height: 100%;
+
     background: linear-gradient(
       35deg,
       rgba($color-second-main-bg, 0.7),
@@ -20,37 +37,50 @@
     border-radius: 10px;
     box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
       0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
-    height: 420px;
+
     max-width: 758px;
     overflow: hidden;
     position: relative;
-    width: 80vw;
 
-    &.right-panel-active .container--signin {
-      transform: translateX(100%);
+    &_is_signup .container--signin {
+      display: none;
+    }
+    &_is_signup .container--signup {
+      display: block;
     }
 
-    &.right-panel-active .container--signup {
-      animation: show 0.6s;
-      opacity: 1;
-      transform: translateX(100%);
-      z-index: 5;
-    }
+    @include tablets {
+      display: block;
+      width: 80vw;
+      flex-direction: row;
+      height: 420px;
 
-    &.right-panel-active .auth__overlay {
-      transform: translateX(-100%);
-    }
+      &.right-panel-active .container--signin {
+        transform: translateX(100%);
+      }
 
-    &.right-panel-active .overlay {
-      transform: translateX(50%);
-    }
+      &.right-panel-active .container--signup {
+        animation: show 0.6s;
+        opacity: 1;
+        transform: translateX(100%);
+        z-index: 5;
+      }
 
-    &.right-panel-active .overlay--left {
-      transform: translateX(0);
-    }
+      &.right-panel-active .auth__overlay {
+        transform: translateX(-100%);
+      }
 
-    &.right-panel-active .overlay--right {
-      transform: translateX(20%);
+      &.right-panel-active .overlay {
+        transform: translateX(50%);
+      }
+
+      &.right-panel-active .overlay--left {
+        transform: translateX(0);
+      }
+
+      &.right-panel-active .overlay--right {
+        transform: translateX(20%);
+      }
     }
   }
 
@@ -62,6 +92,7 @@
   }
 
   &__overlay {
+    display: none;
     height: 100%;
     left: 50%;
     overflow: hidden;
@@ -70,35 +101,61 @@
     transition: transform 0.6s ease-in-out;
     width: 50%;
     z-index: 100;
+
+    @include tablets {
+      display: block;
+    }
   }
 }
 
 .container--signin {
-  left: 0;
-  width: 50%;
+  width: 100%;
+  position: static;
+  display: block;
   z-index: 2;
+
+  @include tablets {
+    position: absolute;
+    opacity: 1;
+    left: 0;
+    width: 50%;
+    display: block;
+  }
 }
 
 .container--signup {
-  left: 0;
-  opacity: 1;
-  width: 50%;
+  width: 100%;
+  position: static;
+  left: unset;
+  display: none;
   z-index: 1;
+
+  @include tablets {
+    position: absolute;
+    left: 0;
+    display: block;
+    opacity: 1;
+    width: 50%;
+  }
 }
 
 .overlay {
+  height: 100px;
   background-color: #008997;
   background: url("../../img/bg.jpeg");
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%;
   left: -100%;
   position: relative;
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
   width: 200%;
+
+  @include tablets {
+    height: 100%;
+  }
 
   &__panel {
     align-items: center;

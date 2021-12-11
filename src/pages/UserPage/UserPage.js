@@ -22,10 +22,11 @@ import svgSprite from "../../img/spriteIcons.svg";
 import styles from "./UserPage.module.scss";
 
 export function UserPage({
-  setCurrentUserPosts,
-  allPosts,
   currentUser,
-  setUserPosts,
+  allPosts,
+  setAllPosts,
+  userPosts,
+  setCurrentUserPosts,
   isLoading,
   setIsLoading,
 }) {
@@ -50,7 +51,7 @@ export function UserPage({
   useEffect(() => {
     setIsLoading(true);
     try {
-      getUserWithPosts(id);
+      getUserWithPosts(+id);
     } catch (error) {
       console.warn(error);
     } finally {
@@ -61,21 +62,21 @@ export function UserPage({
   const getUserWithPosts = async (id) => {
     if (currentUser.id === id) {
       if (currentUser.idDefaultAlbum) {
-        const currentUserPosts = allPosts.filter(
+        const userPosts = allPosts.filter(
           (post) =>
             post.author.id === currentUser.id &&
             post.album.id === currentUser.idDefaultAlbum
         );
-        setCurrentUserPosts(currentUserPosts);
-        setUser({currentUser, posts: currentUserPosts});
+        setCurrentUserPosts(userPosts);
+        setUser({...currentUser, posts: userPosts});
       } else {
         console.warn("idDefaultAlbum is not provided");
       }
     } else {
-      const userPosts = allPosts.filter((post) => post.author.id === +id);
+      const userPosts = allPosts.filter((post) => post.author.id === id);
       const userData = await apiGetUserData(id);
 
-      setUserPosts(userPosts);
+      setCurrentUserPosts(userPosts);
       setUser({...userData, posts: userPosts});
     }
   };
@@ -112,9 +113,10 @@ export function UserPage({
         if (addPost.id) {
           const post = await apiGetPost(addPost.id);
 
-          console.log("прищел новый пост ", post);
           if (post) {
-            setUser({...currentUser, posts: [post, ...user.posts]});
+            setCurrentUserPosts([post, ...userPosts]);
+            setAllPosts([post, ...allPosts]);
+            setUser({...user, posts: [post, ...user.posts]});
 
             setOpenAddPost(false);
             clearAddPostForm();
@@ -374,7 +376,7 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = {
-  setUserPosts: postsActions.setUserPosts,
+  setAllPosts: postsActions.setAllPosts,
   setCurrentUserPosts: postsActions.setCurrentUserPosts,
   setIsLoading: loadingActions.setIsLoading,
 };

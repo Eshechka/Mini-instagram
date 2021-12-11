@@ -5,13 +5,6 @@ export const setAllPosts = (posts) => {
   };
 };
 
-export const setUserPosts = (posts) => {
-  return {
-    type: "SET_USER_POSTS",
-    payload: {posts: posts},
-  };
-};
-
 export const setCurrentUserPosts = (posts) => {
   return {
     type: "SET_CURRENTUSER_POSTS",
@@ -41,12 +34,5 @@ export const removePost = (postId) => {
   return {
     type: "REMOVE_POST",
     payload: {id: postId},
-  };
-};
-
-export const addNewPost = (postData) => {
-  return {
-    type: "ADD_NEW_POST",
-    payload: {post: postData},
   };
 };

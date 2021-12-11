@@ -8,7 +8,7 @@ const renderer = (file) => {
         resolve(reader.result);
       };
     } catch (error) {
-      console.log("Ошибка при чтении файла", error);
+      console.warn("Ошибка при чтении файла", error);
       throw new Error("Ошибка при чтении файла");
     }
   });
