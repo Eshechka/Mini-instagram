@@ -112,6 +112,7 @@ function AuthPage({currentUser, setCurrentUser}) {
           })
         );
 
+        setCurrentUser({...dataUser.user, idDefaultAlbum: data.albums[0].id});
         navigate("/");
       } else {
         console.warn(

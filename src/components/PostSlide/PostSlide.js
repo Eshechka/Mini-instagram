@@ -1,6 +1,6 @@
 import {useRef, useState, useEffect} from "react";
 
-import {requests as $axios} from "../../helpers/requests.js";
+import {Link} from "react-router-dom";
 
 import {Button} from "../Button/Button";
 
@@ -8,7 +8,7 @@ import {urlPhotos, urlAvatars} from "../../helpers/requests";
 import no_avatar from "../../img/no_avatar.png";
 
 import styles from "./PostSlide.module.scss";
-import {Link} from "react-router-dom";
+import {apiToggleLike} from "../../helpers/api.js";
 
 export default function PostSlide({
   postdata,
@@ -30,11 +30,8 @@ export default function PostSlide({
 
   const toggleLike = async () => {
     if (currentUser.id) {
-      const {data} = await $axios.post(
-        `/v1/photos/${postdata.id}/likes`,
-        currentUser.id
-      );
-      if (data.message === "Like обновлен!") {
+      const isToggleLike = await apiToggleLike(postdata.id, currentUser.id);
+      if (isToggleLike) {
         updateLikes(
           postdata.id,
           currentUser.id,

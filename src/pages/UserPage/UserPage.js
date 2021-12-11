@@ -3,9 +3,9 @@ import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
 
 import * as postsActions from "../../store/posts.actions.js";
+import * as loadingActions from "../../store/loading.actions.js";
 
-import {requests as $axios} from "../../helpers/requests";
-import {getUserData, getUserPosts} from "../../helpers/api";
+import {apiAddPost, apiGetPost, apiGetUserData} from "../../helpers/api";
 
 import {Button} from "../../components/Button/Button";
 import {PostsList} from "../../components/PostsList/PostsList";
@@ -13,6 +13,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import {Overlay} from "../../components/Overlay/Overlay";
 import BigPostSlider from "../../components/BigPostSlider/BigPostSlider.js";
+import {Preloader} from "../../components/Preloader/Preloader.js";
 
 import renderer from "../../helpers/renderer";
 
@@ -23,9 +24,10 @@ import styles from "./UserPage.module.scss";
 export function UserPage({
   setCurrentUserPosts,
   allPosts,
-  currentUserPosts,
   currentUser,
   setUserPosts,
+  isLoading,
+  setIsLoading,
 }) {
   const {id} = useParams();
 
@@ -46,7 +48,14 @@ export function UserPage({
   );
 
   useEffect(() => {
-    getUserWithPosts(id);
+    setIsLoading(true);
+    try {
+      getUserWithPosts(id);
+    } catch (error) {
+      console.warn(error);
+    } finally {
+      setIsLoading(false);
+    }
   }, [id, allPosts]);
 
   const getUserWithPosts = async (id) => {
@@ -64,7 +73,7 @@ export function UserPage({
       }
     } else {
       const userPosts = allPosts.filter((post) => post.author.id === +id);
-      const userData = await getUserData(id);
+      const userData = await apiGetUserData(id);
 
       setUserPosts(userPosts);
       setUser({...userData, posts: userPosts});
@@ -99,18 +108,14 @@ export function UserPage({
         formData.append("authorId", currentUser.id);
         formData.append("albumId", currentUser.idDefaultAlbum);
 
-        const {data} = await $axios.post("/v1/photos", formData, {
-          headers: {"Content-Type": "multipart/form-data"},
-        });
-        if (data.card) {
-          const response = await $axios.get(
-            `/v1/photos/${data.card.id}`,
-            {params: {include: "author,comments,likes"}},
-            {"Content-Type": "application/json"}
-          );
+        const addPost = await apiAddPost(formData);
+        if (addPost.id) {
+          const post = await apiGetPost(addPost.id);
 
-          if (response.data.card) {
-            setCurrentUserPosts([response.data.card, ...currentUserPosts]);
+          console.log("прищел новый пост ", post);
+          if (post) {
+            setUser({...currentUser, posts: [post, ...user.posts]});
+
             setOpenAddPost(false);
             clearAddPostForm();
           } else {
@@ -148,15 +153,18 @@ export function UserPage({
   return (
     <>
       <Header />
-
       <main className="maincontent">
         <section className={styles[`my-posts`]}>
           <div className={styles[`my-posts__container`]}>
             <div className={styles[`my-posts__topgroup`]}>
               <div className={styles[`my-posts__title`]}>
-                {user.id === currentUser.id
-                  ? "Мои посты"
-                  : `Посты юзера ${user.name}`}
+                {isLoading
+                  ? null
+                  : user.id
+                  ? user.id === currentUser.id
+                    ? "Мои посты"
+                    : `Посты юзера ${user.name}`
+                  : `Юзер с id = ${id} не найден`}
               </div>
               {currentUser.id && (
                 <div className={styles[`my-posts__button-plus`]}>
@@ -174,16 +182,19 @@ export function UserPage({
                 </div>
               )}
             </div>
-            {user.posts && (
-              <PostsList
-                posts={user.posts}
-                click={openBigPostSlider}
-                hasDeleteFunctional={true}
-                view={"alternative"}
-              />
+            {isLoading ? (
+              <Preloader />
+            ) : (
+              user.posts && (
+                <PostsList
+                  posts={user.posts}
+                  click={openBigPostSlider}
+                  hasDeleteFunctional={true}
+                  view={"alternative"}
+                />
+              )
             )}
           </div>
-
           {openAddPost ? <Overlay click={() => setOpenAddPost(false)} /> : null}
           {openAddPost ? (
             <div className={styles[`my-posts__add-post`]}>
@@ -358,13 +369,14 @@ const mapStateToProps = (state) => {
   return {
     allPosts: state.posts.allPosts,
     userPosts: state.posts.userPosts,
-    currentUserPosts: state.posts.currentUserPosts,
     currentUser: state.users.currentUser,
+    isLoading: state.loading.isLoading,
   };
 };
 const mapDispatchToProps = {
   setUserPosts: postsActions.setUserPosts,
   setCurrentUserPosts: postsActions.setCurrentUserPosts,
+  setIsLoading: loadingActions.setIsLoading,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

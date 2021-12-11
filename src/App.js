@@ -11,31 +11,29 @@ import {NotFoundPage} from "./pages/NotFoundPage/NotFoundPage";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import HomePage from "./pages/HomePage/HomePage";
 
-import {requests as $axios, tokenForAllPosts} from "./helpers/requests";
+import {tokenForAllPosts} from "./helpers/requests";
 
 import "./App.scss";
+import {apiGetAllPostsWToken, apiGetUserDataWToken} from "./helpers/api.js";
 
 function App({setCurrentUser, currentUser, setAllPosts}) {
   useEffect(() => {
     getAllPosts();
-    getUserData();
+    getUser();
   }, []);
 
-  async function getUserData() {
+  async function getUser() {
     const miniInstUser = JSON.parse(localStorage.getItem("mini-inst-user"));
     if (miniInstUser) {
       const {id, token, idDefaultAlbum} = miniInstUser;
       if (id && token) {
-        $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-        const {data} = await $axios.post(`/v1/authors/${id}`);
+        const user = await apiGetUserDataWToken(token, id);
 
-        if (data.author) {
-          setCurrentUser({
-            ...data.author,
-            token: token,
-            idDefaultAlbum: idDefaultAlbum,
-          });
-        }
+        setCurrentUser({
+          ...user,
+          token: token,
+          idDefaultAlbum: idDefaultAlbum,
+        });
       }
     }
   }
@@ -50,37 +48,12 @@ function App({setCurrentUser, currentUser, setAllPosts}) {
       token = miniInstUser.token;
     }
 
-    $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-
-    const {data} = await $axios.get(
-      `/v1/photos`,
-      {
-        params: {
-          include: "author,comments,likes",
-          sort: "createdAt:desc",
-          limit: 20,
-        },
-      },
-      {"Content-Type": "application/json"}
-    );
-
-    if (data.cards) {
-      setAllPosts(data.cards);
-    }
+    const posts = await apiGetAllPostsWToken(token);
+    setAllPosts(posts);
   }
 
   return (
     <div className="app">
-      {/*
-        <div className="app__preloader">
-          <div className="preloader">
-            <div className="preloader__cube preloader__cube_1"></div>
-            <div className="preloader__cube preloader__cube_2"></div>
-            <div className="preloader__cube preloader__cube_4"></div>
-            <div className="preloader__cube preloader__cube_3"></div>
-          </div>
-        </div> */}
-
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route

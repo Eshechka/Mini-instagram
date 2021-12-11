@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import * as actionsPosts from "../../store/posts.actions.js";
 
-import {requests as $axios} from "../../helpers/requests.js";
+import {apiDeletePost} from "../../helpers/api.js";
 
 import {urlPhotos} from "../../helpers/requests";
 import {Button} from "../Button/Button";
@@ -19,12 +19,12 @@ function Post({
 }) {
   const deletePost = async (postId) => {
     if (hasDeleteFunctional) {
-      const {data} = await $axios.delete(`/v1/photos/${postId}`, {
-        headers: {"Content-Type": "application/json"},
-      });
+      const isDelete = await apiDeletePost(postId);
 
-      if (data.message === "Deleted !") {
+      if (isDelete) {
         removePost(postId);
+      } else {
+        console.warn(`Ошибка пр  удалении поста id = ${postId}`);
       }
     }
   };
@@ -41,14 +41,6 @@ function Post({
       </div>
 
       <div className={styles.post__info}>
-        {/* 
-            <Link className="post__avatar"
-                :to="'/'+post.author.id"
-                :title="`Перейти в профиль пользователя ${post.author.name}`">
-                <img className="post__avatar-img" src="post.author.avatar ? `${urlAvatars}/${post.author.avatar}` : no_avatar" alt="post avatar">
-                <div className="post__avatar-overlay"></div>
-            </Link> */}
-
         <div className={styles.post__desc}>
           <div className={styles[`post__desc-title`]}> {post.title} </div>
 

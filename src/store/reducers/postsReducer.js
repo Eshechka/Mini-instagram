@@ -13,6 +13,11 @@ let postsReducer = (state = initialState, action) => {
       return {...state, currentUserPosts: action.payload.posts};
     case "REMOVE_CURRENTUSER_POSTS":
       return {...state, currentUserPosts: []};
+    case "ADD_NEW_POST":
+      return {
+        ...state,
+        currentUserPosts: [action.payload.post, ...state.currentUserPosts],
+      };
     case "REMOVE_POST":
       return {
         ...state,

@@ -43,3 +43,10 @@ export const removePost = (postId) => {
     payload: {id: postId},
   };
 };
+
+export const addNewPost = (postData) => {
+  return {
+    type: "ADD_NEW_POST",
+    payload: {post: postData},
+  };
+};

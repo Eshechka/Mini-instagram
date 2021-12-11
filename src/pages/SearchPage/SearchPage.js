@@ -39,6 +39,7 @@ function SearchPage({allPosts}) {
         if (hasWord) {
           return post;
         }
+        return false;
       });
 
       setSearchedPosts(searchedPosts);
