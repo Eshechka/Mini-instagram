@@ -1,0 +1,440 @@
+@import "../../styles/common.scss";
+
+.edit-header {
+  width: 100%;
+  min-width: 320px;
+  overflow: hidden;
+
+  &__card {
+    min-width: 288px;
+    display: flex;
+    flex-direction: column;
+    color: $color-text;
+  }
+}
+
+.form-edit-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+
+  @include tablets {
+    flex-direction: row;
+  }
+
+  &__other-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    @include tablets {
+      width: 60%;
+      max-width: 1200px;
+      padding: 30px 10px 10px 30px;
+    }
+  }
+
+  &__added-cover,
+  &__now-cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    border-radius: 15px;
+  }
+
+  &__added-post {
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    height: 50px;
+    width: 50px;
+    margin: auto;
+    cursor: pointer;
+
+    @include tablets {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+    }
+  }
+
+  &__load-avatar {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 50px;
+    width: 50px;
+
+    @include tablets {
+      margin-left: 5%;
+      height: 70px;
+      width: 70px;
+      align-self: flex-start;
+      margin-top: 40px;
+    }
+    @include desktopHd {
+      margin-left: Max(calc((100% - 1480px) / 2), 10%);
+    }
+  }
+
+  &__img-wrapper {
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+
+    @include tablets {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  &__img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    opacity: 0.5;
+    background-color: $color-text;
+    width: 100%;
+    height: 100%;
+    border: 3px solid $color-white;
+    border-radius: 50%;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: svg-load("cam.svg", fill=rgba($color-white, 0.99));
+      background-repeat: no-repeat;
+      background-size: 18px;
+      background-position: center 25%;
+    }
+  }
+
+  &__load-cover {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+
+    @include tablets {
+      margin-right: 5%;
+      margin-left: auto;
+    }
+    @include desktopHd {
+      margin-right: Max(calc((100% - 1480px) / 2), 10%);
+    }
+  }
+
+  &__cover-img {
+    height: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px;
+    background-position: top center;
+    background-image: svg-load("cam.svg", fill=rgba($color-white, 0.8));
+    width: 32px;
+  }
+
+  &__avatar-img-text {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    font-family: "Proxima Nova Semibold";
+    font-size: 8px;
+    color: rgba($color-white, 0.99);
+    text-align: center;
+
+    @include tablets {
+      font-size: 10px;
+    }
+  }
+
+  &__cover-img-text {
+    font-family: "Proxima Nova Semibold";
+    font-size: 12px;
+    color: rgba($color-white, 0.8);
+    text-align: center;
+  }
+
+  &__img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__label {
+    font-family: "Proxima Nova Semibold";
+    font-size: 14px;
+    display: block;
+    width: 90%;
+
+    &_view_scroll {
+      position: relative;
+      z-index: 14;
+
+      &:active,
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &_file-load {
+      width: 100%;
+      position: relative;
+      height: 100%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    @include tablets {
+      width: 100%;
+    }
+  }
+
+  &__error {
+    @include error;
+    min-height: 24px;
+
+    @include tablets {
+      align-self: flex-start;
+      margin-left: 18px;
+    }
+  }
+
+  &__input-load {
+    cursor: pointer;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0;
+
+    &:disabled {
+      cursor: wait;
+    }
+  }
+
+  &__decorelem {
+    display: block;
+    position: absolute;
+    right: 1px;
+    top: 0;
+    box-sizing: border-box;
+    width: 21px;
+    height: 100%;
+    border-radius: 0 20px 20px 0;
+    background-color: $color-white;
+  }
+
+  &__input {
+    @include popup-input;
+
+    &_textarea {
+      resize: none;
+      height: 84px;
+
+      border-radius: 20px 0 0 20px;
+      padding-right: 20px;
+      width: calc(100% - 20px);
+
+      &:active ~ .form-edit-header__decorelem,
+      &:focus ~ .form-edit-header__decorelem {
+        border: 1px solid $color-main-bg;
+        border-left: none;
+      }
+      @include tablets {
+        height: unset;
+      }
+    }
+  }
+
+  &__socials {
+    margin-top: 5px;
+    margin-bottom: 50px;
+    width: 88%;
+  }
+
+  &__buttons {
+    padding: 10px;
+    height: 60px;
+    background: $color-white;
+    width: 100%;
+    text-align: right;
+    width: 100%;
+    padding-right: 5%;
+
+    @include desktopHd {
+      padding-right: Max(calc((100% - 1480px) / 2), 10%);
+    }
+  }
+
+  &__buttonspace {
+    margin-right: 10px;
+  }
+}
+
+.edit-profile {
+  @include popup;
+
+  &__card {
+    min-width: 288px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f2f2;
+    color: $color-text;
+  }
+
+  &__topgroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+  }
+
+  &__title {
+    font-family: "Panton-Bold";
+    font-size: 21px;
+    line-height: 21px;
+  }
+
+  &__button {
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 50%;
+
+    &_close {
+      background-image: svg-load("close.svg", fill=rgba($color-text, 0.4));
+
+      &:hover {
+        background-image: svg-load("close.svg", fill=rgba($color-text, 0.8));
+      }
+    }
+  }
+}
+
+.form-edit-profile {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-white;
+
+  &__label {
+    font-family: "Proxima Nova Semibold";
+    font-size: 14px;
+    display: block;
+    padding: 15px 10px 10px;
+
+    &_no_top_padding {
+      padding-top: 0;
+    }
+  }
+
+  &__input {
+    @include popup-input;
+
+    margin-top: 5px;
+
+    &_textarea {
+      resize: none;
+    }
+  }
+
+  &__load-image {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  &__img-wrapper {
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  &__img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__button {
+    margin-left: 18px;
+  }
+
+  &__notice-size {
+    width: 70%;
+    font-family: "ProximaNova-LightIt";
+    font-size: 14px;
+    line-height: 14px;
+    padding: 10px 0;
+  }
+
+  &__socials {
+    border-top: 1px solid #f2f2f2;
+    padding-bottom: 20px;
+  }
+
+  &__buttons {
+    background-color: #f2f2f2;
+    padding: 10px;
+  }
+}
+
+.new {
+  min-width: 320px;
+  padding: 30px 0;
+  /* position: relative; */
+
+  @include tablets {
+    min-height: $min-height-section-for-slider;
+  }
+
+  &__container {
+    @include container;
+  }
+
+  &__title {
+    font-family: "Panton-Bold";
+    font-size: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+
+    @include tablets {
+      text-align: left;
+    }
+  }
+
+  &__big-post-slider {
+    @include popup-fixed-container;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin: 0;
+  }
+}

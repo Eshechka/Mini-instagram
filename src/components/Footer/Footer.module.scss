@@ -1,0 +1,96 @@
+@import "../../styles/mixins.scss";
+@import "../../styles/common.scss";
+
+.footer {
+  background-image: linear-gradient(
+      rgba(50, 50, 50, 0.5),
+      rgba(50, 50, 50, 0.3)
+    ),
+    url("/img/no_album_cover.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+
+  min-width: 320px;
+  padding: 15px;
+
+  color: $color-white;
+  font-family: "ProximaNova-Light";
+  text-align: center;
+  font-size: 14px;
+  line-height: 21px;
+
+  &_view_logout {
+    background-image: none;
+    background: linear-gradient(35deg, $color-main-bg, $color-second-main-bg);
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    @include container;
+
+    @include tablets {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__button-up {
+    height: 60px;
+
+    @include tablets {
+      position: absolute;
+      top: 0;
+      left: 50%;
+    }
+  }
+  &__logo {
+    width: 50px;
+    align-self: center;
+    margin-bottom: 10px;
+
+    @include tablets {
+      width: 60px;
+      margin-bottom: 0;
+      align-self: unset;
+    }
+  }
+  &__desc {
+    margin-bottom: 20px;
+    mix-blend-mode: color-dodge;
+    color: rgba($color-white, 0.9);
+
+    @include tablets {
+      flex-basis: 40%;
+      text-align: left;
+      padding-right: 50px;
+    }
+  }
+  &__copyright {
+    mix-blend-mode: color-dodge;
+    color: rgba($color-white, 0.9);
+    display: flex;
+    flex-wrap: wrap;
+    align-self: center;
+
+    @include tablets {
+      flex-basis: 40%;
+      text-align: right;
+    }
+  }
+  &__copyright-text {
+    color: rgba($color-white, 0.99);
+  }
+  &__link {
+    text-decoration: none;
+    font-weight: bold;
+
+    &_torepo {
+      @include tablets {
+        width: 100%;
+      }
+    }
+  }
+}

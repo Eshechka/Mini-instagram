@@ -1,0 +1,189 @@
+@import "../../styles/mixins.scss";
+@import "../../styles/common.scss";
+
+.header {
+  background-image: linear-gradient(
+      rgba(50, 50, 50, 0.5),
+      rgba(50, 50, 50, 0.3)
+    ),
+    url("../../img/no_album_cover.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 210px;
+  color: $color-white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &_view_logout {
+    background: linear-gradient(35deg, $color-main-bg, $color-second-main-bg);
+  }
+
+  &__container {
+    flex-grow: 1;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    @include container;
+
+    @include tablets {
+      flex-direction: row;
+    }
+  }
+
+  &__button-logout {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    z-index: 9;
+
+    @include tablets {
+      top: 70px;
+      right: 0;
+      left: unset;
+    }
+  }
+
+  &__button-edit {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    z-index: 9;
+  }
+
+  &__button-auth {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    z-index: 9;
+
+    @include tablets {
+      top: 20px;
+      right: 0;
+      left: unset;
+    }
+  }
+
+  &__avatar {
+    width: 50px;
+    height: 50px;
+    align-self: center;
+    flex-shrink: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    @include tablets {
+      align-self: start;
+      margin-right: 22px;
+      width: 102px;
+      height: 102px;
+    }
+    @include desktop {
+      width: 125px;
+      height: 125px;
+    }
+    border-radius: 50%;
+    background: linear-gradient(35deg, $color-main-bg, $color-second-main-bg);
+  }
+
+  &__avatar-img {
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background-color: rgba($color-white, 0.9);
+    height: 44px;
+    width: 44px;
+    object-fit: cover;
+
+    @include tablets {
+      width: 96px;
+      height: 96px;
+    }
+    @include desktop {
+      width: 119px;
+      height: 119px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include tablets {
+      align-items: flex-start;
+    }
+  }
+
+  &__title {
+    font-family: "Panton-Bold";
+    mix-blend-mode: color-dodge;
+    font-size: 21px;
+    margin-bottom: 15px;
+    color: rgba($color-white, 0.9);
+
+    @include tablets {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__text {
+    font-family: "ProximaNova-Light";
+    text-align: center;
+    font-size: 14px;
+    mix-blend-mode: color-dodge;
+    color: rgba($color-white, 0.9);
+    margin-bottom: 18px;
+
+    @include tablets {
+      text-align: left;
+      padding-right: 120px;
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__edit-profile {
+    @include popup-container;
+  }
+
+  &__edit-header {
+    position: relative;
+    width: 100%;
+    min-height: 210px;
+    margin: 0;
+    z-index: 12;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: linear-gradient(
+        rgba($color-text, 0.95),
+        rgba($color-text, 0.8)
+      ),
+      url("../../img/no_album_cover.jpg");
+  }
+}
+
+.nav {
+  width: 100%;
+
+  background-color: $color-text;
+
+  @include tablets {
+    padding: 10px 0;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include container;
+  }
+  &__button:not(:last-child) {
+    margin-right: 10px;
+    @include tablets {
+      margin-right: 50px;
+    }
+  }
+}

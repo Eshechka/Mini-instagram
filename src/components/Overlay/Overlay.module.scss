@@ -1,0 +1,21 @@
+@import "../../styles/mixins.scss";
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  opacity: 0.6;
+  &_black-z {
+    background-color: $color-text;
+    z-index: 12;
+  }
+  &_black {
+    background-color: $color-text;
+  }
+  &_white {
+    background-color: $color-white;
+  }
+}

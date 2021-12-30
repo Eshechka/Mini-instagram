@@ -1,0 +1,324 @@
+@import "../../styles/mixins.scss";
+
+.big-post {
+  width: 100%;
+
+  &__post {
+    overflow: hidden;
+    min-width: 288px;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+
+    @include tablets {
+      height: unset;
+    }
+  }
+
+  &__post-img {
+    width: 100%;
+    height: 50vh;
+    position: relative;
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+    background-color: rgba(black, 0.88);
+
+    @include tablets {
+      height: 520px;
+    }
+  }
+
+  &__img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__author-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    background-color: $color-white;
+    height: 70px;
+    overflow: hidden;
+  }
+
+  &__avatar {
+    margin-right: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  &__avatar-img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__likes {
+    min-width: 85px;
+    min-height: 38px;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    color: $color-white;
+    margin-left: auto;
+  }
+
+  &__name {
+    font-family: "Panton-Bold";
+    font-size: 14px;
+    line-height: 18px;
+    width: 25%;
+    flex-grow: 1;
+  }
+
+  &__button-tick {
+    display: none;
+
+    @include tablets {
+      display: block;
+      font-family: "Panton-Bold";
+      font-size: 16px;
+      color: $color-white;
+      background-repeat: no-repeat;
+      background-image: svg-load("arrow_left.svg", fill=rgba($color-text, 0.2));
+      background-position: 50%;
+      padding: 0px;
+      height: 20px;
+      width: 20px;
+      background-size: 8px;
+      transform: rotate(90deg);
+    }
+  }
+
+  &__desc {
+    padding: 10px;
+    background-color: $color-white;
+    height: 160px;
+    overflow: hidden;
+  }
+
+  &__title {
+    font-family: "Proxima Nova Semibold";
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 10px;
+  }
+
+  &__desc-text {
+    height: 104px;
+    overflow-y: auto;
+
+    @include tablets {
+      height: 53px;
+    }
+  }
+
+  &__text-before-hashtag {
+    display: inline-block;
+    white-space: pre;
+  }
+
+  &__hashtag {
+    cursor: pointer;
+    color: $color-main-bg;
+    font-family: "Proxima Nova Semibold";
+    font-size: 14px;
+    font-weight: bolder;
+  }
+
+  &__button-likes {
+    color: $color-main-bg;
+    font-weight: bold;
+  }
+
+  //   &__comments {
+  //     background-color: rgba(#f6f6f6, 0.8);
+  //     display: flex;
+  //     flex-direction: column;
+  //     padding: 20px 0;
+  //     background-color: rgb(246, 246, 246);
+  //     border-radius: 0 0 3px 3px;
+  //     /* height: 200px; */
+  //     /* height: calc(100% - 50vh - 160px - 70px); */
+
+  //     @include tablets {
+  //       height: unset;
+  //     }
+  //   }
+
+  //   &__comments-topgroup {
+  //     display: flex;
+  //     align-items: center;
+  //     margin-bottom: 10px;
+  //     padding: 0 10px;
+  //     height: 21px;
+  //   }
+
+  //   &__comments-title {
+  //     font-family: "Proxima Nova Semibold";
+  //     font-size: 14px;
+  //     line-height: 21px;
+  //     padding-right: 10px;
+  //   }
+
+  //   &__my-comment-avatar-wrapper {
+  //     display: none;
+
+  //     @include tablets {
+  //       display: block;
+  //       width: 80px;
+  //       margin-right: 10px;
+  //     }
+  //   }
+
+  //   &__my-comment-avatar {
+  //     margin: auto;
+  //     border-radius: 50%;
+  //     width: 80px;
+  //     height: 80px;
+  //     object-fit: cover;
+  //   }
+
+  //   &__my-comment-info {
+  //     @include tablets {
+  //       flex-grow: 1;
+  //     }
+  //   }
+
+  //   &__my-comment {
+  //     padding: 0 10px 10px;
+  //     height: 139px;
+
+  //     @include tablets {
+  //       display: flex;
+  //     }
+  //   }
+
+  //   &__my-comment-name {
+  //     font-family: "Panton-Bold";
+  //     font-size: 14px;
+  //     line-height: 18px;
+  //     margin-bottom: 10px;
+  //   }
+
+  //   &__my-comment-input {
+  //     @include popup-input();
+  //     width: 100%;
+  //     padding: 13px 16px;
+  //     resize: vertical;
+  //     min-height: 48px;
+  //     max-height: 150px;
+  //     margin-bottom: 10px;
+  //   }
+
+  //   &__users-comments {
+  //     overflow-y: scroll;
+  //     height: 300px;
+
+  //     @include tablets {
+  //       height: 200px;
+  //     }
+  //   }
+}
+
+// .users-comments {
+//   &__list {
+//     display: flex;
+//     background-color: rgba(#f6f6f6, 0.8);
+//     padding: 20px 10px;
+//     border-top: 1px solid #f2f2f2;
+
+//     @include tablets {
+//       padding-left: 0;
+//     }
+//   }
+
+//   &__item {
+//     padding: 20px 10px 15px;
+//     border-top: 1px solid rgba($color-text, 0.2);
+//   }
+
+//   &__avatar-wrapper {
+//     display: none;
+
+//     @include tablets {
+//       display: block;
+//       width: 80px;
+//       flex-basis: 80px;
+//       flex-shrink: 0;
+//       margin-right: 10px;
+//       border-radius: 50%;
+//       width: 50px;
+//       height: 50px;
+//       overflow: hidden;
+//     }
+//   }
+
+//   &__avatar {
+//     margin: auto;
+//     object-fit: cover;
+//     width: 100%;
+//     height: 100%;
+//   }
+
+//   &__my-comment-info {
+//     @include tablets {
+//       flex-grow: 1;
+//     }
+//   }
+
+//   &__author {
+//     font-family: "Panton-Bold";
+//     font-size: 14px;
+//     line-height: 18px;
+//     margin-bottom: 5px;
+//   }
+
+//   &__info-wrapper {
+//     position: relative;
+//   }
+
+//   &__text {
+//     font-family: "ProximaNova-Light";
+//     font-size: 16px;
+//     line-height: 24px;
+//   }
+
+//   &__edited-text {
+//     position: absolute;
+//     bottom: 0;
+//     left: 0;
+//     top: 18px;
+//     width: 100%;
+//     outline: none;
+//   }
+
+//   &__error {
+//     @include error;
+//     min-height: 24px;
+
+//     @include tablets {
+//       align-self: flex-start;
+//       /* margin-left: 18px; */
+//     }
+//   }
+
+//   &__buttons-wrapper {
+//     display: flex;
+//     margin-top: 10px;
+//   }
+
+//   &__buttonspace {
+//     margin-right: 10px;
+//   }
+// }

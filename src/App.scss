@@ -1,0 +1,19 @@
+@import "./styles/common.scss";
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 320px;
+  overflow: hidden;
+  min-height: 100%;
+  position: relative;
+
+  &_not_found {
+    background-color: #3e3a39;
+    background-image: url("/img/not-found.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+}
