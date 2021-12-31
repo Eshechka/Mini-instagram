@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import {useState, useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useParams, useLocation} from "react-router-dom";
 
 import * as postsActions from "../../store/posts.actions.js";
 import * as loadingActions from "../../store/loading.actions.js";
@@ -30,7 +30,10 @@ export function UserPage({
   isLoading,
   setIsLoading,
 }) {
-  const {id} = useParams();
+  const location = useLocation();
+  const addressId = location.hash.slice(2);
+  const id = +addressId;
+  // const {id} = useParams();
 
   const [user, setUser] = useState({});
 
@@ -76,8 +79,13 @@ export function UserPage({
       const userPosts = allPosts.filter((post) => post.author.id === id);
       const userData = await apiGetUserData(id);
 
-      setCurrentUserPosts(userPosts);
-      setUser({...userData, posts: userPosts});
+      if (userData.id) {
+        setUser({...userData, posts: userPosts});
+        setCurrentUserPosts(userPosts);
+      } else {
+        setUser({});
+        setCurrentUserPosts([]);
+      }
     }
   };
 

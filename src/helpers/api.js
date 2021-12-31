@@ -19,20 +19,26 @@ import {requests as $axios} from "./requests";
 // }
 
 export async function apiGetUserData(userId) {
-  const {data} = await $axios.get(`/v1/authors/${userId}`);
-  if (data.author) {
-    return data.author;
+  try {
+    const {data} = await $axios.get(`/v1/authors/${userId}`);
+    if (data?.author) {
+      return data.author;
+    }
+  } catch {
+    return {};
   }
-  return {};
 }
 
 export async function apiGetUserDataWToken(token, userId) {
   $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-  const {data} = await $axios.post(`/v1/authors/${userId}`);
-  if (data.author) {
-    return data.author;
+  try {
+    const {data} = await $axios.post(`/v1/authors/${userId}`);
+    if (data?.author) {
+      return data.author;
+    }
+  } catch {
+    return {};
   }
-  return {};
 }
 
 export async function apiGetAllPostsWToken(token) {

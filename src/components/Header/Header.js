@@ -61,7 +61,7 @@ function Header({currentUser, removeCurrentUser, removeCurrentUserPosts}) {
           </div>
         )}
         {(!currentUser || !currentUser.id) && (
-          <Link to={`/auth`}>
+          <Link to={`/#/auth`}>
             <div className={styles[`header__button-auth`]}>
               <Button
                 type={"button"}

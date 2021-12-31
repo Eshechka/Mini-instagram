@@ -24,7 +24,7 @@ export function Nav({currentUser}) {
           </Link>
         </div>
         <div className={styles.nav__button}>
-          <Link to={`/search`}>
+          <Link to={`/#/search`}>
             <Button
               type={"button"}
               title={"Перейти на страницу поиска"}
@@ -38,7 +38,7 @@ export function Nav({currentUser}) {
         </div>
         {currentUser && currentUser.id && (
           <div className={styles.nav__button}>
-            <Link to={`/${currentUser.id}`}>
+            <Link to={`/#/${currentUser.id}`}>
               <Button
                 type={"button"}
                 title={"Перейти на свою страницу"}
